@@ -25,7 +25,7 @@ public class ProdServiceImp implements ProdService {
         Product product = dao.getProduct(productID);
 
         if (product != null) {
-            return product;
+            return product; 
         } else {
             return null;
         }
