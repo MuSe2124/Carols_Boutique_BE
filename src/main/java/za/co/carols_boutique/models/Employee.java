@@ -34,6 +34,14 @@ public class Employee {
         this.isManager = isManager;
     }
 
+    public Employee(String id, String password, String storeID) {
+        this.id = id;
+        this.password = password;
+        this.storeID = storeID;
+    }
+    
+    
+
     public Employee() {
     }
 
