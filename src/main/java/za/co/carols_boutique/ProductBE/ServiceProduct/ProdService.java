@@ -12,7 +12,7 @@ import za.co.carols_boutique.models.Product;
  */
 public interface ProdService {
     
-    String getProduct(String productID);
+    Product getProduct(String productID);
     
     String addProductToInventory(String storeID, String productID, String employeeID, Integer amount);
     String addNewProduct(Product product);
