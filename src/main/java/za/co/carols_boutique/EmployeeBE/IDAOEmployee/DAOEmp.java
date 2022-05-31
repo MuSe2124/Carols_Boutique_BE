@@ -13,7 +13,7 @@ import za.co.carols_boutique.models.Employee;
 public interface DAOEmp {
     Boolean addEmployee(Employee employee);
     
-    Employee getEmployee(String employeeID, String password);
+    Employee getEmployee(String employeeID, String password,String StoreID);
     
     Boolean promoteToManager(String employeeID);
     

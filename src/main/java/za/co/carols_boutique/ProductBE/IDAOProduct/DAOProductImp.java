@@ -27,7 +27,7 @@ public class DAOProductImp implements DAOProduct{
         if(con!=null){
             try{
                 ps = con.prepareStatement("Select id,name,description,price from Product where id = ?");
-                ps.setString(0, productID);
+                ps.setString(1, productID);
                 rs=ps.executeQuery();
                 while(rs.next()){
                     product= new Product(rs.getString("id"),rs.getString("name"),rs.getString("description"),rs.getFloat("price"));
@@ -46,11 +46,11 @@ public class DAOProductImp implements DAOProduct{
             try{
                 //do i have to include id
                 //String id, String storeID, String productID, Integer amount
-                ps = con.prepareStatement("insert into ProdStore(storeID,productID,employeeID,amount) values(?)");
-                ps.setString(0, storeID);
-                ps.setString(1, productID);
-                ps.setString(2, employeeID);
-                ps.setInt(3, amount);
+                ps = con.prepareStatement("insert into ProdStore(storeID,productID,employeeID,amount) values(?,?,?,?)");
+                ps.setString(1, storeID);
+                ps.setString(2, productID);
+                ps.setString(3, employeeID);
+                ps.setInt(4, amount);
                 RowsAffected=ps.executeUpdate();
             }catch(SQLException e){
                 e.printStackTrace();

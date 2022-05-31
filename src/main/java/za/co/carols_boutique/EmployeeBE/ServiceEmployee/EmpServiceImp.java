@@ -24,8 +24,8 @@ public class EmpServiceImp implements EmpService{
     
 
     @Override
-    public String login(String employeeID, String password) {
-        Employee employee = dao.getEmployee(employeeID, password);
+    public String login(String employeeID, String password,String storeID) {
+        Employee employee = dao.getEmployee(employeeID, password,storeID);
         
         if (employee != null) {
             return "Welcome " + employee.getName() + ", you have logged in successfully.";

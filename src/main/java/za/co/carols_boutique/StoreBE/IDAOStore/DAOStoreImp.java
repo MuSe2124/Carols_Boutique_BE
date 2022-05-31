@@ -62,7 +62,7 @@ public class DAOStoreImp implements DAOStore{
         Store store = null;
         if(con!=null){
             try {
-                ps = con.prepareStatement("Select StoreID,name,location,password from Store where password= ? ,storeID =?");
+                ps = con.prepareStatement("Select StoreID,name,location,password from Store where password= ?,storeID =?");
                 ps.setString(1, password);
                 ps.setString(2, storeID);
                 rs= ps.executeQuery();
