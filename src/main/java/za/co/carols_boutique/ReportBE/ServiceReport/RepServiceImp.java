@@ -15,70 +15,124 @@ import za.co.carols_boutique.models.Review;
  *
  * @author muaad
  */
-public class RepServiceImp implements DAORep{
-    
+public class RepServiceImp implements RepService {
+
     private DAORep dao;
 
     public RepServiceImp() {
         dao = new DAORepImp();
     }
-    
-    
 
     @Override
     public Report viewTopAchievingStores(String month) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Report report = dao.viewTopAchievingStores(month);
+        if (report != null) {
+            return report;
+        } else {
+            return null;
+        }
     }
 
     @Override
     public Report getCustomerReviews(String month, Integer amount) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Report report = dao.getCustomerReviews(month, amount);
+        if (report != null) {
+            return report;
+        } else {
+            return null;
+        }
     }
 
     @Override
     public Report viewMonthlySales(String storeID, String month) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Report report = dao.viewMonthlySales(storeID, month);
+        if (report != null) {
+            return report;
+        } else {
+            return null;
+        }
     }
 
     @Override
     public Report viewTopSellingEmployees(String storeID, String month) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Report report = dao.viewTopSellingEmployees(storeID, month);
+        if (report != null) {
+            return report;
+        } else {
+            return null;
+        }
     }
 
     @Override
     public Report viewStoresThatAchievedTarget(String month) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Report report = dao.viewStoresThatAchievedTarget(month);
+        if (report != null) {
+            return report;
+        } else {
+            return null;
+        }
     }
 
     @Override
     public Report viewTopSellingProducts(String month) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Report report = dao.viewTopSellingProducts(month);
+        if (report != null) {
+            return report;
+        } else {
+            return null;
+        }
     }
 
     @Override
-    public Report viewLeastPerformingStores(Date starDate, Date endDate) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Report viewLeastPerformingStores(Date startDate, Date endDate) {
+        Report report = dao.viewLeastPerformingStores(startDate, endDate);
+        if (report != null) {
+            return report;
+        } else {
+            return null;
+        }
     }
 
     @Override
     public Report viewProductReport(String productID, String month) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Report report = dao.viewProductReport(productID, month);
+        if (report != null) {
+            return report;
+        } else {
+            return null;
+        }
     }
 
     @Override
     public Report viewDailySalesReport(String storeID) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Report report = dao.viewDailySalesReport(storeID);
+        if (report != null) {
+            return report;
+        } else {
+            return null;
+        }
     }
 
     @Override
-    public Boolean addReview(Review review) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public String addReview(Review review) {
+        Boolean b = dao.addReview(review);
+
+        if (b) {
+            return "Review added successfully.";
+        } else {
+            return "Failed to add review, please try again.";
+        }
     }
 
     @Override
-    public Boolean addCustomer(Customer customer) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public String addCustomer(Customer customer) {
+        Boolean b = dao.addCustomer(customer);
+
+        if (b) {
+            return "Customer added successfully.";
+        } else {
+            return "Failed to add customer, please try again.";
+        }
     }
-    
-    
+
 }
