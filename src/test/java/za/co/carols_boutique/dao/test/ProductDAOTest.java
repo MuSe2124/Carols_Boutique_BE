@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit5TestClass.java to edit this template
- */
 package za.co.carols_boutique.dao.test;
 
 import org.junit.jupiter.api.AfterEach;
@@ -13,12 +9,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import za.co.carols_boutique.ProductBE.IDAOProduct.DAOProduct;
 import za.co.carols_boutique.models.Product;
 
-/**
- *
- * @author Mustafaa Osman
- */
 public class ProductDAOTest {
-
+	
 	DAOProduct dao;
 
 	public ProductDAOTest() {
