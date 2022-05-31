@@ -1,10 +1,14 @@
 package za.co.carols_boutique.service.test;
 
-import za.co.carols_boutique.dao.test.*;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.BeforeAll;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
+import za.co.carols_boutique.EmployeeBE.IDAOEmployee.DAOEmp;
+import za.co.carols_boutique.EmployeeBE.IDAOEmployee.DaoEmpImp;
+import za.co.carols_boutique.EmployeeBE.ServiceEmployee.EmpService;
+import za.co.carols_boutique.EmployeeBE.ServiceEmployee.EmpServiceImp;
+import za.co.carols_boutique.models.Employee;
 
 public class EmployeeServiceTest {
 	
