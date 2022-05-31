@@ -29,8 +29,8 @@ public class EmployeeServiceTest {
 
 	@Test
 	void testGetEmployee() {
-		String response = service.login("empoyeeTest1", "TestPass");
-		employee = dao.getEmployee("empoyeeTest1", "TestPass");
+		String response = service.login("empoyeeTest1", "TestPass", "TestStoreID");
+		employee = dao.getEmployee("empoyeeTest1", "TestPass", "TestStoreID");
 		assertNotNull(response);
 	}
 
