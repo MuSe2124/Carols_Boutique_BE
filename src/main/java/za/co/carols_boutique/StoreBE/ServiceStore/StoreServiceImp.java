@@ -44,16 +44,7 @@ public class StoreServiceImp implements StoreService{
         }
     }
 
-    @Override
-    public String addEmployeeToStore(Employee employee) {
-        Boolean b = dao.addEmployeeToStore(employee);
-        
-        if (b) {
-            return "Employee added to store successfully.";
-        }else{
-            return "Failed to add employee to store, please try again.";
-        }
-    }
+  
 
     @Override
     public String addSale(Sale sale) {
@@ -76,16 +67,4 @@ public class StoreServiceImp implements StoreService{
             return "Failed to delete store, please try again.";
         }
     }
-
-    @Override
-    public String deleteEmployeeFromStore(String employeeID) {
-        Boolean b = dao.deleteEmployeeFromStore(employeeID);
-        
-        if (b) {
-            return "Employee deleted from store successfully.";
-        }else{
-            return "Failed to delete employee from store, please try again.";
-        }
-    }
-    
 }

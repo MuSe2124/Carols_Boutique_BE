@@ -4,6 +4,7 @@
  */
 package za.co.carols_boutique.StoreBE.REST;
 
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -11,12 +12,14 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import za.co.carols_boutique.StoreBE.ServiceStore.StoreService;
 import za.co.carols_boutique.StoreBE.ServiceStore.StoreServiceImp;
+import za.co.carols_boutique.models.Sale;
 import za.co.carols_boutique.models.Store;
 
 /**
  *
  * @author Jomar
  */
+
 @Path("/store")
 public class RestEndpointStore {
     
@@ -36,6 +39,17 @@ public class RestEndpointStore {
         return Response.status(Response.Status.OK).entity(service.registerStore(store)).build();
     }
     
+    @POST
+    @Path("/addSale")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response addSale(Sale sale){
+        return Response.status(Response.Status.OK).entity(service.addSale(sale)).build();
+    }
     
-    
+    @GET
+    @Path("/delete")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response delete(String storeID){
+        return Response.status(Response.Status.OK).entity(service.deleteStore(storeID)).build();
+    }
 }

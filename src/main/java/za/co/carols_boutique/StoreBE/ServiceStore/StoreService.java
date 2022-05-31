@@ -9,11 +9,7 @@ public interface StoreService {
     
     String loginStore(String storeID, String password);
     String registerStore(Store store);
-    
-    String addEmployeeToStore(Employee employee);
-    String addSale(Sale sale);
-    
+    String addSale(Sale sale);  
     String deleteStore(String storeID);
-    String deleteEmployeeFromStore(String employeeID);
-    
+
 }
