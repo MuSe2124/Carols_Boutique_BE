@@ -45,6 +45,18 @@ public class RestEndpointProduct {
         return Response.status(Response.Status.OK).entity(service.addNewProduct(product)).build();
     }
     
+    @POST
+    @Path("/addProductToInventory")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response removeProductFromInventory(String storeID, String productID, String employeeID, Integer amount){
+        return Response.status(Response.Status.OK).entity(service.removeProductFromInventory(storeID, productID, employeeID, amount)).build();
+    }
     
+    @POST
+    @Path("/deleteProduct")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response deleteProduct(String productID){
+        return Response.status(Response.Status.OK).entity(service.deleteProduct(productID)).build();
+    }
     
 }
