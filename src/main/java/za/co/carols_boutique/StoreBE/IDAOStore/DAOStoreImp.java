@@ -21,7 +21,7 @@ public class DAOStoreImp implements DAOStore{
     private Connection con;
     private PreparedStatement ps;
     private ResultSet rs; 
-    private int RowsAffected;
+    private int rowsAffected;
 
     public DAOStoreImp() {
         
@@ -32,16 +32,16 @@ public class DAOStoreImp implements DAOStore{
 
     @Override
     public Boolean addStore(Store store) {
-        RowsAffected = 0;
+        rowsAffected = 0;
         if(con!=null){
             try{
                 //con.setAutoCommit(false);
                 ps = con.prepareStatement("insert into Store(id,name,location,password) values(?,?,?,?)");
-                ps.setString(0,store.getId() );
-                ps.setString(1,store.getName() );
-                ps.setString(2,store.getLocation() );
-                ps.setString(3,store.getPassword() );
-                RowsAffected=ps.executeUpdate();
+                ps.setString(1,store.getId() );
+                ps.setString(2,store.getName() );
+                ps.setString(3,store.getLocation() );
+                ps.setString(4,store.getPassword() );
+                rowsAffected=ps.executeUpdate();
                 
 
 
@@ -50,7 +50,7 @@ public class DAOStoreImp implements DAOStore{
 
             }
         }
-        if(RowsAffected==0){
+        if(rowsAffected!=1){
        return false;
        }else{
            return true;
@@ -62,8 +62,9 @@ public class DAOStoreImp implements DAOStore{
         Store store = null;
         if(con!=null){
             try {
-                ps = con.prepareStatement("Select StoreID,name,location,password from Store where password= ? and where storeID =?");
-                ps.setString(0, password);
+                ps = con.prepareStatement("Select StoreID,name,location,password from Store where password= ? ,storeID =?");
+                ps.setString(1, password);
+                ps.setString(2, storeID);
                 rs= ps.executeQuery();
                 while(rs.next()){
                     store =new Store(rs.getString("StoreID"),rs.getString("name"),rs.getString("location"),rs.getString("password"));
@@ -98,7 +99,7 @@ public class DAOStoreImp implements DAOStore{
     public Boolean addEmployeeToStore(Employee employee) {
         if(con!= null){
             try{
-                ps = con.prepareStatement("insert into StoreEmployee EmpId = ");
+                ps = con.prepareStatement("insert into StoreEmployee(EmpId) values(?)");
             }catch(SQLException e){
                 e.printStackTrace();
             }
@@ -109,23 +110,23 @@ public class DAOStoreImp implements DAOStore{
     @Override
     public Boolean addSale(Sale sale) {
         //String id, String storeID, String employeeID, String lineItemID, String customerID, Date date
-        RowsAffected =0;
+        rowsAffected =0;
         if(con!= null){
             try{
-                ps = con.prepareStatement("insert into Sale set id =?,storeID=?,employeeID=?,lineItemID=?,customerID =?,date =?");
-                ps.setString(0, sale.getId());
-                ps.setString(1, sale.getStoreID());
-                ps.setString(2, sale.getEmployeeID());
-                ps.setString(3, sale.getLineItemID());
-                ps.setString(4, sale.getCustomerID());
-                ps.setDate(5, (Date) sale.getDate());
-                RowsAffected =ps.executeUpdate();
+                ps = con.prepareStatement("insert into Sale(id,storeID,employeeID,lineItemID,customerID,date) values(?,?,?,?,?,?)");
+                ps.setString(1, sale.getId());
+                ps.setString(2, sale.getStoreID());
+                ps.setString(3, sale.getEmployeeID());
+                ps.setString(4, sale.getLineItemID());
+                ps.setString(5, sale.getCustomerID());
+                ps.setDate(6, (Date) sale.getDate());
+                rowsAffected =ps.executeUpdate();
                 
             }catch(SQLException e){
                 e.printStackTrace();
             }
         }
-        if(RowsAffected==0){
+        if(rowsAffected!=1){
        return false;
        }else{
            return true;
@@ -134,18 +135,18 @@ public class DAOStoreImp implements DAOStore{
     
     @Override
     public Boolean deleteStore(String storeID) {
-        RowsAffected = 0; 
+        rowsAffected = 0; 
        if(con!=null){
            try{
            ps = con.prepareStatement("delete Store where id =?");
-           ps.setString(0,storeID);
-           RowsAffected =ps.executeUpdate();
+           ps.setString(1,storeID);
+           rowsAffected =ps.executeUpdate();
            
            }catch(SQLException e){
                e.printStackTrace();
            }
        }
-       if(RowsAffected==0){
+       if(rowsAffected!=1){
        return false;
        }else{
            return true;
@@ -155,18 +156,18 @@ public class DAOStoreImp implements DAOStore{
 
     @Override
     public Boolean deleteEmployeeFromStore(String employeeID) {
-        RowsAffected = 0; 
+        rowsAffected = 0; 
        if(con!=null){
            try{
            ps = con.prepareStatement("delete Store where id =?");
-           ps.setString(0,employeeID);
-           RowsAffected =ps.executeUpdate();
+           ps.setString(1,employeeID);
+           rowsAffected =ps.executeUpdate();
            
            }catch(SQLException e){
                e.printStackTrace();
            }
        }
-        if(RowsAffected==0){
+        if(rowsAffected!=1){
        return false;
        }else{
            return true;
