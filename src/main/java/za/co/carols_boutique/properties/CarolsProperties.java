@@ -5,6 +5,8 @@
 package za.co.carols_boutique.properties;
 
 import java.util.Properties;
+import za.co.carols_boutique.EmployeeBE.IDAOEmployee.DaoEmpImp;
+import za.co.carols_boutique.models.Employee;
 
 /**
  *
@@ -12,6 +14,13 @@ import java.util.Properties;
  */
 public class CarolsProperties {
     private Properties carol_boutique_properties;
+    
+    public static void main(String[] args) {
+        DaoEmpImp imp = new DaoEmpImp();
+        Employee emp = imp.getEmployee("emp101", "1", "1");
+        
+        System.out.println(emp.toString());
+    }
     
     public void addToFile(String key, String value){
         carol_boutique_properties.setProperty(key, value);
@@ -25,7 +34,13 @@ public class CarolsProperties {
         carol_boutique_properties.replace(key, oldObject, newObject);
     }
     
-    public void getFile(String key){
-        carol_boutique_properties.get(key);
+    public String getSQLUrl(){
+        String key = "sqlurl";
+        return carol_boutique_properties.get(key).toString();
+    }
+    
+    public String getRestUrl(){
+        String key = "resturl";
+        return carol_boutique_properties.get(key).toString();
     }
 }
