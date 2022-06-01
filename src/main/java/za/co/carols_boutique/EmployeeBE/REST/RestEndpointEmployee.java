@@ -4,6 +4,7 @@
  */
 package za.co.carols_boutique.EmployeeBE.REST;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -25,6 +26,7 @@ public class RestEndpointEmployee {
     @POST
     @Path("/login")
     @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     public Response login(Employee employee){
         return Response.status(Response.Status.OK).entity(service.login(employee.getId(),employee.getPassword(),employee.getStoreID())).build();
     }
@@ -32,6 +34,7 @@ public class RestEndpointEmployee {
     @POST
     @Path("/register")
     @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     public Response register(Employee employee){
         return Response.status(Response.Status.OK).entity(service.register(employee)).build();
     }
@@ -46,6 +49,7 @@ public class RestEndpointEmployee {
     @POST
     @Path("/update")
     @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     public Response update(Employee employee){
         return Response.status(Response.Status.OK).entity(service.updateEmployee(employee)).build();
     }

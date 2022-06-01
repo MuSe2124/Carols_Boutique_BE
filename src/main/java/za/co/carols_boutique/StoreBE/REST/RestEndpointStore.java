@@ -4,6 +4,7 @@
  */
 package za.co.carols_boutique.StoreBE.REST;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -28,6 +29,7 @@ public class RestEndpointStore {
     @POST
     @Path("/login")
     @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     public Response login(Store store){
         return Response.status(Response.Status.OK).entity(service.loginStore(store.getId(),store.getPassword())).build();
     }
@@ -35,6 +37,7 @@ public class RestEndpointStore {
     @POST
     @Path("/register")
     @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     public Response register(Store store){
         return Response.status(Response.Status.OK).entity(service.registerStore(store)).build();
     }
@@ -42,6 +45,7 @@ public class RestEndpointStore {
     @POST
     @Path("/addSale")
     @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     public Response addSale(Sale sale){
         return Response.status(Response.Status.OK).entity(service.addSale(sale)).build();
     }
