@@ -8,6 +8,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -102,6 +103,7 @@ public class RestEndpointReport {
     @POST
     @Path("/addReview")
     @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     public Response addReview(Review review){
         return Response.status(Response.Status.OK).entity(service.addReview(review)).build();
     }
@@ -109,6 +111,7 @@ public class RestEndpointReport {
     @POST
     @Path("/addCustomer")
     @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     public Response addCustomer(Customer customer){
         return Response.status(Response.Status.OK).entity(service.addCustomer(customer)).build();
     }

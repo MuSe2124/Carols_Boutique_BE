@@ -39,6 +39,17 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>activation</groupId>
+            <artifactId>activation</artifactId>
+            <version>1.0.2</version>
+            <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.5.0-b01</version>
+        </dependency>
+        <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>
             <version>7.0</version>

@@ -5,10 +5,14 @@
 package za.co.carols_boutique.EmployeeBE.IDAOEmployee;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import za.co.carols_boutique.models.Employee;
+import za.co.carols_boutique.properties.CarolsProperties;
 
 /**
  *
@@ -20,6 +24,23 @@ public class DaoEmpImp implements DAOEmp{
     private PreparedStatement ps;
     private int rowsAffected;
     //String id, String name, String surname, Boolean isManager
+    
+    public DaoEmpImp(){
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DaoEmpImp.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        CarolsProperties carolsProperties = new CarolsProperties();
+        String url = carolsProperties.getSQLUrl();
+        
+        try {
+            con = (Connection) DriverManager.getConnection(url, "root", "Root");
+        } catch (SQLException ex) {
+            Logger.getLogger(DaoEmpImp.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     @Override
     public Boolean addEmployee(Employee employee) {
         rowsAffected =0;
