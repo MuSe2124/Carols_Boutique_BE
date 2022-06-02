@@ -1,10 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package za.co.carols_boutique.EmployeeBE.IDAOEmployee;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,7 +16,25 @@ public class DaoEmpImp implements DAOEmp{
     private ResultSet rs;
     private PreparedStatement ps;
     private int rowsAffected;
+    private String URL;
     //String id, String name, String surname, Boolean isManager
+
+    public DaoEmpImp() {
+        try{//com.mysql.cj.jdbc.Driver
+            Class.forName("com.mysql.jdbc.Driver");
+        }catch(ClassNotFoundException e){
+            e.printStackTrace();
+        }
+        String URL = "jdbc:mysql://localhost:3306/carolsboutique";
+        try{
+            con = (Connection)DriverManager.getConnection(URL,"root","root");
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    
+    
     @Override
     public Boolean addEmployee(Employee employee) {
         rowsAffected =0;
@@ -49,7 +64,7 @@ public class DaoEmpImp implements DAOEmp{
         
        if(con!=null){
            try{
-               ps = con.prepareStatement("select id,name,surname,isManager,password from Employee where id = ?, password =?,StoreID=?");
+               ps = con.prepareStatement("select id,name,surname,isManager,password from Employee where id = ? and password =? and StoreID=?");
                
                ps.setString(1,employeeID);
                ps.setString(2, password);

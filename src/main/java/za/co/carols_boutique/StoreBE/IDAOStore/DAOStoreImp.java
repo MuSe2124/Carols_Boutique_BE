@@ -6,6 +6,7 @@ package za.co.carols_boutique.StoreBE.IDAOStore;
 
 import java.sql.Connection;
 import java.sql.Date;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -24,7 +25,17 @@ public class DAOStoreImp implements DAOStore{
     private int rowsAffected;
 
     public DAOStoreImp() {
-        
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+        }catch(ClassNotFoundException e){
+            e.printStackTrace();
+        }
+        String URL = "jdbc:mysql://localhost:3306/carolsboutique";
+        try{
+            con = (Connection)DriverManager.getConnection(URL,"root","root");
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
     }
     
     
@@ -62,7 +73,7 @@ public class DAOStoreImp implements DAOStore{
         Store store = null;
         if(con!=null){
             try {
-                ps = con.prepareStatement("Select StoreID,name,location,password from Store where password= ?,storeID =?");
+                ps = con.prepareStatement("Select ID,name,location,password from Store where password= ? and ID =?");
                 ps.setString(1, password);
                 ps.setString(2, storeID);
                 rs= ps.executeQuery();
@@ -95,7 +106,7 @@ public class DAOStoreImp implements DAOStore{
     }*/
     //missing class or variables?
    //
-    @Override
+    /*@Override
     public Boolean addEmployeeToStore(Employee employee) {
         if(con!= null){
             try{
@@ -105,7 +116,7 @@ public class DAOStoreImp implements DAOStore{
             }
         }
         return false;
-    }
+    }*/
     //missing class or variables?
     @Override
     public Boolean addSale(Sale sale) {
@@ -138,7 +149,7 @@ public class DAOStoreImp implements DAOStore{
         rowsAffected = 0; 
        if(con!=null){
            try{
-           ps = con.prepareStatement("delete Store where id =?");
+           ps = con.prepareStatement("delete from Store where id =?");
            ps.setString(1,storeID);
            rowsAffected =ps.executeUpdate();
            
@@ -154,12 +165,12 @@ public class DAOStoreImp implements DAOStore{
     }
     
 
-    @Override
-    public Boolean deleteEmployeeFromStore(String employeeID) {
+    /*@Override
+    public Boolean deleteEmployeeFromStore(String employeeID,String StoreID) {
         rowsAffected = 0; 
        if(con!=null){
            try{
-           ps = con.prepareStatement("delete Store where id =?");
+           ps = con.prepareStatement("delete EmpStore where id =?");
            ps.setString(1,employeeID);
            rowsAffected =ps.executeUpdate();
            
@@ -172,6 +183,6 @@ public class DAOStoreImp implements DAOStore{
        }else{
            return true;
        }
-    }
+    }*/
     
 }
