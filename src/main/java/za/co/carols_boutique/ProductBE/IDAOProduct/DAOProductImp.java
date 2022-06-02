@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import za.co.carols_boutique.models.Product;
 import za.co.carols_boutique.models.Report;
@@ -36,16 +37,17 @@ public class DAOProductImp  implements DAOProduct{
             e.printStackTrace();
         }
     }
-    private Boolean addTransaction(String ID,String storeID,String employeeID,Integer NoBefore,Integer NoAdded,Integer Total,Date currentDate){
+    private Boolean addTransaction(String ID,String storeID,String productID,String employeeID,Integer NoBefore,Integer NoAdded,Integer Total,Date currentDate){
         if(con!=null){
             try{
-                ps= con.prepareStatement("insert into StockTransaction(ID,storeID,employeeID,NoBefore,NoAdded,Total,date) values(?,?,?,?,?,?)");
+                ps= con.prepareStatement("insert into StockTransaction(ID,storeID,ProductID,employeeID,NoBefore,NoAdded,Total,date) values(?,?,?,?,?,?)");
                 ps.setString(1,ID);
                 ps.setString(2,storeID);
-                ps.setString(3,employeeID);
-                ps.setInt(4,NoBefore);
-                ps.setInt(5,Total);
-                ps.setDate(6, (java.sql.Date) currentDate);
+                ps.setString(3,productID);
+                ps.setString(4,employeeID);
+                ps.setInt(5,NoBefore);
+                ps.setInt(6,Total);
+                ps.setDate(7, (java.sql.Date) currentDate);
                 rowsAffected=ps.executeUpdate();
             }catch(SQLException e){
                 e.printStackTrace();
@@ -141,9 +143,13 @@ public class DAOProductImp  implements DAOProduct{
                 e.printStackTrace();
             }
         }
+        String TransactionID=null;
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date currentDate=new Date(System.currentTimeMillis());
+        Integer Total = amount+prodstore.getAmount();
         if(rowsAffected!=1){
             //addTransaction(String ID,String storeID,String employeeID,Integer NoBefore,Integer NoAdded,Integer Total,Date currentDate)
-            
+            addTransaction(TransactionID,storeID,productID,employeeID,prodstore.getAmount(),amount,Total,currentDate);
             return false;
         }else{
             
