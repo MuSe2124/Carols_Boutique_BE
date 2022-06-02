@@ -8,12 +8,12 @@ import za.co.carols_boutique.models.Store;
 public interface DAOStore {
     
     Boolean addStore(Store store);
-    Boolean addEmployeeToStore(Employee employee);
+    //Boolean addEmployeeToStore(Employee employee);
     Boolean addSale(Sale sale);
     
     Store getStore(String storeID, String password);
     
     Boolean deleteStore(String storeID);
-    Boolean deleteEmployeeFromStore(String employeeID);
+    //Boolean deleteEmployeeFromStore(String employeeID);
     
 }
