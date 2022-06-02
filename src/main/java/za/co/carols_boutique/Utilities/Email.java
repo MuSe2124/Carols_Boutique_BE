@@ -99,7 +99,7 @@ public class Email extends Thread{
 //        multipart.addBodyPart(bodyPart);
         String body = receiptString(new Sale("Sandton","Osman","Line3","Jean-Paul",new Date()));
         mimeMessage.setSubject("Carol's Boutique receipt");
-        mimeMessage.setContent("<h1>","text/html");
+        mimeMessage.setContent(body,"text/html");
         return mimeMessage;
     }
     

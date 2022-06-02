@@ -12,7 +12,7 @@ import za.co.carols_boutique.Utilities.Email;
  */
 public class Test {
     public static void main(String[] args) {
-        Email email = new Email("jomarvn@gmail.com");
+        Email email = new Email("liam2andersen4@gmail.com");
     }
     
 }
