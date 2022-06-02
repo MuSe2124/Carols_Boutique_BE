@@ -14,10 +14,10 @@ public class KeepAside {
     private String id;
     private String storeID;
     private Date date;
-    private Integer customerID;
+    private String customerID;
     private String productID;
 
-    public KeepAside(String id, String storeID, Date date, Integer customerID, String productID) {
+    public KeepAside(String id, String storeID, Date date, String customerID, String productID) {
         this.id = id;
         this.storeID = storeID;
         this.date = date;
@@ -25,7 +25,7 @@ public class KeepAside {
         this.productID = productID;
     }
 
-    public KeepAside(String storeID, Date date, Integer customerID, String productID) {
+    public KeepAside(String storeID, Date date, String customerID, String productID) {
         this.storeID = storeID;
         this.date = date;
         this.customerID = customerID;
@@ -59,11 +59,11 @@ public class KeepAside {
         this.date = date;
     }
 
-    public Integer getCustomerID() {
+    public String getCustomerID() {
         return customerID;
     }
 
-    public void setCustomerID(Integer customerID) {
+    public void setCustomerID(String customerID) {
         this.customerID = customerID;
     }
 

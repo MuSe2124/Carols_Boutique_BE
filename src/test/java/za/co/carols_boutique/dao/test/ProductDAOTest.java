@@ -10,7 +10,7 @@ import za.co.carols_boutique.ProductBE.IDAOProduct.DAOProduct;
 import za.co.carols_boutique.models.Product;
 
 public class ProductDAOTest {
-	
+
 	DAOProduct dao;
 
 	public ProductDAOTest() {

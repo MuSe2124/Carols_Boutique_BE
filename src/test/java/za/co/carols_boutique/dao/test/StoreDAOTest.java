@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 import za.co.carols_boutique.StoreBE.IDAOStore.DAOStore;
+import za.co.carols_boutique.StoreBE.IDAOStore.DAOStoreImp;
 import za.co.carols_boutique.models.Store;
 
 public class StoreDAOTest {
@@ -13,7 +14,7 @@ public class StoreDAOTest {
 	Store store;
 
 	public StoreDAOTest() {
-		this.dao = null;
+		this.dao = new DAOStoreImp();
 		this.store = new Store("TestStoreID", "TestStoreName", "TestStoreLocation", "TestStorePassword");
 	}
 
