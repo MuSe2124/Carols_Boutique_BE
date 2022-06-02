@@ -60,42 +60,42 @@ public class EmployeeServiceTest {
 		assertNotNull(service.deleteEmployee("empoyeeTest1"));
 	}
 
-	@Test
-	void testAddEmployeeSuccess() {
-		employee = new Employee("empoyeeTest1", "TestName", "TestSurname", "TestPass", false);
-		assert (service.register(employee));
-	}
-
-	@Test
-	void testGetEmployee() {
-		String response = service.login("empoyeeTest1", "TestPass");
-		employee = dao.getEmployee("empoyeeTest1", "TestPass");
-		assertNotNull(response);
-	}
-
-	@Test
-	void testUpdateEmployee() {
-		employee = new Employee("empoyeeTest1", "TestName2", "TestSurname2", "TestPass2", false);
-		assertNotNull(service.updateEmployee(employee));
-	}
-
-	@Test
-	void checkNotMannager() {
-		assertFalse(employee.getIsManager());
-	}
-
-	@Test
-	void testPromoteToManager() {
-		assertNotNull(service.promoteToManager("empoyeeTest1"));
-	}
-
-	@Test
-	void checkIsMannager() {
-		assertTrue(employee.getIsManager());
-	}
-
-	@Test
-	void testDeleteEmployee() {
-		assertNotNull(service.deleteEmployee("empoyeeTest1"));
-	}
+//	@Test
+//	void testAddEmployeeSuccess() {
+//		employee = new Employee("empoyeeTest1", "TestName", "TestSurname", "TestPass", false);
+//		assert (service.register(employee));
+//	}
+//
+//	@Test
+//	void testGetEmployee() {
+//		String response = service.login("empoyeeTest1", "TestPass");
+//		employee = dao.getEmployee("empoyeeTest1", "TestPass");
+//		assertNotNull(response);
+//	}
+//
+//	@Test
+//	void testUpdateEmployee() {
+//		employee = new Employee("empoyeeTest1", "TestName2", "TestSurname2", "TestPass2", false);
+//		assertNotNull(service.updateEmployee(employee));
+//	}
+//
+//	@Test
+//	void checkNotMannager() {
+//		assertFalse(employee.getIsManager());
+//	}
+//
+//	@Test
+//	void testPromoteToManager() {
+//		assertNotNull(service.promoteToManager("empoyeeTest1"));
+//	}
+//
+//	@Test
+//	void checkIsMannager() {
+//		assertTrue(employee.getIsManager());
+//	}
+//
+//	@Test
+//	void testDeleteEmployee() {
+//		assertNotNull(service.deleteEmployee("empoyeeTest1"));
+//	}
 }
