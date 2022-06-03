@@ -4,6 +4,7 @@
  */
 package za.co.carols_boutique.ProductBE.REST;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -14,6 +15,8 @@ import javax.ws.rs.core.Response;
 import za.co.carols_boutique.ProductBE.ServiceProduct.ProdService;
 import za.co.carols_boutique.ProductBE.ServiceProduct.ProdServiceImp;
 import za.co.carols_boutique.models.Product;
+import za.co.carols_boutique.models.Refund;
+import za.co.carols_boutique.models.Sale;
 
 /**
  *
@@ -57,6 +60,14 @@ public class RestEndpointProduct {
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteProduct(String productID){
         return Response.status(Response.Status.OK).entity(service.deleteProduct(productID)).build();
+    }
+//    
+    @POST
+    @Path("/refund")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response refund(Refund refund){
+        return Response.status(Response.Status.OK).entity(service.refund(refund)).build();
     }
     
 }

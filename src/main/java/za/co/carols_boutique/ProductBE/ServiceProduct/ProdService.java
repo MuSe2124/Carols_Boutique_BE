@@ -4,7 +4,9 @@
  */
 package za.co.carols_boutique.ProductBE.ServiceProduct;
 
+import za.co.carols_boutique.models.Exchange;
 import za.co.carols_boutique.models.Product;
+import za.co.carols_boutique.models.Refund;
 
 /**
  *
@@ -19,5 +21,8 @@ public interface ProdService {
 
     String removeProductFromInventory(String storeID, String productID, String employeeID, Integer amount);
     String deleteProduct(String productID);
+
+    String refund(Refund refund);
+    String exchange(Exchange exchange);
     
 }
