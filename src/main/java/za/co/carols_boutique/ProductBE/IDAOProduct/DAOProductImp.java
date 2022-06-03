@@ -26,8 +26,8 @@ public class DAOProductImp implements DAOProduct{
        Product product = null;
         if(con!=null){
             try{
-                ps = con.prepareStatement("Select id,name,description,price from Product where id = ?");
-                ps.setString(1, productID);
+                ps = con.prepareStatement("Select id,name,description,price from Product where id = 'prod101'");
+               
                 rs=ps.executeQuery();
                 while(rs.next()){
                     product= new Product(rs.getString("id"),rs.getString("name"),rs.getString("description"),rs.getFloat("price"));

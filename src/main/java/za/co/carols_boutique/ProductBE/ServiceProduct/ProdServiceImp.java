@@ -16,7 +16,7 @@ public class ProdServiceImp implements ProdService {
 
     private DAOProduct dao;
 
-    public ProdServiceImp() {
+    public ProdServiceImp(DAOProduct dao) {
         dao = new DAOProductImp();
     }
 

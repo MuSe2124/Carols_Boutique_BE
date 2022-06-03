@@ -22,6 +22,9 @@ import java.util.concurrent.ThreadFactory;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JPanel;
+import za.co.carols_boutique.ProductBE.IDAOProduct.DAOProduct;
+import za.co.carols_boutique.ProductBE.IDAOProduct.DAOProductImp;
+import za.co.carols_boutique.models.Product;
 
 /**
  *
@@ -32,12 +35,19 @@ public class ReadBarcode extends javax.swing.JFrame implements Runnable,ThreadFa
     private WebcamPanel panel = null;
     private Webcam webcam = null;
     private Executor executor = Executors.newSingleThreadExecutor(this);
+    
+    private DAOProduct dao;
+    
+    
     /**
      * Creates new form ReadBarcode
+     * @param dao
      */
     public ReadBarcode() {
         initComponents();
         initWebcam();
+        dao = new DAOProductImp();
+        
     }
 
     /**
@@ -52,24 +62,20 @@ public class ReadBarcode extends javax.swing.JFrame implements Runnable,ThreadFa
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         result_field = new javax.swing.JTextField();
-        jPanel2 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setText("RESULT");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 350, 50, -1));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 20, 50, -1));
 
         result_field.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 result_fieldActionPerformed(evt);
             }
         });
-        jPanel1.add(result_field, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 380, 407, -1));
-
-        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 450, 340));
+        jPanel1.add(result_field, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, 407, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -79,7 +85,7 @@ public class ReadBarcode extends javax.swing.JFrame implements Runnable,ThreadFa
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -133,7 +139,7 @@ public class ReadBarcode extends javax.swing.JFrame implements Runnable,ThreadFa
         panel.setPreferredSize(size);
         panel.setFPSDisplayed(true);
         
-        jPanel2.add(panel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0,0,470,300));
+        //jPanel2.add(panel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0,0,470,300));
         
         executor.execute(this);
     }
@@ -164,8 +170,10 @@ public class ReadBarcode extends javax.swing.JFrame implements Runnable,ThreadFa
             }
             if (result != null) {
                 result_field.setText(result.getText());
-                
+                Product product = dao.getProduct(result.getText());
+                System.out.println("product is: " + product.toString());
             }
+            
         }while(true); 
     }
     
@@ -178,7 +186,6 @@ public class ReadBarcode extends javax.swing.JFrame implements Runnable,ThreadFa
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JTextField result_field;
     // End of variables declaration//GEN-END:variables
 }

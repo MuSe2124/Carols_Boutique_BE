@@ -1,17 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package za.co.carols_boutique.properties;
 
 import java.util.Properties;
 import za.co.carols_boutique.EmployeeBE.IDAOEmployee.DaoEmpImp;
 import za.co.carols_boutique.models.Employee;
 
-/**
- *
- * @author muaad
- */
 public class CarolsProperties {
     private Properties carol_boutique_properties;
     
