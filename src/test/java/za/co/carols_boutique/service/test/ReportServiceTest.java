@@ -1,17 +1,13 @@
 package za.co.carols_boutique.service.test;
 
 import java.util.Date;
-import za.co.carols_boutique.dao.test.*;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 import za.co.carols_boutique.ReportBE.ServiceReport.RepService;
 import za.co.carols_boutique.ReportBE.ServiceReport.RepServiceImp;
-import za.co.carols_boutique.StoreBE.IDAOStore.DAOStore;
 import za.co.carols_boutique.models.Customer;
 import za.co.carols_boutique.models.Review;
-import za.co.carols_boutique.models.Store;
 
 public class ReportServiceTest {
 	
