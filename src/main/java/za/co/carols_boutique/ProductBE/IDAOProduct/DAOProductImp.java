@@ -53,7 +53,11 @@ public class DAOProductImp  implements DAOProduct{
                 e.printStackTrace();
             }
         }
-        return false;
+        if(rowsAffected!= 1){
+            return false;
+        }else{
+            return true;
+        }
     }
     private Boolean addCatToProd(String ID,String categoryID, String productID) {
         rowsAffected =0;
@@ -108,10 +112,11 @@ public class DAOProductImp  implements DAOProduct{
             }
         }
         return product;
+        
     }
     //update amount
     @Override
-    public Boolean addProductToInventory(String storeID, String productID, String employeeID, Integer amount,Integer Size) {
+    public Boolean addProductToInventory(String storeID, String productID, String employeeID, Integer amount,Integer Size,String TransactionID ) {
         //String id, String storeID, String productID, Integer amount,Integer Size
         ProdStore prodstore= null;
         rowsAffected=0;
@@ -128,6 +133,10 @@ public class DAOProductImp  implements DAOProduct{
             }catch(SQLException e){
                 e.printStackTrace();
             }
+            Date currentDate=new Date(System.currentTimeMillis());
+            Integer Total = amount+prodstore.getAmount();
+            if(addTransaction(TransactionID,storeID,productID,employeeID,prodstore.getAmount(),amount,Total,currentDate)){
+            
             try{
                 //do i have to include id
                 //String id, String storeID, String productID, Integer amount
@@ -141,26 +150,23 @@ public class DAOProductImp  implements DAOProduct{
                 rowsAffected=ps.executeUpdate();
             }catch(SQLException e){
                 e.printStackTrace();
-            }
+            }}
         }
-        String TransactionID=null;
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        Date currentDate=new Date(System.currentTimeMillis());
-        Integer Total = amount+prodstore.getAmount();
+        
+        
         if(rowsAffected!=1){
             //addTransaction(String ID,String storeID,String employeeID,Integer NoBefore,Integer NoAdded,Integer Total,Date currentDate)
-            addTransaction(TransactionID,storeID,productID,employeeID,prodstore.getAmount(),amount,Total,currentDate);
             return false;
         }else{
-            
-        return true;
+         return true;   
         }
     }
     //String id, String name, String description, Float price
 
     @Override
-    public Boolean addNewProduct(Product product) {
+    public Boolean addNewProduct(Product product,String catID,String ID) {
        rowsAffected=0;
+       if(addCatToProd(ID,catID,product.getId())){
         if(con!=null){
             try{
                 ps = con.prepareStatement("insert into Product(ID,Name,Description,Price) values(?,?,?,?)");
@@ -174,7 +180,7 @@ public class DAOProductImp  implements DAOProduct{
             }catch(SQLException e){
                 e.printStackTrace();
             }
-        }
+        }}
         
         
         if(rowsAffected!=1){
@@ -187,8 +193,26 @@ public class DAOProductImp  implements DAOProduct{
     //String id, String storeID, String productID, Integer amount
   //
     @Override
-    public Boolean removeProductFromInventory(String storeID, String productID, String employeeID, Integer amount,Integer Size) {
+    public Boolean removeProductFromInventory(String storeID, String productID, String employeeID, Integer amount,Integer Size,String TransactionID) {
+        ProdStore prodstore= null;
+        
+        if(con!=null){
+            try{
+                ps= con.prepareStatement("Select ID,storeID,productID, amount,Size from store_product where storeID =? and productID =?");
+                ps.setString(1, storeID);
+                ps.setString(2, productID);
+                rs = ps.executeQuery();
+                while(rs.next()){
+                    prodstore = new ProdStore(rs.getString("ID"),rs.getString("storeID"),rs.getString("productID"),rs.getInt("amount"),rs.getInt("Size"));
+                }
+            
+            }catch(SQLException e){
+                e.printStackTrace();
+            }}
         rowsAffected=0;
+        Integer total = prodstore.getAmount()-amount;
+        Date currentdate = new Date(System.currentTimeMillis());
+        if(addTransaction(TransactionID,storeID,productID,employeeID,prodstore.getAmount(),amount,total,currentdate)){
         if(con!=null){
             try{
                 ps = con.prepareStatement("update Store_Product set amount=amount-? where storeID=? and productID =? and size =?");
@@ -202,20 +226,23 @@ public class DAOProductImp  implements DAOProduct{
                 e.printStackTrace();
             }
         }
+        }
+        
         if(rowsAffected!=1){
             
             return false;
         }else{
-            //addTransaction(String ID,String storeID,String employeeID,Integer NoBefore,Integer NoAdded,Integer Total,Date currentDate)
-            //addTransaction(TransactionID storeID,productID,employeeID);
+            
         return true;
         }
         
     }
+    
 
     @Override
-    public Boolean deleteProduct(String productID) {
+    public Boolean deleteProduct(String productID,String catid) {
         rowsAffected=0;
+        if(RemoveCatFromProd(catid,productID)){
         if(con!=null){
             try{
                 ps = con.prepareStatement("Delete from Product where id =?");
@@ -224,12 +251,14 @@ public class DAOProductImp  implements DAOProduct{
             }catch(SQLException e){
                 e.printStackTrace();
             }
-        }
+        }}
         if(rowsAffected!=1){
             return false;
         }else{
+            //RemoveCatFromProd(String categoryID,String productID)
         return true;
         }
+        
     }
 
     @Override
@@ -273,6 +302,7 @@ public class DAOProductImp  implements DAOProduct{
         }else{
             return true;
         }
+        
     }
     //Insert
     @Override
@@ -314,6 +344,7 @@ public class DAOProductImp  implements DAOProduct{
         if(rowsAffected!= 1){
             return false;
         }else{
+            
             return true;
         }
     }
