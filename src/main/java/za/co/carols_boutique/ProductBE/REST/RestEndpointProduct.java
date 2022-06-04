@@ -17,6 +17,7 @@ import za.co.carols_boutique.ProductBE.ServiceProduct.ProdServiceImp;
 import za.co.carols_boutique.models.Product;
 import za.co.carols_boutique.models.Refund;
 import za.co.carols_boutique.models.Sale;
+import za.co.carols_boutique.models.Stock;
 
 /**
  *
@@ -51,8 +52,8 @@ public class RestEndpointProduct {
     @POST
     @Path("/addProductToInventory")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response removeProductFromInventory(String storeID, String productID, String employeeID, Integer amount){
-        return Response.status(Response.Status.OK).entity(service.removeProductFromInventory(storeID, productID, employeeID, amount)).build();
+    public Response removeProductFromInventory(Stock stock){
+        return Response.status(Response.Status.OK).entity(service.removeProductFromInventory(stock.getStoreID(), stock.getProductID(), stock.getEmployeeID(), stock.getAmount())).build();
     }
     
     @POST

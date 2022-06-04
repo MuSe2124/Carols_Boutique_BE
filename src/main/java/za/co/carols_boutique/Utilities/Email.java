@@ -10,7 +10,6 @@ import javax.mail.*;
 import javax.mail.internet.*;
 import java.util.Properties;
 import za.co.carols_boutique.models.LineItem;
-import za.co.carols_boutique.models.Product;
 import za.co.carols_boutique.models.Sale;
 /**
  *
@@ -27,10 +26,42 @@ public class Email extends Thread{
     LineItem preLineItem;
     LineItem postLineItem;
 
-    public Email(String recipient){
+    public Email(String action, String recipient){
+        this.action = action;
         this.recipient = recipient;
         this.start();
     }
+    
+    public Email(String action, ArrayList<String> recipients){
+        this.action = action;
+        this.recipients = recipients;
+        this.start();
+    }
+    
+    public Email(String action, String recipient, Sale sale){
+        this.action = action;
+        this.recipient = recipient;
+        this.sale = sale;
+        this.start();
+    }
+    
+    public Email(String action, String recipient, Sale sale, LineItem preLineItem){
+        this.action = action;
+        this.recipient = recipient;
+        this.sale = sale;
+        this.preLineItem = preLineItem;
+        this.start();
+    }
+    
+    public Email(String action, String recipient, Sale sale, LineItem preLineItem, LineItem postLineItem){
+        this.action = action;
+        this.recipient = recipient;
+        this.sale = sale;
+        this.preLineItem = preLineItem;
+        this.postLineItem = postLineItem;
+        this.start();
+    }
+    
     
     @Override
     public void run(){
@@ -296,5 +327,4 @@ public class Email extends Thread{
         return "";
     }
 
-        
 }
