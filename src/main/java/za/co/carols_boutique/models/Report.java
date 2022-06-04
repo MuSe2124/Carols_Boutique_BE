@@ -11,6 +11,5 @@ package za.co.carols_boutique.models;
 public class Report {
     
     public void displayPieChart(){}
-    
     public void displayBarGraph(){}
 }

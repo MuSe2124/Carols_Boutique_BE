@@ -6,8 +6,9 @@ public class ProdStore {
     private String storeID;
     private String productID;
     private Integer amount;
+    private Integer size;
 
-    public ProdStore(String id, String storeID, String productID, Integer amount) {
+    public ProdStore(String id, String storeID, String productID, Integer amount,Integer size) {
         this.id = id;
         this.storeID = storeID;
         this.productID = productID;
