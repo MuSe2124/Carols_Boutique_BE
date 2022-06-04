@@ -264,31 +264,58 @@ public class Email extends Thread{
         return mimeMessage;
     }
     
-    
-    
+    /*
     private String receiptString(Sale sale){
+        Integer total = 0;
         String s = "<h1>Carols Boutique</h1>"+
-                "Thank you for your purhace "+sale.getCustomerID()+
+                "Thank you for your purhace "+
                 "<br><br><table>"+
                 "<tr>"+
                 "<th>"+"Item"+"</th>"+
                 "<th>"+"Value"+"</th>"+
-                "</tr>"+
-                "<tr>"+
-                "<td>"+"Item1"+"</td>"+
-                "<td>"+"$20.5"+"</td>"+
-                "</tr>"+
-                "<tr>"+
-                "<td>"+"Item2"+"</td>"+
-                "<td>"+"$31.6"+"</td>"+
-                "</tr>"+
+                "</tr>";
+                for(LineItem li:sale.getLineItems()){
+                   s+"<tr>"+
+                "<th>"+li.getProduct().getName()+"</th>"+
+                "<th>"+li.getProductID().getPrice+"</th>"+
+                "</tr>";
+                   total+=li.getProductID().getPrice();
+                }
                 "</table>"+
-                "<br><p>Your total is "+"$52.1"+"</p>"+
+                "<br><p>Your total is "+total+"</p>"+
                 "<br><p> Return policy:<br>You cannot return this item.</p>"+
                 "<br><p>Please rate us at: www.please_rate_us.co.za</p>"
                 ;
         return s;
     }
+    */
+    
+    
+    
+    private String receiptString(Sale sale){
+        Integer total = 0;
+        String s = "<h1>Carols Boutique</h1>"+
+                "Thank you for your purhace "+
+                "<br><br><table>"+
+                "<tr>"+
+                "<th>"+"Item"+"</th>"+
+                "<th>"+"Value"+"</th>"+
+                "</tr>";
+                for(LineItem li:sale.getLineItems()){
+                   s+"<tr>"+
+                "<th>"+li.getProduct().getName()+"</th>"+
+                "<th>"+li.getProductID().getPrice+"</th>"+
+                "</tr>";
+                   total+=li.getProductID().getPrice();
+                }
+                "</table>"+
+                "<br><p>Your total is "+total+"</p>"+
+                "<br><p> Return policy:<br>You cannot return this item.</p>"+
+                "<br><p>Please rate us at: www.please_rate_us.co.za</p>"
+                ;
+        return s;
+    }
+    
     
     private String amendedReceiptString(Sale sale){
         String s = "<h1>Carols Boutique</h1>"+
