@@ -6,7 +6,10 @@ package za.co.carols_boutique.ProductBE.ServiceProduct;
 
 import za.co.carols_boutique.ProductBE.IDAOProduct.DAOProduct;
 import za.co.carols_boutique.ProductBE.IDAOProduct.DAOProductImp;
+import za.co.carols_boutique.Utilities.Email;
+import za.co.carols_boutique.models.Exchange;
 import za.co.carols_boutique.models.Product;
+import za.co.carols_boutique.models.Refund;
 
 /**
  *
@@ -15,9 +18,11 @@ import za.co.carols_boutique.models.Product;
 public class ProdServiceImp implements ProdService {
 
     private DAOProduct dao;
+    private Email email;
 
     public ProdServiceImp(DAOProduct dao) {
         dao = new DAOProductImp();
+        email = null;
     }
 
     @Override
@@ -74,4 +79,15 @@ public class ProdServiceImp implements ProdService {
         }
     }
 
+    @Override
+    public String refund(Refund refund) {
+        //email = new Email("refund",refund);
+        return "Refund completed";
+    }
+
+    @Override
+    public String exchange(Exchange exchng) {
+        //email = new Email("Exchange,exchange);
+        return "Exchange complete";
+    }
 }
