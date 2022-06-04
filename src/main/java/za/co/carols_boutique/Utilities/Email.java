@@ -45,6 +45,13 @@ public class Email extends Thread{
         this.start();
     }
     
+    public Email(String action, String recipient, LineItem preLineItem){
+        this.action = action;
+        this.recipient = recipient;
+        this.preLineItem = preLineItem;
+        this.start();
+    }
+    
     public Email(String action, String recipient, Sale sale, LineItem preLineItem){
         this.action = action;
         this.recipient = recipient;

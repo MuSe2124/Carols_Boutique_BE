@@ -14,15 +14,17 @@ public class Stock {
     private String productID;
     private String employeeID;
     private Integer amount;
+    private String sizeID;
 
     public Stock() {
     }
 
-    public Stock(String storeID, String productID, String employeeID, Integer amount) {
+    public Stock(String storeID, String productID, String employeeID, Integer amount, String sizeID) {
         this.storeID = storeID;
         this.productID = productID;
         this.employeeID = employeeID;
         this.amount = amount;
+        this.sizeID = sizeID;
     }
 
     public String getStoreID() {
@@ -55,6 +57,14 @@ public class Stock {
 
     public void setAmount(Integer amount) {
         this.amount = amount;
+    }
+
+    public String getSizeID() {
+        return sizeID;
+    }
+
+    public void setSizeID(String sizeID) {
+        this.sizeID = sizeID;
     }
     
     

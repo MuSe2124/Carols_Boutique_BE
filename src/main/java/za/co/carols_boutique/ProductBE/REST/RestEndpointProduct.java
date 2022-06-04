@@ -12,11 +12,12 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import za.co.carols_boutique.ProductBE.IDAOProduct.DAOProductImp;
 import za.co.carols_boutique.ProductBE.ServiceProduct.ProdService;
 import za.co.carols_boutique.ProductBE.ServiceProduct.ProdServiceImp;
+import za.co.carols_boutique.models.ProdCat;
 import za.co.carols_boutique.models.Product;
 import za.co.carols_boutique.models.Refund;
-import za.co.carols_boutique.models.Sale;
 import za.co.carols_boutique.models.Stock;
 
 /**
@@ -26,7 +27,7 @@ import za.co.carols_boutique.models.Stock;
 @Path("product")
 public class RestEndpointProduct {
     
-    private ProdService service = new ProdServiceImp();
+    private ProdService service = new ProdServiceImp(new DAOProductImp());
     
     @GET
     @Path("/getProduct/productID")
@@ -38,29 +39,29 @@ public class RestEndpointProduct {
     @POST
     @Path("/addProductToInventory")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response addProductToInventory(String storeID, String productID, String employeeID, Integer amount){
-        return Response.status(Response.Status.OK).entity(service.addProductToInventory(storeID, productID, employeeID, amount)).build();
+    public Response addProductToInventory(Stock stock){
+        return Response.status(Response.Status.OK).entity(service.addProductToInventory(stock.getStoreID(), stock.getProductID(), stock.getEmployeeID(), stock.getAmount(),stock.getSizeID())).build();
     }
     
     @POST
     @Path("/addNewProduct")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response addNewProduct(Product product){
-        return Response.status(Response.Status.OK).entity(service.addNewProduct(product)).build();
+    public Response addNewProduct(ProdCat prodCat){
+        return Response.status(Response.Status.OK).entity(service.addNewProduct(prodCat.getProduct(), prodCat.getCatID())).build();
     }
     
     @POST
     @Path("/addProductToInventory")
     @Produces(MediaType.APPLICATION_JSON)
     public Response removeProductFromInventory(Stock stock){
-        return Response.status(Response.Status.OK).entity(service.removeProductFromInventory(stock.getStoreID(), stock.getProductID(), stock.getEmployeeID(), stock.getAmount())).build();
+        return Response.status(Response.Status.OK).entity(service.removeProductFromInventory(stock.getStoreID(), stock.getProductID(), stock.getEmployeeID(), stock.getAmount(), stock.getSizeID())).build();
     }
     
     @POST
     @Path("/deleteProduct")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response deleteProduct(String productID){
-        return Response.status(Response.Status.OK).entity(service.deleteProduct(productID)).build();
+    public Response deleteProduct(ProdCat prodCat){
+        return Response.status(Response.Status.OK).entity(service.deleteProduct(prodCat.getProductID(), prodCat.getCatID())).build();
     }
 //    
     @POST

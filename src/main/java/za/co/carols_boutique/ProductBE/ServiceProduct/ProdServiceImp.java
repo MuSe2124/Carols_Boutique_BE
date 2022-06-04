@@ -37,8 +37,8 @@ public class ProdServiceImp implements ProdService {
     }
 
     @Override
-    public String addProductToInventory(String storeID, String productID, String employeeID, Integer amount) {
-        Boolean b = dao.addProductToInventory(storeID, productID, employeeID, amount);
+    public String addProductToInventory(String storeID, String productID, String employeeID, Integer amount, String sizeID) {
+        Boolean b = dao.addProductToInventory(storeID, productID, employeeID, amount, storeID);
         if (b) {
             return "Product added successfully";
         } else {
@@ -47,8 +47,8 @@ public class ProdServiceImp implements ProdService {
     }
 
     @Override
-    public String addNewProduct(Product product) {
-        Boolean b = dao.addNewProduct(product);
+    public String addNewProduct(Product product, String catID) {
+        Boolean b = dao.addNewProduct(product,catID);
 
         if (b) {
             return "New product added successfully.";
@@ -58,8 +58,8 @@ public class ProdServiceImp implements ProdService {
     }
 
     @Override
-    public String removeProductFromInventory(String storeID, String productID, String employeeID, Integer amount) {
-        Boolean b = dao.removeProductFromInventory(storeID, productID, employeeID, amount);
+    public String removeProductFromInventory(String storeID, String productID, String employeeID, Integer amount, String sizeID) {
+        Boolean b = dao.removeProductFromInventory(storeID, productID, employeeID, amount, sizeID);
 
         if (b) {
             return "Product removed successfully";
@@ -69,8 +69,8 @@ public class ProdServiceImp implements ProdService {
     }
 
     @Override
-    public String deleteProduct(String productID) {
-        Boolean b = dao.deleteProduct(productID);
+    public String deleteProduct(String productID, String catID) {
+        Boolean b = dao.deleteProduct(productID, catID);
 
         if (b) {
             return "Product removed successfully";

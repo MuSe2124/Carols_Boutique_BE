@@ -37,17 +37,16 @@ public class DAOProductImp  implements DAOProduct{
             e.printStackTrace();
         }
     }
-    private Boolean addTransaction(String ID,String storeID,String productID,String employeeID,Integer NoBefore,Integer NoAdded,Integer Total,Date currentDate){
+    private Boolean addTransaction(String storeID,String productID,String employeeID,Integer NoBefore,Integer NoAdded,Integer Total,Date currentDate){
         if(con!=null){
             try{
-                ps= con.prepareStatement("insert into StockTransaction(ID,storeID,ProductID,employeeID,NoBefore,NoAdded,Total,date) values(?,?,?,?,?,?)");
-                ps.setString(1,ID);
-                ps.setString(2,storeID);
-                ps.setString(3,productID);
-                ps.setString(4,employeeID);
-                ps.setInt(5,NoBefore);
-                ps.setInt(6,Total);
-                ps.setDate(7, (java.sql.Date) currentDate);
+                ps= con.prepareStatement("insert into StockTransaction(storeID,ProductID,employeeID,NoBefore,NoAdded,Total,date) values(?,?,?,?,?,?)");
+                ps.setString(1,storeID);
+                ps.setString(2,productID);
+                ps.setString(3,employeeID);
+                ps.setInt(4,NoBefore);
+                ps.setInt(5,Total);
+                ps.setDate(6, (java.sql.Date) currentDate);
                 rowsAffected=ps.executeUpdate();
             }catch(SQLException e){
                 e.printStackTrace();
@@ -59,14 +58,13 @@ public class DAOProductImp  implements DAOProduct{
             return true;
         }
     }
-    private Boolean addCatToProd(String ID,String categoryID, String productID) {
+    private Boolean addCatToProd(String categoryID, String productID) {
         rowsAffected =0;
         if(con!= null){
             try{
-                ps=con.prepareStatement("insert into product_category(ID,category,ProductIDs) values(?,?,?)");
-                ps.setString(1,ID);
-                ps.setString(2,categoryID);
-                ps.setString(3,productID);
+                ps=con.prepareStatement("insert into product_category(category,ProductIDs) values(?,?)");
+                ps.setString(1,categoryID);
+                ps.setString(2,productID);
                 rowsAffected=ps.executeUpdate();
             }catch(SQLException e){
                 e.printStackTrace();
@@ -116,7 +114,7 @@ public class DAOProductImp  implements DAOProduct{
     }
     //update amount
     @Override
-    public Boolean addProductToInventory(String storeID, String productID, String employeeID, Integer amount,Integer Size,String TransactionID ) {
+    public Boolean addProductToInventory(String storeID, String productID, String employeeID, Integer amount, String SizeID) {
         //String id, String storeID, String productID, Integer amount,Integer Size
         ProdStore prodstore= null;
         rowsAffected=0;
@@ -135,7 +133,7 @@ public class DAOProductImp  implements DAOProduct{
             }
             Date currentDate=new Date(System.currentTimeMillis());
             Integer Total = amount+prodstore.getAmount();
-            if(addTransaction(TransactionID,storeID,productID,employeeID,prodstore.getAmount(),amount,Total,currentDate)){
+            if(addTransaction(storeID,productID,employeeID,prodstore.getAmount(),amount,Total,currentDate)){
             
             try{
                 //do i have to include id
@@ -145,7 +143,7 @@ public class DAOProductImp  implements DAOProduct{
                 
                 ps.setString(2, storeID);
                 ps.setString(3, productID);
-                ps.setInt(4,Size);
+                ps.setString(4,SizeID);
                 
                 rowsAffected=ps.executeUpdate();
             }catch(SQLException e){
@@ -164,9 +162,9 @@ public class DAOProductImp  implements DAOProduct{
     //String id, String name, String description, Float price
 
     @Override
-    public Boolean addNewProduct(Product product,String catID,String ID) {
+    public Boolean addNewProduct(Product product,String catID) {
        rowsAffected=0;
-       if(addCatToProd(ID,catID,product.getId())){
+       if(addCatToProd(catID,product.getId())){
         if(con!=null){
             try{
                 ps = con.prepareStatement("insert into Product(ID,Name,Description,Price) values(?,?,?,?)");
@@ -193,7 +191,7 @@ public class DAOProductImp  implements DAOProduct{
     //String id, String storeID, String productID, Integer amount
   //
     @Override
-    public Boolean removeProductFromInventory(String storeID, String productID, String employeeID, Integer amount,Integer Size,String TransactionID) {
+    public Boolean removeProductFromInventory(String storeID, String productID, String employeeID, Integer amount,String SizeID) {
         ProdStore prodstore= null;
         
         if(con!=null){
@@ -212,7 +210,7 @@ public class DAOProductImp  implements DAOProduct{
         rowsAffected=0;
         Integer total = prodstore.getAmount()-amount;
         Date currentdate = new Date(System.currentTimeMillis());
-        if(addTransaction(TransactionID,storeID,productID,employeeID,prodstore.getAmount(),amount,total,currentdate)){
+        if(addTransaction(storeID,productID,employeeID,prodstore.getAmount(),amount,total,currentdate)){
         if(con!=null){
             try{
                 ps = con.prepareStatement("update Store_Product set amount=amount-? where storeID=? and productID =? and size =?");
@@ -220,7 +218,7 @@ public class DAOProductImp  implements DAOProduct{
                 ps.setInt(1, amount);
                 ps.setString(2,storeID);
                 ps.setString(3, productID);
-                ps.setInt(4, Size);
+                ps.setString(4, SizeID);
                 rowsAffected=ps.executeUpdate();
             }catch(SQLException e){
                 e.printStackTrace();
