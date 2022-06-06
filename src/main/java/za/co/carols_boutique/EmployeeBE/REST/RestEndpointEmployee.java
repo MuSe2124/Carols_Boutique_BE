@@ -5,6 +5,7 @@
 package za.co.carols_boutique.EmployeeBE.REST;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -61,4 +62,10 @@ public class RestEndpointEmployee {
         return Response.status(Response.Status.OK).entity(service.deleteEmployee(employeeID)).build();
     }
     
+    @GET
+    @Path("/test")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String test(){
+        return "hello world";
+    }
 }
