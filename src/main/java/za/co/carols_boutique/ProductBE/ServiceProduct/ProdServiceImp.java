@@ -4,9 +4,11 @@
  */
 package za.co.carols_boutique.ProductBE.ServiceProduct;
 
+import java.util.ArrayList;
 import za.co.carols_boutique.ProductBE.IDAOProduct.DAOProduct;
 import za.co.carols_boutique.ProductBE.IDAOProduct.DAOProductImp;
 import za.co.carols_boutique.Utilities.Email;
+import za.co.carols_boutique.Utilities.StockCheck;
 import za.co.carols_boutique.models.Exchange;
 import za.co.carols_boutique.models.Product;
 import za.co.carols_boutique.models.Refund;
@@ -19,6 +21,7 @@ public class ProdServiceImp implements ProdService {
 
     private DAOProduct dao;
     private Email email;
+    private StockCheck stockCheck;
 
     public ProdServiceImp(DAOProduct dao) {
         dao = new DAOProductImp();
@@ -89,5 +92,10 @@ public class ProdServiceImp implements ProdService {
     public String exchange(Exchange exchng) {
         //email = new Email("Exchange,exchange);
         return "Exchange complete";
+    }
+
+    @Override
+    public void checkLowStock(String storeID) {
+        stockCheck = new StockCheck(dao.lowOnStock(storeID),dao.getStoreManagerEmail(storeID));
     }
 }

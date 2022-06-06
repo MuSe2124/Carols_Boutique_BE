@@ -27,6 +27,11 @@ public class Product {
         this.description = description;
         this.price = price;
     }
+    
+     public Product(String id, String name) {
+        this.name = name;
+        this.id = id;
+    }
 
     public Product() {
     }
