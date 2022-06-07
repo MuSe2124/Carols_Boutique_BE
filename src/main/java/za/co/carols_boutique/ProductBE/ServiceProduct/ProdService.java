@@ -24,5 +24,7 @@ public interface ProdService {
 
     String refund(Refund refund);
     String exchange(Exchange exchange);
+    
+    void checkLowStock(String storeID);
 
 }

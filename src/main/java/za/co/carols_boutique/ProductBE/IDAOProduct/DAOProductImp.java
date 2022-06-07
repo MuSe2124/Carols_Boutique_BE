@@ -6,10 +6,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import za.co.carols_boutique.models.Product;
 import za.co.carols_boutique.models.Report;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import za.co.carols_boutique.models.ProdStore;
 
 /**
@@ -345,6 +348,44 @@ public class DAOProductImp  implements DAOProduct{
             
             return true;
         }
+    }
+
+    @Override
+    public ArrayList<Product> lowOnStock(String storeID) {
+        ArrayList<Product> prods= new ArrayList<Product>();
+        if(con!=null){
+            try {
+                ps = con.prepareStatement("select product.id,product.name, from product inner join product.id on store_product.productID where storeID = ? and amount < 5");
+                ps.setString(1,storeID);
+                rs = ps.executeQuery();
+                while(rs.next()){
+                    Product p = new Product(rs.getString("id"),
+                            rs.getString("name")
+                    );
+                    prods.add(p);
+                }
+                
+            } catch (SQLException ex) {
+                Logger.getLogger(DAOProductImp.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return prods;
+    }
+
+    @Override
+    public String getStoreManagerEmail(String string) {
+        String email = null;
+        if(con!=null){
+            try {
+                ps = con.prepareStatement("select email from manageremail where storeID = ?");
+                if(rs.next()){
+                    email = rs.getString("email");
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(DAOProductImp.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return email;
     }
     
 }

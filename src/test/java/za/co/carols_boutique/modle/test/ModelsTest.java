@@ -51,7 +51,7 @@ public class ModelsTest {
 		keepAside = new KeepAside("KeepAsideID", "KeepAsideStoreID", new Date(), "CustomerID", "ProductID");
 		lineItem = new LineItem("LineItemID", "SaleId", "ProductId", 3);
 		phone = new Phone();
-		prodStore = new ProdStore("ID", "StoreID", "productID", 3);
+//		prodStore = new ProdStore("ID", "StoreID", "productID", 3);
 		product = new Product("ID", "name", "description", 15.99F);
 		report = new Report();
 		review = new Review("id", "comment", 9, new Date());

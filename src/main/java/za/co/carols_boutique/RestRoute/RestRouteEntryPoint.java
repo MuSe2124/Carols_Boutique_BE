@@ -4,12 +4,11 @@
  */
 package za.co.carols_boutique.RestRoute;
 
-
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
 
-@ApplicationPath("/carols_boutique")
+@ApplicationPath("/pos")
 public class RestRouteEntryPoint extends Application{
     
 }
