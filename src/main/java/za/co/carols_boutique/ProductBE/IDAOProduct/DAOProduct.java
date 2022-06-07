@@ -3,6 +3,7 @@ package za.co.carols_boutique.ProductBE.IDAOProduct;
 
 import java.util.ArrayList;
 import za.co.carols_boutique.models.Product;
+import za.co.carols_boutique.models.Stock;
 
 public interface DAOProduct {
     
@@ -23,6 +24,7 @@ public interface DAOProduct {
     Boolean deleteCategory(String CategoryID);
     ArrayList<Product> lowOnStock(String storeID);
     String getStoreManagerEmail(String storeID);
+    ArrayList<Stock> getLowStock(String storeID);
     
         
     

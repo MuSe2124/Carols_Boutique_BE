@@ -12,6 +12,7 @@ public class Stock {
     
     private String storeID;
     private String productID;
+    private String productName;
     private String employeeID;
     private Integer amount;
     private String sizeID;
@@ -26,6 +27,14 @@ public class Stock {
         this.amount = amount;
         this.sizeID = sizeID;
     }
+
+    public Stock(String productID, String productName, Integer amount) {
+        this.productID = productID;
+        this.productName = productName;
+        this.amount = amount;
+    }
+    
+    
 
     public String getStoreID() {
         return storeID;

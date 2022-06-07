@@ -14,6 +14,7 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import za.co.carols_boutique.models.ProdStore;
+import za.co.carols_boutique.models.Stock;
 
 /**
  *
@@ -387,5 +388,25 @@ public class DAOProductImp  implements DAOProduct{
         }
         return email;
     }
+
+    @Override
+    public ArrayList<Stock> getLowStock(String storeID) {
+        ArrayList<Stock> prods = new ArrayList();
+        if(con!=null){
+            try {
+                ps = con.prepareStatement("select product.id,product.name,store_product.amount from store_product inner join product on product.id = store_product.product.id where amount < 5");
+                rs = ps.executeQuery();
+                while(rs.next()){
+                    Stock stock = new Stock(rs.getString("product.id"),
+                                            rs.getString("product.name"),
+                                            rs.getInt("store_product.amount")
+                    );
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(DAOProductImp.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return prods;
+       }
     
 }

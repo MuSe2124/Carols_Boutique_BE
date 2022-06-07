@@ -6,18 +6,19 @@ package za.co.carols_boutique.Utilities;
 
 import java.util.ArrayList;
 import za.co.carols_boutique.models.Product;
+import za.co.carols_boutique.models.Stock;
 
 /**
  *
  * @author Jomar
  */
-public class StockCheck extends Thread{
+public class StockCheck{
     
     Email email;
     String storeManagerEmail;
-    ArrayList<Product>prods;
+    ArrayList<Stock>prods;
 
-    public StockCheck(ArrayList<Product> prods, String storeManagerEmail) {
+    public StockCheck(ArrayList<Stock> prods, String storeManagerEmail) {
         this.prods = prods;
         this.storeManagerEmail = storeManagerEmail;
         email = new Email("lowStockReminder",storeManagerEmail, prods);
