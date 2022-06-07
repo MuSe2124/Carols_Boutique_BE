@@ -20,6 +20,14 @@ public class Stock {
     public Stock() {
     }
 
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+    
     public Stock(String storeID, String productID, String employeeID, Integer amount, String sizeID) {
         this.storeID = storeID;
         this.productID = productID;

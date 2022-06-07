@@ -1,5 +1,7 @@
 
+import java.util.ArrayList;
 import za.co.carols_boutique.Utilities.Email;
+import za.co.carols_boutique.models.Stock;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -12,9 +14,12 @@ import za.co.carols_boutique.Utilities.Email;
  */
 public class Test {
     public static void main(String[] args) {
-        Email email = new Email("sendReceipt","jeanpaulalexainaude@gmail.com");
-        Email email2 = new Email("sendRefund","jeanpaulalexainaude@gmail.com");
-        Email email3 = new Email("sendAmendedReceipt","jeanpaulalexainaude@gmail.com");
+        ArrayList<Stock> stock= new ArrayList<Stock>();
+        stock.add(new Stock("prod1","Belt",3));
+        stock.add(new Stock("prod2","Scarf",4));
+        stock.add(new Stock("prod3","Hat",1));
+        
+        Email email8 = new Email("lowStockReminder","jeanpaulalexainaude@gmail.com",stock); 
+        
     }
-    
 }
