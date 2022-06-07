@@ -6,8 +6,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Properties;
-import za.co.carols_boutique.EmployeeBE.IDAOEmployee.DaoEmpImp;
-import za.co.carols_boutique.models.Employee;
 
 public class CarolsProperties {
     private static File file;
