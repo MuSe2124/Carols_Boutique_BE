@@ -29,6 +29,7 @@ public class Email extends Thread{
     String action;
     ArrayList<String>recipients;
     Sale sale;
+    String productname;
     LineItem preLineItem;
     LineItem postLineItem;
     ArrayList<Stock> products;
@@ -36,6 +37,13 @@ public class Email extends Thread{
     public Email(String action, String recipient){
         this.action = action;
         this.recipient = recipient;
+        this.start();
+    }
+    public Email(String action, String recipient,LineItem lineitem,String productname){
+        this.action = action;
+        this.recipient = recipient;
+        this.preLineItem=lineitem;
+        this.productname= productname;
         this.start();
     }
     
@@ -162,7 +170,7 @@ public class Email extends Thread{
             case "keepAsideCreated":
                 try {
                     setupServerProperties();
-                    keepAsideCreated(recipient, preLineItem);
+                    keepAsideCreated(recipient, preLineItem,productname);
                     sendEmail();
                 } catch (MessagingException e) {
                     e.printStackTrace();
@@ -301,39 +309,18 @@ public class Email extends Thread{
     }
     
 
-    private String receiptString(Sale sale){
-        Integer total = 0;
-        String s = "<h1>Carols Boutique</h1>"+
-                "Thank you for your purhace "+
-                "<br><br><table>"+
-                "<tr>"+
-                "<th>"+"Item"+"</th>"+
-                "<th>"+"Value"+"</th>"+
-                "</tr>";
-                for(LineItem li:sale.getLineItems()){
-                   s+"<tr>"+
-                "<th>"+li.getProduct().getName()+"</th>"+
-                "<th>"+li.getProductID().getPrice+"</th>"+
-                "</tr>";
-                   total+=li.getProductID().getPrice();
-                }
-                "</table>"+
-                "<br><p>Your total is "+total+"</p>"+
-                "<br><p> Return policy:<br>You cannot return this item.</p>"+
-                "<br><p>Please rate us at: www.please_rate_us.co.za</p>"
-
-    public MimeMessage keepAsideCreated(String recipient, LineItem lineItem) throws MessagingException {
+    
+    public MimeMessage keepAsideCreated(String recipient, LineItem lineItem,String prodname) throws MessagingException {
    
         mimeMessage = new MimeMessage(newSession);
         mimeMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
-
-        String body = keepAside(lineItem);
+        String body = keepAside(lineItem,prodname);
         mimeMessage.setSubject("Carol's Boutique receipt");
         mimeMessage.setContent(body,"text/html");
         return mimeMessage;
     }
     
-    public MimeMessage lowStockReminder(String recipient, ArrayList<Product> products) throws MessagingException {
+    public MimeMessage lowStockReminder(String recipient, ArrayList<Stock> products) throws MessagingException {
    
         mimeMessage = new MimeMessage(newSession);
         mimeMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
@@ -343,220 +330,6 @@ public class Email extends Thread{
         mimeMessage.setContent(body,"text/html");
         return mimeMessage;
     }
-    
-    
-    private String receiptString(Sale sale){
-        String s = "<!DOCTYPE html>"+
-"<html>"+
-"<head>"+
-"<title>Page Title</title>"+
-"<style>"+
-"html,body{"+
-"background-Image:url(https://lh3.googleusercontent.com/pw/AM-JKLX9gUfGn2zYC3X-UBvRmfukVm_wdTvPHaojWfE0ZDnopA38hHjB7Q5q21Sed48AmSt8W2-SFKERtlGfpDkXe-8BymJNSGEH9JVTJuHeuFyBWCBm2NhI-7Uu3W3azJLSJyZpF2MhXCffoM_G7-8IqkA=w465-h657-no?authuser=0);"+
-"}"+
-"table{"+
-"overflow-y:auto;"+
-"height:10px;"+
-
-"position:fixed;"+
-"top:120px;"+
-"left:20px;"+
-"border:1px solid white; "+
-"border-collapse: collapse;"+
-"}"+
-"th {"+
-  "border:5px solid white;"+
- " background-color:lightblue;"+
-  "border:1px solid white;"+
-  "border-collapse: collapse;"+
-"}"+
-"tr{"+
- "border-bottom:1px solid white;"+
- "text-align:center;"+
-"}"+
-"td1{"+
- " background-color:lightgrey;"+
- " border:1px solid white;"+
-  "border-collapse: collapse;"+
-"}"+
-"td2{"+
-"background-color:grey;"+
- " border:1px solid white;"+
- " border-collapse: collapse;"+
-"}"+
-
-"h1{"+
-
-"position: fixed;"+
-  "left: 20px;"+
-  "top:20px;"+
- " font-size:30px;"+
-"}"+
-"body{"+
-"background-color:white;"+
-"}"+
-"label8{"+
-  
- " position: fixed;"+
-  "left: 20px;"+
-  "top:90px;"+
-  "font-size:30px;"+
-  "font-size:13px;"+
-"}"+
-
-
-
-"label1{"+
-"font-size:20px;"+
-"position: fixed;"+
-"top: 300px;"+
-"left: 25px;"+
-"}"+
-
-"label2"+
-"font-size:15px;"+
-
-"position:fixed;"+
-"top: 300px;"+
-"left: 25px;"+
-"}"+
-"label3{"+
-"font-size:15px;"+
-"position:fixed;"+
-"top:340px;"+
-"left:25px"+
-"}"+
-
-"label4{"+
-"font-size:15px;"+
-"position:fixed;"+
-"top: 380px;"+
-"left: 25px;"+
-"}"+
-"labelpay{"+
-"font-size:20px;"+
-"position:fixed;"+
-"top: 260px;"+
-"left: 20px;"+
-"}"+
-"label5{"+
-"font-size:15px;"+
-"position:fixed;"+
-"top: 300px;"+
-"left: 300px;"+
-"}"+
-"label6{"+
-"font-size:15px;"+
-"position:fixed;"+
-"top: 340px;"+
-"left: 300px;"+
-"}"+
-"div1{"+
-"BackGround-color:DarkBlue;"+
-"position:fixed;"+
-"top: 372px;"+
-"left: 290px;"+
-"height:30px;"+
-"width:70px;"+
-"}"+
-"div2{"+
-"background-color:lightblue;"+
-"}"+
-"label7{"+
-
-"color:white;"+
-"font-size:15px;"+
-"position:fixed;"+
-"top: 380px;"+
-"left: 300px;"+
-"}"+
-"label9{"+
-"font-size:20px;"+
-"position:fixed;"+
-"top: 430px;"+
-"left: 25px;   "+
-"}"+
-"p1{"+
-"font-size:13px;"+
-"position:fixed;"+
-"top: 460px;"+
-"left: 25px;"+
-"}"+
-"p2{"+
-"font-size:16px;"+
-"position:fixed;"+
-"top:480px;"+
-"left: 25px;"+
-"}"+
-
-
-
-"</style>"+
-"</head>"+
-"<body>"+
-"<h1>Carol's Boutique</h1>"+
-"<label8>Receipt of purchase on:</label8>"+
-
-"<table style=\"overflow-x:auto;\" >"+
-  "<tr>"+
-    "<th style = 'background-color:blue;'>NO:</th>"+
-    "<th style ='width:50%;'>Item</th>"+
-    "<th>Qty</th>"+
-    "<th style ='background-color:blue;'>Amount</th>"+ 
-    
-  "</tr>"+
-
-
-  "<tr style='background-color:lightgrey'>"+
-    "<td>01</td>"+
-    "<td>shirt</td>"+
-    "<td>12</td>"+
-    "<td>1$</td>"+
-    
-    
-  "</tr>"+
-  "<tr style='background-color:rgb(166, 166, 166)'>"+
-    "<td>02</td>"+
-    "<td>pants</td>"+
-    "<td>23</td>"+
-    "<td>2$</td>"+
-  "</tr>"+
-  "<tr style = 'background-color:lightgrey; height: 18px;'>"+
-  "<td></td>"+
-  "<td></td>"+
-  "<td></td>"+
-  "<td></td>"+
-  "</tr>"+
-"</table>"+
-
-"<labelpay><u>Payment info</u></labelpay>"+
-"<label2>Cash/Card:<label2>"+
-"<label3>Card Number:</label3>"+
-"<label4>account type:</label4>"+
-
-
-"<label5>SubTotal:</label5>"+
-"<label6>Tax:</label6>"+
-"<div1>"+
-"<label7>Total</label7>"+
-"</div1>"+
-"<div2>"+
-"<labeltotalAmount></labeltotalAmount>"+
-"</div2>"+
-
-"<label9><u><b>Return policy</b></u></label9>"+
-"<p1>You can return any product within 10 days of purchase.</p1>"+
-"<p2><u>Please rate our service:</u></p2>"+
-
-"</body>"+
-"</html>"
-
-                ;
-        return s;
-    }
-
-    
-    
     
     private String receiptString(Sale sale){
         Integer total = 0;
@@ -823,12 +596,54 @@ public class Email extends Thread{
 "</html>";
     }
     
-    private String keepAside(LineItem lineItem){
-        return "";
+    private String keepAside(LineItem lineItem,String prodname){
+        String s ="<html>\n" +
+"<head>\n" +
+"<title>Page Title</title>\n" +
+"</head>\n" +
+"<body>\n" +
+"\n" +
+"<h1>Carol's Boutique</h1>\n" +
+"\n" +
+"<p>Dear valued customer<br><br>??Number?? of ??Product?? has been kept-aside for your retrieval.<br>Please fetch it within 48 hours at our store before the product will be placed back on the rack.</p>\n" +
+"\n" +
+"<h2>This is your id.</h2>\n" +
+"<h3 style=\"border-width:1px;border-style:solid;width: 200px;border-width:3px\">??ID??<h3>\n" +
+"<p>Please do not lose it as it is needed for retreival of the product.<p>\n" +
+"\n" +
+"</body>\n" +
+"</html>";
+        s=s.replace("??Number??",""+ lineItem.getAmounnt());
+        s=s.replace("??Product??", prodname);
+        return s;
     }
     
-    private String lowStockString(ArrayList<Product> products){
-        return "";
+    private String lowStockString(ArrayList<Stock> stocks){
+        String table= "";
+        for(Stock stock:stocks){
+            table=table+"<tr>"+
+            "<td>"+stock.getProductID()+"</td>"+
+            "<td>"+stock.getProductName()+"</td>"+
+            "<td>"+stock.getAmount()+"</td>"+"</tr>";
+        }
+        String s ="<html>\n" +
+"<head>\n" +
+"<title>remind me</title>\n" +
+"</head>\n" +
+"<body>\n" +
+"<h1>Carol's Boutique<h1>\n" +
+"<p style=\"font-size:20px;\">Dear store manager:</p>\n" +
+"<p style=\"font-size:20px;\">The following products are running low.</p>\n" +
+"<table style =\"width:300px;text-align:center;font-size:20px;background-color:lightblue;\">\n" +
+"<tr>\n" +
+"<th>ID</th>\n" +
+"<th><u>product:<u></th>\n" +
+"<th><u>amount:<u></th>\n" +
+"</tr>\n"+table+
+"</table>\n" +
+"</body>\n" +
+"</html>";
+        return s;
     }
 
 }
