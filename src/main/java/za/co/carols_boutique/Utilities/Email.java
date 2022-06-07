@@ -294,24 +294,85 @@ public class Email extends Thread{
     
     private String receiptString(Sale sale){
         Integer total = 0;
-        String s = "<h1>Carols Boutique</h1>"+
-                "Thank you for your purhace "+
-                "<br><br><table>"+
-                "<tr>"+
-                "<th>"+"Item"+"</th>"+
-                "<th>"+"Value"+"</th>"+
-                "</tr>";
-                for(LineItem li:sale.getLineItems()){
-                   s+"<tr>"+
-                "<th>"+li.getProduct().getName()+"</th>"+
-                "<th>"+li.getProductID().getPrice+"</th>"+
-                "</tr>";
-                   total+=li.getProductID().getPrice();
-                }
-                "</table>"+
-                "<br><p>Your total is "+total+"</p>"+
-                "<br><p> Return policy:<br>You cannot return this item.</p>"+
-                "<br><p>Please rate us at: www.please_rate_us.co.za</p>"
+        String s = "<!DOCTYPE html>\n" +
+"<!DOCTYPE html>\n" +
+"<html>\n" +
+"<head>\n" +
+"<title>receipt</title>\n" +
+"</head>\n" +
+"<body style=\"background-Image:url(https://lh3.googleusercontent.com/pw/AM-JKLX9gUfGn2zYC3X-UBvRmfukVm_wdTvPHaojWfE0ZDnopA38hHjB7Q5q21Sed48AmSt8W2-SFKERtlGfpDkXe-8BymJNSGEH9JVTJuHeuFyBWCBm2NhI-7Uu3W3azJLSJyZpF2MhXCffoM_G7-8IqkA=w465-h657-no?authuser=0);\" >\n" +
+"\n" +
+"<h1><br><br>Carol's Boutique</h1>\n" +
+"<h3>Receipt of purchase on: ??Date??</h3>\n" +
+"\n" +
+"<table style=\"width:400px\">\n" +
+"  <tr>\n" +
+"    <th style = \"background-color:blue;\">NO:</th>\n" +
+"    <th style =\"width:50%;background-color:lightblue\">Item</th>\n" +
+"    <th style =\"background-color:lightblue;\">Qty</th>\n" +
+"    <th style =\"background-color:blue;\">Amount</th> \n" +
+"    \n" +
+"  </tr>\n" +
+"\n" +
+"\n" +
+"  <tr style=\"background-color:lightgrey\">\n" +
+"    <td>01</td>\n" +
+"    <td>shirt</td>\n" +
+"    <td>12</td>\n" +
+"    <td>1$</td>\n" +
+"    \n" +
+"    \n" +
+"  </tr>\n" +
+"  <tr style=\"background-color:rgb(166, 166, 166)\">\n" +
+"    <td>02</td>\n" +
+"    <td>pants</td>\n" +
+"    <td>23</td>\n" +
+"    <td>2$</td>\n" +
+"  </tr>\n" +
+"  <tr style = \"background-color:lightgrey; height: 18px;\">\n" +
+"  <td></td>\n" +
+"  <td></td>\n" +
+"  <td></td>\n" +
+"  <td></td>\n" +
+"  </tr>\n" +
+"</table>\n" +
+"<br>\n" +
+"<table style=\"width:400px\">\n" +
+"  <tr style=\"text-align:left\">\n" +
+"    <th >Payment Info</th>\n" +
+"    <th ></th>\n" +
+"    <th></th>\n" +
+"    <th ></th> \n" +
+"    \n" +
+"  </tr>\n" +
+"\n" +
+"\n" +
+"  <tr>\n" +
+"    <td>Cash/Card</td>\n" +
+"    <td>?cash/card?</td>\n" +
+"    <td>SubTotal:</td>\n" +
+"    <td>?subTotal?</td>\n" +
+"    \n" +
+"    \n" +
+"  </tr>\n" +
+"  <tr >\n" +
+"    <td>Number:</td>\n" +
+"    <td>?Number?</td>\n" +
+"    <td>Tax</td>\n" +
+"    <td>?tax?</td>\n" +
+"  </tr>\n" +
+"  <tr>\n" +
+"  <td>Account type:</td>\n" +
+"  <td>?Account type?</td>\n" +
+"  <td>Total</td>\n" +
+"  <td>?total?</td>\n" +
+"  </tr>\n" +
+"</table>\n" +
+"<h4><u><b>Return policy</b></u></h4>\n" +
+"<h5>You can return any product within 10 days of purchase.</h5>\n" +
+"<h6><u>Please rate our service:?Link?</u></h6>\n" +
+"</body>\n" +
+"</html>"
                 ;
         return s;
     }
@@ -319,46 +380,181 @@ public class Email extends Thread{
     
     private String amendedReceiptString(Sale sale){
         String s = "<h1>Carols Boutique</h1>"+
-                "Thank you for your purhace "+sale.getCustomerID()+
-                "<br><br><table>"+
-                "<tr>"+
-                "<th>"+"Item"+"</th>"+
-                "<th>"+"Value"+"</th>"+
-                "</tr>"+
-                "<tr>"+
-                "<td>"+"Item1"+"</td>"+
-                "<td>"+"$20.5"+"</td>"+
-                "</tr>"+
-                "<tr>"+
-                "<td>"+"Item2"+"</td>"+
-                "<td>"+"$31.6"+"</td>"+
-                "</tr>"+
-                "</table>"+
-                "<br><p>Your total is "+"$52.1"+"</p>"+
-                "<br><p> Return policy:<br>You cannot return this item.</p>"+
-                "<br><p>Please rate us at: www.please_rate_us.co.za</p>"
+                "<!DOCTYPE html>\n" +
+"<html>\n" +
+"<head>\n" +
+"<title>Page Title</title>\n" +
+"</head>\n" +
+"<body>\n" +
+"<h1><br><br>Carol's Boutique</h1>\n" +
+"<h3>Receipt of purchase on: ??Date??</h3>\n" +
+"\n" +
+"<table style=\"width:400px\">\n" +
+"  <tr>\n" +
+"    <th style = \"background-color:blue;\">NO:</th>\n" +
+"    \n" +
+"    <th style =\"width:50%;background-color:lightblue\">Item</th>\n" +
+"    <th style =\"background-color:lightblue;\">Qty</th>\n" +
+"    <th style =\"background-color:blue;\">Amount</th> \n" +
+"    \n" +
+"    \n" +
+"    \n" +
+"  </tr>\n" +
+"\n" +
+"\n" +
+"  <tr style=\"background-color:lightgrey\">\n" +
+"    <td>01</td>\n" +
+"    <td>shirt</td>\n" +
+"    <td>12</td>\n" +
+"    <td>1$</td>\n" +
+"    \n" +
+"    \n" +
+"  </tr>\n" +
+"  <tr style=\"background-color:rgb(166, 166, 166)\">\n" +
+"    <td>02</td>\n" +
+"    <td>pants</td>\n" +
+"    <td>23</td>\n" +
+"    <td>2$</td>\n" +
+"  </tr>\n" +
+"  <tr style=\"background-color:rgb(255, 77, 77);\">\n" +
+"  <td>03</td>\n" +
+"  <td style=\"background-color:rgb(255, 77, 77);\">-gloves</td>\n" +
+"  <td>2</td>\n" +
+"  <td>2$</td>\n" +
+"  </tr>\n" +
+"  <tr style=\"background-color:lightgreen\">\n" +
+"  <td>04</td>\n" +
+"  <td style=\"background-color:lightgreen;\">+gloves</td>\n" +
+"  <td>20</td>\n" +
+"  <td>$30</td>\n" +
+"  </tr>\n" +
+"  <tr style = \"background-color:lightgrey; height: 18px;\">\n" +
+"  <td></td>\n" +
+"  <td></td>\n" +
+"  <td></td>\n" +
+"  <td></td>\n" +
+"  </tr>\n" +
+"</table>\n" +
+"<br>\n" +
+"<table style=\"width:400px\">\n" +
+"  <tr style=\"text-align:left\">\n" +
+"    <th >Payment Info</th>\n" +
+"    <th ></th>\n" +
+"    <th></th>\n" +
+"    <th ></th> \n" +
+"    \n" +
+"  </tr>\n" +
+"\n" +
+"\n" +
+"  <tr>\n" +
+"    <td>Cash/Card</td>\n" +
+"    <td>??Cash/Card??</td>\n" +
+"    <td>SubTotal:</td>\n" +
+"    <td>??subTotal??</td>\n" +
+"    \n" +
+"    \n" +
+"  </tr>\n" +
+"  <tr >\n" +
+"    <td>Number:</td>\n" +
+"    <td>??Number??</td>\n" +
+"    <td>Tax</td>\n" +
+"    <td>??tax??</td>\n" +
+"  </tr>\n" +
+"  <tr>\n" +
+"  <td>Account type:</td>\n" +
+"  <td>??Account type??</td>\n" +
+"  <td>Total</td>\n" +
+"  <td>??total??</td>\n" +
+"  </tr>\n" +
+"</table>\n" +
+"<h4><u><b>Return policy</b></u></h4>\n" +
+"<h5>You can return any product within 10 days of purchase.</h5>\n" +
+"<h6 Style = \"font-size:15px\"><u>Please rate our service:??link??</u></h6>\n" +
+"</body>\n" +
+"</html>"
                 ;
         return s;
     }
     
     private String refundString(Sale sale, LineItem lineItem){
-        return "";
+        String s ="<!DOCTYPE html>\n" +
+"<html>\n" +
+"<head>\n" +
+"<title>Page Title</title>\n" +
+"</head>\n" +
+"<body>\n" +
+"\n" +
+"<h1 style =\"font-size:40px;\">Carols Boutique</h1>\n" +
+"<h2>Your refund has been processed.<br><br>??account?? has been refunded on this ??date??.</h3>\n" +
+"\n" +
+"\n" +
+"</body>\n" +
+"</html>";
+        return s;
     }
     
     private String promoString(){
-        return "";
+        return "<html>\n" +
+"<head>\n" +
+"<title>Page Title</title>\n" +
+"</head>\n" +
+"<body>\n" +
+"\n" +
+"<h1><u>Carol's Boutique</u></h1>\n" +
+"<p1>At carol's Boutique we have great deals</p1><br>\n" +
+"\n" +
+"<p2>Save 20% off on your next purchase with this Promocode<br><p2><br>\n" +
+"<table style=\"font-size:20px\">\n" +
+"<tr>\n" +
+"<th>PromoCode:</th>\n" +
+"<th Style =\"border-style:solid;border-width:6px;border-color:black;\">??PromoCode??</th>\n" +
+"</tr>\n" +
+"</table>\n" +
+"</body>\n" +
+"</html>";
     }
     
     private String reminder24hString(LineItem lineItem){
-        return "";
+        return "<!DOCTYPE html>\n" +
+"<html>\n" +
+"<head>\n" +
+"<title>remind me</title>\n" +
+"</head>\n" +
+"<body>\n" +
+"<h1>Carol's Boutique</h1>\n" +
+"<p1>Dear valued customer</p1><br><br>\n" +
+"<p2>You have ??amount?? of ??product?? waiting for you at our store.<br>Please pick it up within 24 hours before it gets removed from keep aside.<br></p2>\n" +
+"\n" +
+"</body>\n" +
+"</html>";
     }
     
     private String reminder36hString(LineItem lineItem){
-        return "";
+        return "<!DOCTYPE html>\n" +
+"<html>\n" +
+"<head>\n" +
+"<title>remind me</title>\n" +
+"</head>\n" +
+"<body>\n" +
+"<h1>Carol's Boutique</h1>\n" +
+"<p1>Dear valued customer</p1><br><br>\n" +
+"<p2>You have ??amount?? of ??product?? waiting for you at our store.<br>Please pick it up within 12 hours before it gets removed from keep aside.<br></p2>\n" +
+"\n" +
+"</body>\n" +
+"</html>";
     }
     
     private String reminder48hString(LineItem lineItem){
-        return "";
+        return "<html>\n" +
+"<head>\n" +
+"<title>latereminder</title>\n" +
+"</head>\n" +
+"<body>\n" +
+"<h1>Carol's Boutique</h1>\n" +
+"<p1>Dear valued customer<br><br></p1>\n" +
+"<p2>24 hours has passed, your product has been placed back on the rack. If you are still in interested in this product, please visit any of our stores.<p2>\n" +
+"</body>\n" +
+"</html>";
     }
 
 }

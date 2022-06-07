@@ -13,6 +13,8 @@ import za.co.carols_boutique.Utilities.Email;
 public class Test {
     public static void main(String[] args) {
         Email email = new Email("sendReceipt","jeanpaulalexainaude@gmail.com");
+        Email email2 = new Email("sendRefund","jeanpaulalexainaude@gmail.com");
+        Email email3 = new Email("sendAmendedReceipt","jeanpaulalexainaude@gmail.com");
     }
     
 }
