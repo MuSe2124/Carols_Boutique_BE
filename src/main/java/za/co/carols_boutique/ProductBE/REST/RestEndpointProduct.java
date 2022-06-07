@@ -24,7 +24,7 @@ import za.co.carols_boutique.models.Stock;
  *
  * @author Jomar
  */
-@Path("product")
+@Path("/product")
 public class RestEndpointProduct {
     
     private ProdService service = new ProdServiceImp(new DAOProductImp());

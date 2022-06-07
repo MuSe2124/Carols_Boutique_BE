@@ -28,6 +28,11 @@ public class Product {
         this.price = price;
     }
 
+    public Product(String id) {
+        this.id = id;
+    }
+
+    
     public Product() {
     }
 

@@ -18,99 +18,149 @@ import za.co.carols_boutique.models.Report;
 import za.co.carols_boutique.models.Review;
 import java.util.Iterator;
 import java.util.Collections;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import za.co.carols_boutique.models.EmpSale;
+import za.co.carols_boutique.models.ProdStore;
+import za.co.carols_boutique.models.Product;
+import za.co.carols_boutique.models.ProductReport;
+import za.co.carols_boutique.models.Sale;
+import za.co.carols_boutique.models.StoreSale;
+import za.co.carols_boutique.models.StoreSales;
+
 /**
  *
  * @author HP
  */
-public class DAORepImp implements DAORep{
+public class DAORepImp implements DAORep {
+
     private Connection con;
     private PreparedStatement ps;
     private ResultSet rs;
-    private int rowsAffected; 
+    private int rowsAffected;
 
     public DAORepImp() {
-        try{//com.mysql.cj.jdbc.Driver
+        try {//com.mysql.cj.jdbc.Driver
             Class.forName("com.mysql.jdbc.Driver");
-        }catch(ClassNotFoundException e){
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
         String URL = "jdbc:mysql://localhost:3306/carolsboutique";
-        try{
-            con = (Connection)DriverManager.getConnection(URL,"root","root");
-        }catch(SQLException e){
+        try {
+            con = (Connection) DriverManager.getConnection(URL, "root", "root");
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-    
+
     @Override
     public Report viewTopAchievingStores(String month) {
-        Report report = null;
-        if(con!=null){
-            try{
-                ps = con.prepareStatement("");
-                rs=ps.executeQuery();
-                while(rs.next()){
-                    
+        Report report = new Report();
+        List<StoreSale> storeSales = new ArrayList<StoreSale>();
+        if (con != null) {
+            try {
+                ps = con.prepareStatement("select name,id from store");
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    String name = rs.getString("name");
+                    Integer total = 0;
+                    ps = con.prepareStatement("select total from lineitem inner join sale on lineitem.sale = sale.id where monthname(date) = ?");
+                    ps.setString(1, month);
+                    ResultSet rs2 = ps.executeQuery();
+                    while (rs2.next()) {
+                        total += rs.getInt("total");
+                    }
+                    StoreSale ss = new StoreSale(name, total);
+                    storeSales.add(ss);
                 }
-            }catch(SQLException e){
+                report.setStoreSales(storeSales);
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
+
         return report;
     }
+
     //shuffle them and return an x amount of them 
     @Override
     public Report getCustomerReviews(String month, Integer amount) {
-        List<Review> reviews=null;
-        //String id, String comment, Integer rating, Date date
-        Report report = null;
-        if(con!=null){
-            try{
-                ps = con.prepareStatement("Select id,comment,rating,date from Review");
-                rs=ps.executeQuery();
-                reviews = new ArrayList<>();
-                while(rs.next()){
-                    reviews.add(new Review(rs.getString("id"),rs.getString(""),rs.getInt(""),rs.getDate("")));
+        Report report = new Report();
+        List<Review> reviews = new ArrayList<Review>();
+        List<Review> rev = new ArrayList<>();
+
+        if (con != null) {
+            try {
+                ps = con.prepareStatement("select * from review where monthname(date) = ?");
+                ps.setString(1, month);
+                rs = ps.executeQuery();
+
+                while (rs.next()) {
+                    reviews.add(new Review(rs.getString("comment"), rs.getInt("rating")));
                 }
-                //Iterator it = reviews.iterator();
-                
-            }catch(SQLException e){
-                e.printStackTrace();
+            } catch (SQLException ex) {
+                Logger.getLogger(DAORepImp.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+            Collections.shuffle(reviews);
+            for (int i = 0; i < amount; i++) {
+                rev.add(reviews.get(i));
+            }
         }
-//        Collection col = new Collection();
+        report.setReviews(rev);
         return report;
     }
-    
+
     @Override
     public Report viewMonthlySales(String storeID, String month) {
-        Report report = null;
-        if(con!=null){
-            try{
-                ps = con.prepareStatement("");
-                rs=ps.executeQuery();
-                while(rs.next()){
-                    
+        Report report = new Report();
+        List<StoreSales> storeSales = new ArrayList<>();
+        if (con != null) {
+            try {
+                ps = con.prepareStatement("select name,id from store");
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    List<Sale> sales = new ArrayList<>();
+                    String name = rs.getString("name");
+                    Integer total = 0;
+                    ps = con.prepareStatement("select * from sale inner join lineitem on sale.id = lineitem.sale where storeID = ? and monthname(date) = ?");
+                    ps.setString(1, storeID);
+                    ps.setString(2, month);
+                    ResultSet rs2 = ps.executeQuery();
+                    while (rs2.next()) {
+                        total += rs.getInt("total");
+                        sales.add(new Sale(storeID, rs.getString("id")));
+                    }
+                    StoreSales ss = new StoreSales(name, sales);
+                    storeSales.add(ss);
                 }
-            }catch(SQLException e){
+                report.setStoresSales(storeSales);
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
+
         return report;
     }
 
     @Override
     public Report viewTopSellingEmployees(String storeID, String month) {
-        Report report = null;
-        if(con!=null){
-            try{
-                ps = con.prepareStatement("");
-                rs=ps.executeQuery();
-                while(rs.next()){
-                    
-                }
-            }catch(SQLException e){
+        Report report = new Report();
+        List<EmpSale> empSales = new ArrayList<>();
+        if (con != null) {
+            try {
+                    Integer total = 0;
+                    ps = con.prepareStatement("select * from sale inner join employee on employee.id = sale.employeeID where employee.storeID = ? and monthname(date) = ?");           
+                ps.setString(1, storeID);
+                ps.setString(2, month);
+                rs = ps.executeQuery();
+                String name;                   
+                    while (rs.next()) {
+                        total++;
+                        name = rs.getString("name");
+                        empSales.add(new EmpSale(total, storeID));
+                    }       
+                report.setEmpSales(empSales);
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
@@ -119,33 +169,50 @@ public class DAORepImp implements DAORep{
 
     @Override
     public Report viewStoresThatAchievedTarget(String month) {
-        
-        Report report = null;
-        if(con!=null){
-            try{
-                ps = con.prepareStatement("");
-                rs=ps.executeQuery();
-                while(rs.next()){
-                    
+        Report report = new Report();
+        List<StoreSales> storeSales = new ArrayList<>();
+        if (con != null) {
+            try {
+                ps = con.prepareStatement("select * from store where total > target and monthname(date) = ?");
+                ps.setString(1, month);
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    String name = rs.getString("name");
+                    Float target = rs.getFloat("target");
+                    StoreSales ss = new StoreSales(name, target);
+                    storeSales.add(ss);
                 }
-            }catch(SQLException e){
+                report.setStoresSales(storeSales);
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
+
         return report;
     }
 
     @Override
     public Report viewTopSellingProducts(String month) {
-        Report report = null;
-        if(con!=null){
-            try{
-                ps = con.prepareStatement("");
-                rs=ps.executeQuery();
-                while(rs.next()){
-                    
+        Report report = new Report();
+        List<ProdStore> prodStores = new ArrayList<>();
+        if (con != null) {
+            try {
+                ps = con.prepareStatement("select * from product");
+               
+                rs = ps.executeQuery();
+                List<Product>products = new ArrayList<>();
+                while (rs.next()) {                    
+                    products.add(new Product(rs.getString("id")));
                 }
-            }catch(SQLException e){
+                
+                for(Product p:products) {
+                    ps = con.prepareStatement("select total from lineitem inner join sale on lineitem.sale = sale.id where monthname(date) = ? and product = ?");
+                    ps.setString(1, month);
+                    ps.setString(2, p.getId());                    
+                    prodStores.add(new ProdStore(rs.getString("storeID"), rs.getString("productID"), rs.getInt("amount")));
+                }
+                report.setProdStores(prodStores);
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
@@ -153,101 +220,140 @@ public class DAORepImp implements DAORep{
     }
 
     @Override
-    public Report viewLeastPerformingStores(Date starDate, Date endDate) {
-        Report report = null;
-        if(con!=null){
-            try{
-                ps = con.prepareStatement("");
-                rs=ps.executeQuery();
-                while(rs.next()){
-                    
+    public Report viewLeastPerformingStores(String month) {
+        Report report = new Report();
+        List<StoreSale> storeSales = new ArrayList<StoreSale>();
+        if (con != null) {
+            try {
+                ps = con.prepareStatement("select name,id from store");
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    String name = rs.getString("name");
+                    Integer total = 0;
+                    ps = con.prepareStatement("select total from lineitem inner join sale on lineitem.sale = sale.id where monthname(date) = ?");
+                    ps.setString(1, month);
+                    ResultSet rs2 = ps.executeQuery();
+                    while (rs2.next()) {
+                        total += rs.getInt("total");
+                    }
+                    StoreSale ss = new StoreSale(name, total);
+                    storeSales.add(ss);
                 }
-            }catch(SQLException e){
+                report.setStoreSales(storeSales);
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
+
         return report;
     }
 
     @Override
     public Report viewProductReport(String productID, String month) {
-        Report report = null;
-        if(con!=null){
-            try{
-                ps = con.prepareStatement("");
-                rs=ps.executeQuery();
-                while(rs.next()){
-                    
+        Report report = new Report();
+        List<ProductReport> products = new ArrayList<>();
+        if (con != null) {
+            try {
+                ps = con.prepareStatement("select name,description from product where productID = ?");
+                ps.setString(1, productID);
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    String name = rs.getString("name");
+                    Integer total = 0;
+                    ps = con.prepareStatement("select productID from lineitem inner join sale on lineitem.sale = sale.id and employee.id = sale.employeeID where monthname(date) = ?");
+                    ps.setString(1, month);
+                    ResultSet rs2 = ps.executeQuery();
+                    while (rs2.next()) {
+                        total += rs.getInt("total");
+                    }
+                    ProductReport pr = new ProductReport(rs2.getString("name"), rs2.getString("employeeID"), rs2.getString("amount"));
+                    products.add(pr);
                 }
-            }catch(SQLException e){
+                report.setProductReport(products);
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
+
         return report;
     }
 
     @Override
     public Report viewDailySalesReport(String storeID) {
-        Report report = null;
-        if(con!=null){
-            try{
-                ps = con.prepareStatement("");
-                rs=ps.executeQuery();
-                while(rs.next()){
-                    
+        Report report = new Report();
+        List<StoreSales> storeSales = new ArrayList<>();
+        if (con != null) {
+            try {
+                ps = con.prepareStatement("select name,id from store");
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    List<Sale> sales = new ArrayList<>();
+                    String name = rs.getString("name");
+                    Integer total = 0;
+                    ps = con.prepareStatement("select * from sale inner join lineitem on sale.id = lineitem.sale where storeID = ? and monthname(date) = ?");
+                    ps.setString(1, storeID);
+                    ResultSet rs2 = ps.executeQuery();
+                    while (rs2.next()) {
+                        total += rs.getInt("total");
+                        sales.add(new Sale(storeID, rs.getString("id")));
+                    }
+                    StoreSales ss = new StoreSales(name, sales, rs2.getFloat("target"));
+                    storeSales.add(ss);
                 }
-            }catch(SQLException e){
+                report.setStoresSales(storeSales);
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
+
         return report;
     }
 
     @Override
     public Boolean addReview(Review review) {
-        rowsAffected=0;
-        if(con!=null){
-            try{
+        rowsAffected = 0;
+        if (con != null) {
+            try {
                 //String id, String comment, Integer rating, Date date
                 ps = con.prepareStatement("insert into Review(id,comment,rating,date) values(?,?,?,?)");
                 ps.setString(1, review.getId());
                 ps.setString(2, review.getComment());
                 ps.setInt(3, review.getRating());
                 ps.setDate(4, (java.sql.Date) review.getDate());
-                rowsAffected=ps.executeUpdate();
-                
-            }catch(SQLException e){
+                rowsAffected = ps.executeUpdate();
+
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
-        if(rowsAffected!=1){
+        if (rowsAffected != 1) {
             return false;
-        }else{
-        return true;
+        } else {
+            return true;
         }
     }
 
     @Override
     public Boolean addCustomer(Customer customer) {
-        rowsAffected=0;
+        rowsAffected = 0;
         //String id, String name, String phoneNumber, String email
-        if(con!=null){
-            try{
+        if (con != null) {
+            try {
                 ps = con.prepareStatement("Insert into Customer(id,name,phoneNumber,email) values(?,?,?,?)");
                 ps.setString(1, customer.getId());
                 ps.setString(2, customer.getName());
                 ps.setString(3, customer.getPhoneNumber());
                 ps.setString(4, customer.getEmail());
-                rowsAffected=ps.executeUpdate();
-            }catch(SQLException e){
+                rowsAffected = ps.executeUpdate();
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
-        if(rowsAffected!=1){
+        if (rowsAffected != 1) {
             return false;
-        }else{
-        return true;
+        } else {
+            return true;
         }
     }
-    
+
 }

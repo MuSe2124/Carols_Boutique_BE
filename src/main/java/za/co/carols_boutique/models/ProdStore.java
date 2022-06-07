@@ -1,6 +1,6 @@
 package za.co.carols_boutique.models;
 
-public class ProdStore {
+public class ProdStore implements Comparable<Object>{
    
     private String id;
     private String storeID;
@@ -60,6 +60,11 @@ public class ProdStore {
     @Override
     public String toString() {
         return "ProdStore{" + "id=" + id + ", storeID=" + storeID + ", productID=" + productID + ", amount=" + amount + '}';
+    }
+
+    @Override
+    public int compareTo(Object arg0) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
     

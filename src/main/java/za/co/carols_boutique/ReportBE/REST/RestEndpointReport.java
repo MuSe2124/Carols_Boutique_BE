@@ -26,7 +26,7 @@ import za.co.carols_boutique.models.Review;
  *
  * @author Jomar
  */
-@Path("report")
+@Path("/report")
 public class RestEndpointReport {
     
     private RepService service = new RepServiceImp();

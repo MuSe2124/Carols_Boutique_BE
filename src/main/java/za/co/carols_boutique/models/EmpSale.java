@@ -8,6 +8,54 @@ package za.co.carols_boutique.models;
  *
  * @author muaad
  */
-public class EmpSale {
+public class EmpSale implements Comparable<Object>{
+
+    private String employeeID;
+    private Integer saleTotal;
+    private String storeID;
+
+    public EmpSale(String employeeID, Integer saleTotal, String storeID) {
+        this.employeeID = employeeID;
+        this.saleTotal = saleTotal;
+        this.storeID = storeID;
+    }
+
+    public EmpSale(Integer saleTotal, String storeID) {
+        this.saleTotal = saleTotal;
+        this.storeID = storeID;
+    }
+    
+    
+
+    public String getEmployee() {
+        return employeeID;
+    }
+
+    public void setEmployee(String employeeID) {
+        this.employeeID = employeeID;
+    }
+
+    public Integer getSaleTotal() {
+        return saleTotal;
+    }
+
+    public void setSaleTotal(Integer saleTotal) {
+        this.saleTotal = saleTotal;
+    }
+
+    public String getStoreID() {
+        return storeID;
+    }
+
+    public void setStoreID(String storeID) {
+        this.storeID = storeID;
+    }
+    
+     
+    @Override
+    public int compareTo(Object o) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+    
     
 }

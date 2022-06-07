@@ -36,6 +36,11 @@ public class Sale {
         this.date = date;
     }
 
+    public Sale(String storeID, String lineItemID) {
+        this.storeID = storeID;
+        this.lineItemID = lineItemID;
+    }
+
     public Sale() {
     }
 

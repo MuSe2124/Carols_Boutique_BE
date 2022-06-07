@@ -24,11 +24,12 @@ public class Review {
         this.date = date;
     }
 
-    public Review(String comment, Integer rating, Date date) {
+    public Review(String comment, Integer rating) {
         this.comment = comment;
         this.rating = rating;
-        this.date = date;
     }
+    
+    
 
     public Review() {
     }
