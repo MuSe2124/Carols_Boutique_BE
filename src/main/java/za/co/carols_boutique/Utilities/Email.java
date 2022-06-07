@@ -12,6 +12,7 @@ import java.util.Properties;
 import za.co.carols_boutique.models.LineItem;
 import za.co.carols_boutique.models.Product;
 import za.co.carols_boutique.models.Sale;
+import za.co.carols_boutique.models.Stock;
 /**
  *
  * @author Jomar
@@ -30,7 +31,7 @@ public class Email extends Thread{
     Sale sale;
     LineItem preLineItem;
     LineItem postLineItem;
-    ArrayList<Product> products;
+    ArrayList<Stock> products;
 
     public Email(String action, String recipient){
         this.action = action;
@@ -75,7 +76,7 @@ public class Email extends Thread{
         this.start();
     }
     
-    public Email(String action, String recipient, ArrayList<Product> products){
+    public Email(String action, String recipient, ArrayList<Stock> products){
         this.action = action;
         this.recipient = recipient;
         this.products = products;
