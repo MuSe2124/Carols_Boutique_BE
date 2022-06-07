@@ -9,6 +9,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -252,6 +255,7 @@ public class DAORepImp implements DAORep {
     public Report viewProductReport(String productID, String month) {
         Report report = new Report();
         List<ProductReport> products = new ArrayList<>();
+        
         if (con != null) {
             try {
                 ps = con.prepareStatement("select name,description from product where productID = ?");
@@ -281,26 +285,25 @@ public class DAORepImp implements DAORep {
     @Override
     public Report viewDailySalesReport(String storeID) {
         Report report = new Report();
-        List<StoreSales> storeSales = new ArrayList<>();
+        List<StoreSale> storeSales = new ArrayList<>();
+        DateTimeFormatter date = DateTimeFormatter.ofPattern("yyyyMMdd");
         if (con != null) {
             try {
-                ps = con.prepareStatement("select name,id from store");
+                
+                ps = con.prepareStatement("select * from sale where date = ? and storeID = ?");
+                ps.setString(1, LocalDate.now().format(date));
+                ps.setString(2, storeID);
                 rs = ps.executeQuery();
+                PreparedStatement ps2;
+                ps2 = con.prepareStatement("select * from store where id = ?");
+                ps2.setString(1, storeID);
+                ResultSet rs2;
+                rs2 = ps2.executeQuery();
                 while (rs.next()) {
-                    List<Sale> sales = new ArrayList<>();
-                    String name = rs.getString("name");
-                    Integer total = 0;
-                    ps = con.prepareStatement("select * from sale inner join lineitem on sale.id = lineitem.sale where storeID = ? and monthname(date) = ?");
-                    ps.setString(1, storeID);
-                    ResultSet rs2 = ps.executeQuery();
-                    while (rs2.next()) {
-                        total += rs.getInt("total");
-                        sales.add(new Sale(storeID, rs.getString("id")));
-                    }
-                    StoreSales ss = new StoreSales(name, sales, rs2.getFloat("target"));
-                    storeSales.add(ss);
+                    
+                  storeSales.add(new StoreSale(rs2.getString("Name"), rs2.getInt("total"), rs2.getFloat("target") ));
                 }
-                report.setStoresSales(storeSales);
+                report.setStoreSales(storeSales);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
