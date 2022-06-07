@@ -21,7 +21,7 @@ public interface RepService {
     Report viewTopSellingEmployees(String storeID, String month);
     Report viewStoresThatAchievedTarget(String month);
     Report viewTopSellingProducts(String month);
-    Report viewLeastPerformingStores(Date startDate, Date endDate);
+    Report viewLeastPerformingStores(String month);
     Report viewProductReport(String productID, String month);
     Report viewDailySalesReport(String storeID);
     

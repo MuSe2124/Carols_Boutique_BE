@@ -74,15 +74,13 @@ public class RestEndpointReport {
     }
     
     @GET
-    @Path("/viewLeastPerformingStores/startDate/endDate")
+    @Path("/viewLeastPerformingStores/month")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response viewLeastPerformingStores(@PathParam("startDate")String startDate, @PathParam("endDate")String endDate){
+    public Response viewLeastPerformingStores(@PathParam("month")String month){
         Response response = null;
-        try {
-            response = Response.status(Response.Status.OK).entity(service.viewLeastPerformingStores(new SimpleDateFormat("dd/MM/yyyy").parse(startDate),new SimpleDateFormat("dd/MM/yyyy").parse(endDate))).build();
-        } catch (ParseException ex) {
-            return null;
-        }
+        
+            response = Response.status(Response.Status.OK).entity(service.viewLeastPerformingStores(month)).build();
+        
         return response;
     }
     

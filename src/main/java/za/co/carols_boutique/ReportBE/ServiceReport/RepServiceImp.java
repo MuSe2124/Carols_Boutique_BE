@@ -84,8 +84,8 @@ public class RepServiceImp implements RepService {
     }
 
     @Override
-    public Report viewLeastPerformingStores(Date startDate, Date endDate) {
-        Report report = dao.viewLeastPerformingStores(startDate, endDate);
+    public Report viewLeastPerformingStores(String month) {
+        Report report = dao.viewLeastPerformingStores(month);
         if (report != null) {
             return report;
         } else {
