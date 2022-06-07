@@ -8,12 +8,15 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import za.co.carols_boutique.EmployeeBE.ServiceEmployee.EmpService;
 import za.co.carols_boutique.EmployeeBE.ServiceEmployee.EmpServiceImp;
+import za.co.carols_boutique.Utilities.Email;
 import za.co.carols_boutique.models.Employee;
+
 
 /**
  *
@@ -65,7 +68,8 @@ public class RestEndpointEmployee {
     @GET
     @Path("/test")
     @Produces(MediaType.TEXT_PLAIN)
-    public String test(){
-        return "hello world";
+    public String test(@PathParam("recipient") String recipient){
+        new Email("test","jomarvn@gmail.com");
+        return "done";
     }
 }

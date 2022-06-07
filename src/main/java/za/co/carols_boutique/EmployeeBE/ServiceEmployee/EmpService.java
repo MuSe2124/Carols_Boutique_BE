@@ -20,5 +20,6 @@ public interface EmpService {
     String updateEmployee(Employee employee);
     
     String deleteEmployee(String employeeID);
+    void test(String recipient);
     
 }

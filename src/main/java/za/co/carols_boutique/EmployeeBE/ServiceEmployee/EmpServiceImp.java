@@ -6,7 +6,9 @@ package za.co.carols_boutique.EmployeeBE.ServiceEmployee;
 
 import za.co.carols_boutique.EmployeeBE.IDAOEmployee.DAOEmp;
 import za.co.carols_boutique.EmployeeBE.IDAOEmployee.DaoEmpImp;
+import za.co.carols_boutique.Utilities.Email;
 import za.co.carols_boutique.models.Employee;
+import za.co.carols_boutique.models.Sale;
 
 /**
  *
@@ -75,6 +77,11 @@ public class EmpServiceImp implements EmpService{
         }else{
             return "Failed to delete employee, please try again.";
         }
+    }
+
+    @Override
+    public void test(String recipient) {
+        new Email("sendReceipt",recipient,new Sale("Sale1","LineItem"));
     }
     
 }

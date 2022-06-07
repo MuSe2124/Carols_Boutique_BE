@@ -5,7 +5,6 @@
 package za.co.carols_boutique.Utilities;
 
 import java.util.ArrayList;
-import za.co.carols_boutique.models.Product;
 import za.co.carols_boutique.models.Stock;
 
 /**
