@@ -4,6 +4,7 @@
  */
 package za.co.carols_boutique.models;
 
+import java.sql.Time;
 import java.util.Date;
 
 /**
@@ -11,89 +12,87 @@ import java.util.Date;
  * @author muaad
  */
 public class KeepAside {
-    private String id;
-    private String storeID;
-    private Date date;
-    private String customerID;
-    private String productID;
 
-    public KeepAside(String id, String storeID, Date date, String customerID, String productID) {
-        this.id = id;
-        this.storeID = storeID;
-        this.date = date;
-        this.customerID = customerID;
-        this.productID = productID;
-    }
+	private String id;
+	private String storeID;
+	private Date date;
+	private String customerEmail;
+	private LineItem lineItem;
+	private Time time; //Format of the time "11:18:11" "hh:mm:ss"
 
-    public KeepAside(String storeID, Date date, String customerID, String productID) {
-        this.storeID = storeID;
-        this.date = date;
-        this.customerID = customerID;
-        this.productID = productID;
-    }
+	public KeepAside(String id, String storeID, Date date, String customerEmail, LineItem lineItem, Time time) {
+		this.id = id;
+		this.storeID = storeID;
+		this.date = date;
+		this.customerEmail = customerEmail;
+		this.lineItem = lineItem;
+		this.time = time;
+	}
 
-    public KeepAside() {
-    }
+	public KeepAside(String id, String storeID, Date date, String customerEmail, Time time) {
+		this.id = id;
+		this.storeID = storeID;
+		this.date = date;
+		this.customerEmail = customerEmail;
+		this.time = time;
+	}
 
-    public String getId() {
-        return id;
-    }
+	public KeepAside(String storeID, Date date, String customerEmail, LineItem lineItem) {
+		this.storeID = storeID;
+		this.date = date;
+		this.customerEmail = customerEmail;
+		this.lineItem = lineItem;
+	}
 
-    public void setId(String id) {
-        this.id = id;
-    }
+	public KeepAside() {
+	}
 
-    public String getStoreID() {
-        return storeID;
-    }
+	public String getId() {
+		return id;
+	}
 
-    public void setStoreID(String storeID) {
-        this.storeID = storeID;
-    }
+	public void setId(String id) {
+		this.id = id;
+	}
 
-    public Date getDate() {
-        return date;
-    }
+	public String getStoreID() {
+		return storeID;
+	}
 
-    public void setDate(Date date) {
-        this.date = date;
-    }
+	public void setStoreID(String storeID) {
+		this.storeID = storeID;
+	}
 
-    public String getCustomerID() {
-        return customerID;
-    }
+	public Date getDate() {
+		return date;
+	}
 
-    public void setCustomerID(String customerID) {
-        this.customerID = customerID;
-    }
+	public void setDate(Date date) {
+		this.date = date;
+	}
 
-    public String getProductID() {
-        return productID;
-    }
+	public String getCustomerEmail() {
+		return customerEmail;
+	}
 
-    public void setProductID(String productID) {
-        this.productID = productID;
-    }
-    
-    public void sendReminder24H(){}
-    
-    public void sendReminder36H(){}
-    
-    public void removeItem(){}
-    
-    public void addItem(){}
-    
-    public void has24HPassed(){}
-    
-    public void has36HPassed(){}
-    
-    public void has48HPassed(){}
+	public void setCustomerEmail(String customerEmail) {
+		this.customerEmail = customerEmail;
+	}
 
-    @Override
-    public String toString() {
-        return "KeepAside{" + "id=" + id + ", storeID=" + storeID + ", date=" + date + ", customerID=" + customerID + ", productID=" + productID + '}';
-    }
-    
-    
-    
+	public LineItem getLineItem() {
+		return lineItem;
+	}
+
+	public Time getTime() {
+		return time;
+	}
+
+	public void setTime(Time time) {
+		this.time = time;
+	}
+
+	@Override
+	public String toString() {
+		return "KeepAside{" + "id=" + id + ", storeID=" + storeID + ", date=" + date + ", customerEmail=" + customerEmail + ", lineItem=" + lineItem + ", time=" + time + '}';
+	}
 }

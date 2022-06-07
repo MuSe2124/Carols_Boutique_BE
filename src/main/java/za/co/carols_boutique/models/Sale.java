@@ -5,103 +5,104 @@
 package za.co.carols_boutique.models;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  *
  * @author muaad
  */
 public class Sale {
-    
-    private String id;
-    private String storeID;
-    private String employeeID;
-    private String lineItemID;
-    private String customerID;
-    private Date date;
 
-    public Sale(String id, String storeID, String employeeID, String lineItemID, String customerID, Date date) {
-        this.id = id;
-        this.storeID = storeID;
-        this.employeeID = employeeID;
-        this.lineItemID = lineItemID;
-        this.customerID = customerID;
-        this.date = date;
-    }
+	private String id;
+	private Store store;
+	private Employee employee;
+	private List<LineItem> lineItems;
+	private String customerEmail;
+	private Date date;
+	private Payment payment;
 
-    public Sale(String storeID, String employeeID, String lineItemID, String customerID, Date date) {
-        this.storeID = storeID;
-        this.employeeID = employeeID;
-        this.lineItemID = lineItemID;
-        this.customerID = customerID;
-        this.date = date;
-    }
+	public Sale(String id, Store store, Employee employee, List<LineItem> lineItems, String customerID, Date date, Payment payment) {
+		this.id = id;
+		this.store = store;
+		this.employee = employee;
+		this.lineItems = lineItems;
+		this.customerEmail = customerID;
+		this.date = date;
+		this.payment = payment;
+	}
 
-    public Sale(String storeID, String lineItemID) {
-        this.storeID = storeID;
-        this.lineItemID = lineItemID;
-    }
+	public Sale(Store store, Employee employee, List<LineItem> lineItems, String customerID, Date date) {
+		this.store = store;
+		this.employee = employee;
+		this.lineItems = lineItems;
+		this.customerEmail = customerID;
+		this.date = date;
+	}
 
-    public Sale() {
-    }
+	public Sale() {
+	}
 
-    public String getId() {
-        return id;
-    }
+	public String getId() {
+		return id;
+	}
 
-    public void setId(String id) {
-        this.id = id;
-    }
+	public void setId(String id) {
+		this.id = id;
+	}
 
-    public String getStoreID() {
-        return storeID;
-    }
+	public Store getStoreID() {
+		return store;
+	}
 
-    public void setStoreID(String storeID) {
-        this.storeID = storeID;
-    }
+	public void setStoreID(Store storeID) {
+		this.store = storeID;
+	}
 
-    public String getEmployeeID() {
-        return employeeID;
-    }
+	public Employee getEmployeeID() {
+		return employee;
+	}
 
-    public void setEmployeeID(String employeeID) {
-        this.employeeID = employeeID;
-    }
+	public void setEmployeeID(Employee employeeID) {
+		this.employee = employeeID;
+	}
 
-    public String getLineItemID() {
-        return lineItemID;
-    }
+	public List<LineItem> getLineItemID() {
+		return lineItems;
+	}
 
-    public void setLineItemID(String lineItemID) {
-        this.lineItemID = lineItemID;
-    }
+	public void setLineItemID(List<LineItem> lineItemID) {
+		this.lineItems = lineItemID;
+	}
 
-    public String getCustomerID() {
-        return customerID;
-    }
+	public String getCustomerEmail() {
+		return customerEmail;
+	}
 
-    public void setCustomerID(String customerID) {
-        this.customerID = customerID;
-    }
+	public void setCustomerEmail(String customerID) {
+		this.customerEmail = customerID;
+	}
 
-    public Date getDate() {
-        return date;
-    }
+	public Date getDate() {
+		return date;
+	}
 
-    public void setDate(Date date) {
-        this.date = date;
-    }
-    
-    public void addLineItem(LineItem lineItem){}
-    
-    public Float calculateTotal(){
-    return null;
-    }
+	public void setDate(Date date) {
+		this.date = date;
+	}
 
-    @Override
-    public String toString() {
-        return "Sale{" + "id=" + id + ", storeID=" + storeID + ", employeeID=" + employeeID + ", lineItemID=" + lineItemID + ", customerID=" + customerID + ", date=" + date + '}';
-    }
-    
-    
+	public void addLineItem(LineItem lineItem) {
+	}
+
+	public Float calculateTotal() {
+		Float flo = null;
+		for (LineItem lineItem : lineItems) {
+			flo += lineItem.getTotal();
+		}
+		return flo;
+	}
+
+	@Override
+	public String toString() {
+		return "Sale{" + "id=" + id + ", storeID=" + store + ", employeeID=" + employee + ", lineItems=" + lineItems + ", customerID=" + customerEmail + ", date=" + date + '}';
+	}   
 }

@@ -96,6 +96,6 @@ public class ProdServiceImp implements ProdService {
 
     @Override
     public void checkLowStock(String storeID) {
-        stockCheck = new StockCheck(dao.lowOnStock(storeID),dao.getStoreManagerEmail(storeID));
+        stockCheck = new StockCheck(dao.getLowStock(storeID),dao.getStoreManagerEmail(storeID));
     }
 }

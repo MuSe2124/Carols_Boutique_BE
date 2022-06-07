@@ -9,64 +9,68 @@ package za.co.carols_boutique.models;
  * @author muaad
  */
 public class LineItem {
-    
-    private String id;
-    private String saleID;
-    private String productID;
-    private Integer amounnt;
 
-    public LineItem(String id, String saleID, String productID, Integer amounnt) {
-        this.id = id;
-        this.saleID = saleID;
-        this.productID = productID;
-        this.amounnt = amounnt;
-    }
+	private String id;
+	private String saleID;
+	private Product product;
+	private Integer amount;
 
-    public LineItem(String saleID, String productID, Integer amounnt) {
-        this.saleID = saleID;
-        this.productID = productID;
-        this.amounnt = amounnt;
-    }
+	public LineItem(String id, String saleID, Product product, Integer amounnt) {
+		this.id = id;
+		this.saleID = saleID;
+		this.product = product;
+		this.amount = amounnt;
+	}
 
-    public LineItem() {
-    }
+	public LineItem(String saleID, Product product, Integer amounnt) {
+		this.saleID = saleID;
+		this.product = product;
+		this.amount = amounnt;
+	}
 
-    public String getID() {
-        return id;
-    }
+	public LineItem() {
+	}
 
-    public void setID(String id) {
-        this.id = id;
-    }
+	public String getID() {
+		return id;
+	}
 
-    public String getSaleID() {
-        return saleID;
-    }
+	public void setID(String id) {
+		this.id = id;
+	}
 
-    public void setSaleID(String saleID) {
-        this.saleID = saleID;
-    }
+	public String getSaleID() {
+		return saleID;
+	}
 
-    public String getProductID() {
-        return productID;
-    }
+	public void setSaleID(String saleID) {
+		this.saleID = saleID;
+	}
 
-    public void setProductID(String productID) {
-        this.productID = productID;
-    }
+	public Product getProduct() {
+		return product;
+	}
 
-    public Integer getAmounnt() {
-        return amounnt;
-    }
+	public void setProductID(Product product) {
+		this.product = product;
+	}
 
-    public void setAmounnt(Integer amounnt) {
-        this.amounnt = amounnt;
-    }
+	public Integer getAmounnt() {
+		return amount;
+	}
 
-    @Override
-    public String toString() {
-        return "LineItem{" + "id=" + id + ", saleID=" + saleID + ", productID=" + productID + ", amounnt=" + amounnt + '}';
-    }
+	public void setAmounnt(Integer amounnt) {
+		this.amount = amounnt;
+	}
+
+	public Float getTotal() {
+		return product.getPrice() * amount;
+	}
+
+	@Override
+	public String toString() {
+		return "LineItem{" + "id=" + id + ", saleID=" + saleID + ", product=" + product.getName() + ", amounnt=" + amount + '}';
+	}
     
     
 }
