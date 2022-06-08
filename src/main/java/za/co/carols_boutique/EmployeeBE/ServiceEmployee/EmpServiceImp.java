@@ -80,9 +80,4 @@ public class EmpServiceImp implements EmpService{
         }
     }
 
-    @Override
-    public void test(String recipient) {
-        new Email("sendReceipt",recipient,new Sale("Sale1","LineItem"));
-    }
-    
 }
