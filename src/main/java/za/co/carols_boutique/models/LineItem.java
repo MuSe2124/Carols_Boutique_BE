@@ -66,6 +66,7 @@ public class LineItem {
 	public Float getTotal() {
 		return product.getPrice() * amount;
 	}
+       
 
 	@Override
 	public String toString() {

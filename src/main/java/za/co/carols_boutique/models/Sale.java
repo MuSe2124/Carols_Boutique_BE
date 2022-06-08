@@ -21,12 +21,12 @@ public class Sale {
 	private Date date;
 	private Payment payment;
 
-	public Sale(String id, Store store, Employee employee, List<LineItem> lineItems, String customerID, Date date, Payment payment) {
+	public Sale(String id, Store store, Employee employee, List<LineItem> lineItems, String customerEmail, Date date, Payment payment) {
 		this.id = id;
 		this.store = store;
 		this.employee = employee;
 		this.lineItems = lineItems;
-		this.customerEmail = customerID;
+		this.customerEmail = customerEmail;
 		this.date = date;
 		this.payment = payment;
 	}
@@ -50,30 +50,6 @@ public class Sale {
 		this.id = id;
 	}
 
-	public Store getStoreID() {
-		return store;
-	}
-
-	public void setStoreID(Store storeID) {
-		this.store = storeID;
-	}
-
-	public Employee getEmployeeID() {
-		return employee;
-	}
-
-	public void setEmployeeID(Employee employeeID) {
-		this.employee = employeeID;
-	}
-
-	public List<LineItem> getLineItemID() {
-		return lineItems;
-	}
-
-	public void setLineItemID(List<LineItem> lineItemID) {
-		this.lineItems = lineItemID;
-	}
-
 	public String getCustomerEmail() {
 		return customerEmail;
 	}
@@ -90,8 +66,6 @@ public class Sale {
 		this.date = date;
 	}
 
-	public void addLineItem(LineItem lineItem) {
-	}
 
 	public Float calculateTotal() {
 		Float flo = null;
@@ -100,6 +74,40 @@ public class Sale {
 		}
 		return flo;
 	}
+
+    public Store getStore() {
+        return store;
+    }
+
+    public void setStore(Store store) {
+        this.store = store;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    public List<LineItem> getLineItems() {
+        return lineItems;
+    }
+
+    public void setLineItems(List<LineItem> lineItems) {
+        this.lineItems = lineItems;
+    }
+
+    public Payment getPayment() {
+        return payment;
+    }
+
+    public void setPayment(Payment payment) {
+        this.payment = payment;
+    }
+        
+        
 
 	@Override
 	public String toString() {

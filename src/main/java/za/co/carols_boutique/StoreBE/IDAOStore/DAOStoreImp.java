@@ -11,11 +11,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import za.co.carols_boutique.models.Employee;
 import za.co.carols_boutique.models.LineItem;
+import za.co.carols_boutique.models.Product;
 import za.co.carols_boutique.models.Sale;
 import za.co.carols_boutique.models.Store;
 
@@ -128,8 +130,8 @@ public class DAOStoreImp implements DAOStore{
 			try {
 				ps = con.prepareStatement("insert into Sale(id,storeID,employeeID,customerEmail,date) values(?,?,?,?,?)");
 				ps.setString(1, sale.getId());
-				ps.setString(2, sale.getStoreID().getId());
-				ps.setString(3, sale.getEmployeeID().getId());
+				ps.setString(2, sale.getStore().getId());
+				ps.setString(3, sale.getEmployee().getId());
 				ps.setString(4, sale.getCustomerEmail());
 				ps.setDate(5, (Date) sale.getDate());
 				rowsAffected = ps.executeUpdate();
@@ -245,4 +247,73 @@ public class DAOStoreImp implements DAOStore{
 			return true;
 		}
 	}
+
+    @Override
+    public Sale getSale(String saleID) {
+        Sale sale = new Sale();
+        sale.setLineItems(new ArrayList<LineItem>());
+       if(con!=null){
+           try {
+               ps = con.prepareStatement("select storeID, employeeID, cutomerEmail, date from store where storeID = ?");
+               ps.setString (1,saleID);
+               rs = ps. executeQuery();
+               if(rs.next()){
+                   sale.setCustomerEmail(rs.getString("customerEmail"));
+                   sale.setId(rs.getString(saleID));
+                   ps = con.prepareStatement("select name, location, password, target from store where id = ?");
+                   ps.setString(1,rs.getString("storeID"));
+                   ResultSet rs2 = ps.executeQuery();
+                   if(rs2.next()){
+                       Store store = new Store(rs.getString("storeID"),
+                                                rs2.getString("name"),
+                                                rs2.getString("location"),
+                                                rs2.getString("password"));
+                       sale.setStore(store);
+                   }
+                   ps = con.prepareStatement("select name,surname,isManager,password,storeID from employee where id = ?");
+                   ps.setString(1,rs.getString("employeeID"));
+                   ResultSet rs3 = ps.executeQuery();
+                   if(rs.next()){
+                       Employee employee = new Employee(
+                                                        rs.getString("employeeID"),
+                                                        rs3.getString("name"),
+                                                        rs3.getString("surname"),
+                                                        rs3.getString("password"),
+                                                        rs3.getString("storeID"),
+                                                        rs3.getBoolean("isManager")
+                       );
+                       sale.setEmployee(employee);
+                   }
+                   ps = con.prepareStatement("select id, product, amount, total, sale from line item where sale = ?");
+                   ps.setString(1,saleID);
+                   ResultSet rs4 = ps.executeQuery();
+                   while(rs4.next()){
+                       ps = con.prepareStatement("select id, name, description, price from product where id = ?");
+                       ps.setString(1,rs4.getString("product"));
+                       ResultSet rs5 = ps.executeQuery();
+                       Product product = null;
+                       if(rs5.next()){
+                           product = new Product(
+                                                rs.getString("id"),
+                                                rs.getString("name"),
+                                                rs.getString("description"),
+                                                rs.getFloat("price")
+                           );
+                       }
+                       LineItem li = new LineItem(
+                                                rs.getString("id"),
+                                                rs.getString("sale"),
+                                                product,
+                                                rs.getInt("amount")
+                               
+                       );
+                       sale.getLineItems().add(li);
+                   }
+               }
+           } catch (SQLException ex) {
+               Logger.getLogger(DAOStoreImp.class.getName()).log(Level.SEVERE, null, ex);
+           }
+       }
+       return sale;
+    }
 }
