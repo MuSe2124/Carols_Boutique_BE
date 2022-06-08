@@ -38,6 +38,11 @@ public class Sale {
 		this.customerEmail = customerID;
 		this.date = date;
 	}
+	
+	public Sale(Store store, String id) {
+		this.store = store;
+		this.id = id;
+	}
 
 	public Sale() {
 	}

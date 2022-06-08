@@ -30,6 +30,7 @@ import za.co.carols_boutique.models.ProdStore;
 import za.co.carols_boutique.models.Product;
 import za.co.carols_boutique.models.ProductReport;
 import za.co.carols_boutique.models.Sale;
+import za.co.carols_boutique.models.Store;
 import za.co.carols_boutique.models.StoreSale;
 import za.co.carols_boutique.models.StoreSales;
 import za.co.carols_boutique.properties.CarolsProperties;
@@ -116,9 +117,9 @@ public class DAORepImp implements DAORep {
         report.setReviews(rev);
         return report;
     }
-
+	
     @Override
-    public Report viewMonthlySales(String storeID, String month) {
+    public Report viewMonthlySales(Store store, String month) {
         Report report = new Report();
         List<StoreSales> storeSales = new ArrayList<>();
         if (con != null) {
@@ -130,12 +131,12 @@ public class DAORepImp implements DAORep {
                     String name = rs.getString("name");
                     Integer total = 0;
                     ps = con.prepareStatement("select * from sale inner join lineitem on sale.id = lineitem.sale where storeID = ? and monthname(date) = ?");
-                    ps.setString(1, storeID);
+                    ps.setString(1, store.getId());
                     ps.setString(2, month);
                     ResultSet rs2 = ps.executeQuery();
                     while (rs2.next()) {
                         total += rs.getInt("total");
-                        sales.add(new Sale(storeID, rs.getString("id")));
+                        sales.add(new Sale(store, rs.getString("id")));
                     }
                     StoreSales ss = new StoreSales(name, sales);
                     storeSales.add(ss);
@@ -150,21 +151,21 @@ public class DAORepImp implements DAORep {
     }
 
     @Override
-    public Report viewTopSellingEmployees(String storeID, String month) {
+    public Report viewTopSellingEmployees(Store store, String month) {
         Report report = new Report();
         List<EmpSale> empSales = new ArrayList<>();
         if (con != null) {
             try {
                     Integer total = 0;
                     ps = con.prepareStatement("select * from sale inner join employee on employee.id = sale.employeeID where employee.storeID = ? and monthname(date) = ?");           
-                ps.setString(1, storeID);
+                ps.setString(1, store.getId());
                 ps.setString(2, month);
                 rs = ps.executeQuery();
                 String name;                   
                     while (rs.next()) {
                         total++;
                         name = rs.getString("name");
-                        empSales.add(new EmpSale(total, storeID));
+                        empSales.add(new EmpSale(total, store.getId()));
                     }       
                 report.setEmpSales(empSales);
             } catch (SQLException e) {
@@ -287,7 +288,7 @@ public class DAORepImp implements DAORep {
     }
 
     @Override
-    public Report viewDailySalesReport(String storeID) {
+    public Report viewDailySalesReport(Store store) {
         Report report = new Report();
         List<StoreSale> storeSales = new ArrayList<>();
         DateTimeFormatter date = DateTimeFormatter.ofPattern("yyyyMMdd");
@@ -296,11 +297,11 @@ public class DAORepImp implements DAORep {
                 
                 ps = con.prepareStatement("select * from sale where date = ? and storeID = ?");
                 ps.setString(1, LocalDate.now().format(date));
-                ps.setString(2, storeID);
+                ps.setString(2, store.getId());
                 rs = ps.executeQuery();
                 PreparedStatement ps2;
                 ps2 = con.prepareStatement("select * from store where id = ?");
-                ps2.setString(1, storeID);
+                ps2.setString(1, store.getId());
                 ResultSet rs2;
                 rs2 = ps2.executeQuery();
                 while (rs.next()) {
