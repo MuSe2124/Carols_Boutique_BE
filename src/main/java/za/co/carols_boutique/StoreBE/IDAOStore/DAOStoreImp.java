@@ -33,7 +33,7 @@ public class DAOStoreImp implements DAOStore{
 	private ResultSet rs;
 	private int rowsAffected;
 
-	public DAOStoreImp() throws IOException {
+	public DAOStoreImp() {
 		Properties p = CarolsProperties.readInProperties("CarolsDatabase.properties");       
         try{//com.mysql.cj.jdbc.Driver
             Class.forName("com.mysql.jdbc.Driver");

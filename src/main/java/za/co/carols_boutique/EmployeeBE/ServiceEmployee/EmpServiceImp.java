@@ -4,6 +4,7 @@
  */
 package za.co.carols_boutique.EmployeeBE.ServiceEmployee;
 
+import java.io.IOException;
 import za.co.carols_boutique.EmployeeBE.IDAOEmployee.DAOEmp;
 import za.co.carols_boutique.EmployeeBE.IDAOEmployee.DaoEmpImp;
 import za.co.carols_boutique.Utilities.Email;

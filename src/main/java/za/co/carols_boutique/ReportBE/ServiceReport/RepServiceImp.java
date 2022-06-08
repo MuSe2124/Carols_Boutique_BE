@@ -4,6 +4,7 @@
  */
 package za.co.carols_boutique.ReportBE.ServiceReport;
 
+import java.io.IOException;
 import java.util.Date;
 import za.co.carols_boutique.ReportBE.IDaoreport.DAORep;
 import za.co.carols_boutique.ReportBE.IDaoreport.DAORepImp;

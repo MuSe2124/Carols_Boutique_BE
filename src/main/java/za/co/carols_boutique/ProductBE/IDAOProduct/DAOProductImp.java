@@ -31,7 +31,7 @@ public class DAOProductImp  implements DAOProduct{
     
 //String id, String name, String description, Float price
    
-    public DAOProductImp() throws IOException{
+    public DAOProductImp() {
        Properties p = CarolsProperties.readInProperties("CarolsDatabase.properties");       
         try{//com.mysql.cj.jdbc.Driver
             Class.forName("com.mysql.jdbc.Driver");

@@ -24,7 +24,7 @@ public class DaoEmpImp implements DAOEmp{
     private String URL;
     //String id, String name, String surname, Boolean isManager
     
-    public DaoEmpImp() throws FileNotFoundException, IOException {
+    public DaoEmpImp() {
         Properties p = CarolsProperties.readInProperties("CarolsDatabase.properties");       
         try{//com.mysql.cj.jdbc.Driver
             Class.forName("com.mysql.jdbc.Driver");

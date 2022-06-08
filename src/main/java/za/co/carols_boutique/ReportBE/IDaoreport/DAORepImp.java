@@ -45,7 +45,7 @@ public class DAORepImp implements DAORep {
     private ResultSet rs;
     private int rowsAffected;
 
-    public DAORepImp() throws IOException {
+    public DAORepImp() {
         Properties p = CarolsProperties.readInProperties("CarolsDatabase.properties");       
         try{//com.mysql.cj.jdbc.Driver
             Class.forName("com.mysql.jdbc.Driver");

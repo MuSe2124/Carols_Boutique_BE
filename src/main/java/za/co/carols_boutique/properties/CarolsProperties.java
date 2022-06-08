@@ -27,11 +27,15 @@ public class CarolsProperties {
         
     }
     
-    public static Properties readInProperties(String fileName) throws FileNotFoundException, IOException{
-        Properties p = new Properties();
+    public static Properties readInProperties(String fileName) {
+        Properties p = null;
+        try{
+         p = new Properties();
         InputStream is = new FileInputStream(fileName);
         
         p.load(is);
+        }catch(IOException ignore){
+        }
         
         return p;
     }
