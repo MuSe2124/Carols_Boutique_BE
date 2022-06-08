@@ -186,6 +186,16 @@ public class Email extends Thread{
                     e.printStackTrace();
                 }   
                 break;
+                
+            case "test":
+                try {
+                    setupServerProperties();
+                    test(recipient);
+                    sendEmail();
+                } catch (MessagingException e) {
+                    e.printStackTrace();
+                }   
+                break;
         }
         
     }
@@ -326,6 +336,16 @@ public class Email extends Thread{
         mimeMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
 
         String body = lowStockString(products);
+        mimeMessage.setSubject("Carol's Boutique receipt");
+        mimeMessage.setContent(body,"text/html");
+        return mimeMessage;
+    }
+    
+    public MimeMessage test(String recipient) throws MessagingException {
+   
+        mimeMessage = new MimeMessage(newSession);
+        mimeMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
+        String body = "This is a test";
         mimeMessage.setSubject("Carol's Boutique receipt");
         mimeMessage.setContent(body,"text/html");
         return mimeMessage;
