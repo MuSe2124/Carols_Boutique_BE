@@ -20,12 +20,17 @@ public class Sale {
 	private String customerEmail;
 	private Date date;
 	private Payment payment;
+
 	public Sale(String id, Store store, Employee employee, List<LineItem> lineItems, String customerID, Date date, Payment payment) {
+
+
+	public Sale(String id, Store store, Employee employee, List<LineItem> lineItems, String customerEmail, Date date, Payment payment) {
+
 		this.id = id;
 		this.store = store;
 		this.employee = employee;
 		this.lineItems = lineItems;
-		this.customerEmail = customerID;
+		this.customerEmail = customerEmail;
 		this.date = date;
 		this.payment = payment;
 	}
@@ -67,30 +72,6 @@ public class Sale {
 		this.id = id;
 	}
 
-	public Store getStoreID() {
-		return store;
-	}
-
-	public void setStoreID(Store storeID) {
-		this.store = storeID;
-	}
-
-	public Employee getEmployeeID() {
-		return employee;
-	}
-
-	public void setEmployeeID(Employee employeeID) {
-		this.employee = employeeID;
-	}
-
-	public List<LineItem> getLineItemID() {
-		return lineItems;
-	}
-
-	public void setLineItemID(List<LineItem> lineItemID) {
-		this.lineItems = lineItemID;
-	}
-
 	public String getCustomerEmail() {
 		return customerEmail;
 	}
@@ -107,8 +88,6 @@ public class Sale {
 		this.date = date;
 	}
 
-	public void addLineItem(LineItem lineItem) {
-	}
 
 	public Float calculateTotal() {
 		Float flo = null;
@@ -149,7 +128,6 @@ public class Sale {
     public void setPayment(Payment payment) {
         this.payment = payment;
     }
-        
 
 	@Override
 	public String toString() {
