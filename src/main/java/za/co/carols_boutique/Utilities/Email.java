@@ -26,7 +26,7 @@ import za.co.carols_boutique.models.Stock;
 // Low stock
 
 public class Email extends Thread{
-    
+    String code;
     Session newSession = null;
     MimeMessage mimeMessage = null;
     String recipient;
@@ -44,13 +44,7 @@ public class Email extends Thread{
         this.recipient = recipient;
         this.start();
     }
-    public Email(String action, String recipient,LineItem lineitem,String productname){
-        this.action = action;
-        this.recipient = recipient;
-        this.preLineItem=lineitem;
-        this.productname= productname;
-        this.start();
-    }
+    
     
     public Email(String action, ArrayList<String> recipients,String promocode){
         this.action = action;
@@ -70,6 +64,13 @@ public class Email extends Thread{
         this.action = action;
         this.recipient = recipient;
         this.preLineItem = preLineItem;
+        this.start();
+    }
+    public Email(String action, String recipient, LineItem preLineItem,String code){
+        this.action = action;
+        this.recipient = recipient;
+        this.preLineItem = preLineItem;
+        this.code= code; 
         this.start();
     }
     
@@ -176,7 +177,7 @@ public class Email extends Thread{
             case "keepAsideCreated":
                 try {
                     setupServerProperties();
-                    keepAsideCreated(recipient, preLineItem,productname);
+                    keepAsideCreated(recipient, preLineItem,code);
                     sendEmail();
                 } catch (MessagingException e) {
                     e.printStackTrace();
@@ -326,11 +327,11 @@ public class Email extends Thread{
     
 
     
-    public MimeMessage keepAsideCreated(String recipient, LineItem lineItem,String prodname) throws MessagingException {
+    public MimeMessage keepAsideCreated(String recipient, LineItem lineItem,String code) throws MessagingException {
    
         mimeMessage = new MimeMessage(newSession);
         mimeMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
-        String body = keepAside(lineItem,prodname);
+        String body = keepAside(lineItem,code);
         mimeMessage.setSubject("Carol's Boutique receipt");
         mimeMessage.setContent(body,"text/html");
         return mimeMessage;
@@ -650,7 +651,7 @@ table+
 "<body>\n" +
 "<h1>Carol's Boutique</h1>\n" +
 "<p1>Dear valued customer</p1><br><br>\n" +
-"<p2>You have ??amount?? of ??product?? waiting for you at our store.<br>Please pick it up within 24 hours before it gets removed from keep aside.<br></p2>\n" +
+"<p2>You have ??amount?? ??product??(s) waiting for you at our store.<br>Please pick it up within 24 hours before it is placed back on the rack.<br></p2>\n" +
 "\n" +
 "</body>\n" +
 "</html>";
@@ -668,7 +669,7 @@ table+
 "<body>\n" +
 "<h1>Carol's Boutique</h1>\n" +
 "<p1>Dear valued customer</p1><br><br>\n" +
-"<p2>You have ??amount?? of ??product?? waiting for you at our store.<br>Please pick it up within 12 hours before it gets removed from keep aside.<br></p2>\n" +
+"<p2>You have ??amount?? ??product??(s) waiting for you at our store.<br>Please pick it up within 12 hours before it is placed back on the rack.<br></p2>\n" +
 "\n" +
 "</body>\n" +
 "</html>";
@@ -690,7 +691,7 @@ table+
 "</html>";
     }
     
-    private String keepAside(LineItem lineItem,String prodname){
+    private String keepAside(LineItem lineItem,String code){
         String s ="<html>\n" +
 "<head>\n" +
 "<title>Page Title</title>\n" +
@@ -699,16 +700,17 @@ table+
 "\n" +
 "<h1>Carol's Boutique</h1>\n" +
 "\n" +
-"<p>Dear valued customer<br><br>??Number?? of ??Product?? has been kept-aside for your retrieval.<br>Please fetch it within 48 hours at our store before the product will be placed back on the rack.</p>\n" +
+"<p>Dear valued customer<br><br>??Number?? ??Product??(s) has been kept-aside for your retrieval.<br>Please fetch it within 48 hours at our store before the product will be placed back on the rack.</p>\n" +
 "\n" +
 "<h2>This is your id.</h2>\n" +
-"<h3 style=\"border-width:1px;border-style:solid;width: 200px;border-width:3px\">??ID??<h3>\n" +
-"<p>Please do not lose it as it is needed for retreival of the product.<p>\n" +
+"<h3 style=\"border-width:1px;border-style:solid;width: 200px;border-width:3px\">??ID??</h3>\n" +
+"<p>Please do not lose it as it is needed for retreival of the product.</p>\n" +
 "\n" +
 "</body>\n" +
 "</html>";
+        s=s.replace("??ID??", code);
         s=s.replace("??Number??",""+ lineItem.getAmounnt());
-        s=s.replace("??Product??", prodname);
+        s=s.replace("??Product??", lineItem.getProduct().getName());
         return s;
     }
     
@@ -737,6 +739,7 @@ table+
 "</table>\n" +
 "</body>\n" +
 "</html>";
+        
         return s;
     }
 
