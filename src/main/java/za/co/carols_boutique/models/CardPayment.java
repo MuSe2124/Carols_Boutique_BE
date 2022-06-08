@@ -9,7 +9,30 @@ package za.co.carols_boutique.models;
  * @author Mustafaa Osman
  */
 public class CardPayment implements Payment{
-	
+	private String CardNum;
+        private String CardType;
+
+    public CardPayment(String CardNum, String CardType) {
+        this.CardNum = CardNum;
+        this.CardType = CardType;
+    }
+
+    public String getCardNum() {
+        return CardNum;
+    }
+
+    public void setCardNum(String CardNum) {
+        this.CardNum = CardNum;
+    }
+
+    public String getCardType() {
+        return CardType;
+    }
+
+    public void setCardType(String CardType) {
+        this.CardType = CardType;
+    }
+        
 	@Override
 	public boolean verify(int price) {
 		if (price < 10000) {

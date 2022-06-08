@@ -11,6 +11,7 @@ package za.co.carols_boutique.models;
 public class CashPayment implements Payment{
 	
 	private int payment;
+        
 
 	public CashPayment(int payment) {
 		this.payment = payment;
