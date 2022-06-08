@@ -10,6 +10,7 @@ import za.co.carols_boutique.ReportBE.IDaoreport.DAORepImp;
 import za.co.carols_boutique.models.Customer;
 import za.co.carols_boutique.models.Report;
 import za.co.carols_boutique.models.Review;
+import za.co.carols_boutique.models.Store;
 
 /**
  *
@@ -44,8 +45,8 @@ public class RepServiceImp implements RepService {
     }
 
     @Override
-    public Report viewMonthlySales(String storeID, String month) {
-        Report report = dao.viewMonthlySales(storeID, month);
+    public Report viewMonthlySales(Store store, String month) {
+        Report report = dao.viewMonthlySales(store, month);
         if (report != null) {
             return report;
         } else {
@@ -54,8 +55,8 @@ public class RepServiceImp implements RepService {
     }
 
     @Override
-    public Report viewTopSellingEmployees(String storeID, String month) {
-        Report report = dao.viewTopSellingEmployees(storeID, month);
+    public Report viewTopSellingEmployees(Store store, String month) {
+        Report report = dao.viewTopSellingEmployees(store, month);
         if (report != null) {
             return report;
         } else {
@@ -104,8 +105,8 @@ public class RepServiceImp implements RepService {
     }
 
     @Override
-    public Report viewDailySalesReport(String storeID) {
-        Report report = dao.viewDailySalesReport(storeID);
+    public Report viewDailySalesReport(Store store) {
+        Report report = dao.viewDailySalesReport(store);
         if (report != null) {
             return report;
         } else {
