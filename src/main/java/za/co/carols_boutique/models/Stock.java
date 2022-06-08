@@ -15,6 +15,7 @@ public class Stock {
     private String productName;
     private String employeeID;
     private Integer amount;
+    
     private String sizeID;
 
     public Stock() {

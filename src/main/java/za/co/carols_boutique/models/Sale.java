@@ -20,7 +20,6 @@ public class Sale {
 	private String customerEmail;
 	private Date date;
 	private Payment payment;
-
 	public Sale(String id, Store store, Employee employee, List<LineItem> lineItems, String customerID, Date date, Payment payment) {
 		this.id = id;
 		this.store = store;
@@ -31,6 +30,19 @@ public class Sale {
 		this.payment = payment;
 	}
 
+    public Sale(Date date, Payment payment) {
+        this.date = date;
+        this.payment = payment;
+    }
+        
+
+        public Sale( List<LineItem> lineItems, Date date, Payment payment) {
+            
+            this.lineItems = lineItems;
+            this.date = date;
+            this.payment = payment;
+        }
+        
 	public Sale(Store store, Employee employee, List<LineItem> lineItems, String customerID, Date date) {
 		this.store = store;
 		this.employee = employee;
@@ -105,6 +117,39 @@ public class Sale {
 		}
 		return flo;
 	}
+
+    public Store getStore() {
+        return store;
+    }
+
+    public void setStore(Store store) {
+        this.store = store;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    public List<LineItem> getLineItems() {
+        return lineItems;
+    }
+
+    public void setLineItems(List<LineItem> lineItems) {
+        this.lineItems = lineItems;
+    }
+
+    public Payment getPayment() {
+        return payment;
+    }
+
+    public void setPayment(Payment payment) {
+        this.payment = payment;
+    }
+        
 
 	@Override
 	public String toString() {

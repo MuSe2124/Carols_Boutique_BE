@@ -4,11 +4,15 @@
  */
 package za.co.carols_boutique.Utilities;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.mail.*;
 import javax.mail.internet.*;
 import java.util.Properties;
+import za.co.carols_boutique.models.CardPayment;
+import za.co.carols_boutique.models.CashPayment;
 import za.co.carols_boutique.models.LineItem;
 import za.co.carols_boutique.models.Product;
 import za.co.carols_boutique.models.Sale;
@@ -33,6 +37,7 @@ public class Email extends Thread{
     LineItem preLineItem;
     LineItem postLineItem;
     ArrayList<Stock> products;
+    String promocode;
 
     public Email(String action, String recipient){
         this.action = action;
@@ -47,9 +52,10 @@ public class Email extends Thread{
         this.start();
     }
     
-    public Email(String action, ArrayList<String> recipients){
+    public Email(String action, ArrayList<String> recipients,String promocode){
         this.action = action;
         this.recipients = recipients;
+        this.promocode=promocode;
         this.start();
     }
     
@@ -100,7 +106,7 @@ public class Email extends Thread{
             case "sendPromotions":
                 try {
                     setupServerProperties();
-                    sendPromotions(recipients);
+                    sendPromotions(recipients,promocode);
                     sendEmail();
                 } catch (MessagingException e) {
                     e.printStackTrace();
@@ -130,7 +136,7 @@ public class Email extends Thread{
             case "sendRefund":
                 try {
                     setupServerProperties();
-                    sendRefund(recipient,sale,preLineItem);
+                    sendRefund(recipient,sale);
                     sendEmail();
                 } catch (MessagingException e) {
                     e.printStackTrace();
@@ -160,7 +166,7 @@ public class Email extends Thread{
             case "send48hReminder":
                 try {
                     setupServerProperties();
-                    send48hReminder(recipient, preLineItem);
+                    send48hReminder(recipient);
                     sendEmail();
                 } catch (MessagingException e) {
                     e.printStackTrace();
@@ -236,14 +242,14 @@ public class Email extends Thread{
     
     
 
-    public MimeMessage sendPromotions(ArrayList<String> emailRecipients) throws MessagingException {
+    public MimeMessage sendPromotions(ArrayList<String> emailRecipients,String promoCode) throws MessagingException {
         
         mimeMessage = new MimeMessage(newSession);
         for (int i = 0; i < emailRecipients.size(); i++) {
             mimeMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(emailRecipients.get(i)));
         }
         mimeMessage.setSubject("Carol's Boutique promotion");
-        String body = promoString();
+        String body = promoString(promoCode);
         mimeMessage.setContent(body,"text/html");
         return mimeMessage;
     }
@@ -253,7 +259,7 @@ public class Email extends Thread{
         mimeMessage = new MimeMessage(newSession);
         mimeMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
 
-        String body = receiptString(new Sale("Sandton","Osman","Line3","Jean-Paul",new Date()));
+        String body = receiptString(sale);
         mimeMessage.setSubject("Carol's Boutique receipt");
         mimeMessage.setContent(body,"text/html");
         return mimeMessage;
@@ -266,20 +272,20 @@ public class Email extends Thread{
         mimeMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
         mimeMessage.setSubject(emailSubject);
 
-        String body = amendedReceiptString(new Sale("Sandton","Osman","Line3","Jean-Paul",new Date()));
+        String body = amendedReceiptString(sale,pre,post);
         mimeMessage.setSubject("Carol's Boutique receipt");
         mimeMessage.setContent(body,"text/html");
         return mimeMessage;
     }
     
-    public MimeMessage sendRefund(String recipient, Sale sale, LineItem lineItem) throws AddressException, MessagingException{
+    public MimeMessage sendRefund(String recipient, Sale sale) throws AddressException, MessagingException{
         String emailSubject = "Test Email";
         String emailBody = "This is a test email from Carol's Boutique. Please let me know when you get this\n-@ jomarvn@gmail.com";
         mimeMessage = new MimeMessage(newSession);
         mimeMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
         mimeMessage.setSubject(emailSubject);
 
-        String body = refundString(sale, lineItem);
+        String body = refundString(sale);
         mimeMessage.setSubject("Carol's Boutique receipt");
         mimeMessage.setContent(body,"text/html");
         return mimeMessage;
@@ -307,12 +313,12 @@ public class Email extends Thread{
         return mimeMessage;
     }
     
-    public MimeMessage send48hReminder(String recipient, LineItem lineItem) throws MessagingException {
+    public MimeMessage send48hReminder(String recipient) throws MessagingException {
    
         mimeMessage = new MimeMessage(newSession);
         mimeMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
-
-        String body = reminder48hString(lineItem);
+        
+        String body = reminder48hString();
         mimeMessage.setSubject("Carol's Boutique receipt");
         mimeMessage.setContent(body,"text/html");
         return mimeMessage;
@@ -352,14 +358,36 @@ public class Email extends Thread{
     }
     
     private String receiptString(Sale sale){
-        Integer total = 0;
+        Float total = 0f;
+        String table="";
+        int count=0;
+        List<LineItem> lineitems =sale.getLineItems();
+        for(LineItem lineitem: lineitems){
+            count +=1; 
+            table=table+((count%2!=0)?"<tr style=\"background-color:lightgrey\"d>":"<tr style =\"background-color:rgb(166, 166, 166)\">")
+            +"<td>"+lineitem.getProduct().getId()+"</td>"
+            +"<td>"+lineitem.getProduct().getName()+"</td>"
+            +"<td>"+lineitem.getAmounnt()+"</td>"+
+            "<td>"+lineitem.getTotal()+"</td>"
+            +"</tr>";
+            total = total +lineitem.getTotal();
+        }
+        CardPayment cp = null;
+        CashPayment cp2 = null;
+        if(sale.getPayment() instanceof CardPayment){
+            cp = (CardPayment)(sale.getPayment());
+            
+        }
+        if(sale.getPayment() instanceof CashPayment){
+            cp2 = (CashPayment)(sale.getPayment());
+        }
         String s = "<!DOCTYPE html>\n" +
 "<!DOCTYPE html>\n" +
 "<html>\n" +
 "<head>\n" +
 "<title>receipt</title>\n" +
 "</head>\n" +
-"<body style=\"background-Image:url(https://lh3.googleusercontent.com/pw/AM-JKLX9gUfGn2zYC3X-UBvRmfukVm_wdTvPHaojWfE0ZDnopA38hHjB7Q5q21Sed48AmSt8W2-SFKERtlGfpDkXe-8BymJNSGEH9JVTJuHeuFyBWCBm2NhI-7Uu3W3azJLSJyZpF2MhXCffoM_G7-8IqkA=w465-h657-no?authuser=0);\" >\n" +
+"<body>\n" +
 "\n" +
 "<h1><br><br>Carol's Boutique</h1>\n" +
 "<h3>Receipt of purchase on: ??Date??</h3>\n" +
@@ -374,26 +402,7 @@ public class Email extends Thread{
 "  </tr>\n" +
 "\n" +
 "\n" +
-"  <tr style=\"background-color:lightgrey\">\n" +
-"    <td>01</td>\n" +
-"    <td>shirt</td>\n" +
-"    <td>12</td>\n" +
-"    <td>1$</td>\n" +
-"    \n" +
-"    \n" +
-"  </tr>\n" +
-"  <tr style=\"background-color:rgb(166, 166, 166)\">\n" +
-"    <td>02</td>\n" +
-"    <td>pants</td>\n" +
-"    <td>23</td>\n" +
-"    <td>2$</td>\n" +
-"  </tr>\n" +
-"  <tr style = \"background-color:lightgrey; height: 18px;\">\n" +
-"  <td></td>\n" +
-"  <td></td>\n" +
-"  <td></td>\n" +
-"  <td></td>\n" +
-"  </tr>\n" +
+table+
 "</table>\n" +
 "<br>\n" +
 "<table style=\"width:400px\">\n" +
@@ -431,13 +440,70 @@ public class Email extends Thread{
 "<h5>You can return any product within 10 days of purchase.</h5>\n" +
 "<h6><u>Please rate our service:?Link?</u></h6>\n" +
 "</body>\n" +
-"</html>"
-                ;
+"</html>";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        if(cp!=null){
+        s=s.replace("?Account type?", cp.getCardType());
+        s=s.replace("?cash/card?", "Card");
+        s=s.replace("?Number?", cp.getCardNum());
+        }
+        s=s.replace("??Date??",sdf.format(sale.getDate()));
+        
+        if(cp2!=null){
+        s=s.replace("?Account type?","None" );
+        s=s.replace("?cash/card?","Cash" );
+        s=s.replace("?Number?", "None");    
+        }
+        
+        Float vat = total*0.15f; 
+        Float subtotal = total*0.85f;
+        
+        s=s.replace("?tax?","R"+String.format("%,.2f", vat));
+        s=s.replace("?subTotal?","R"+String.format("%,.2f", subtotal));
+        s=s.replace("?total?","R"+String.format("%,.2f", total));
         return s;
     }
     
     
-    private String amendedReceiptString(Sale sale){
+    private String amendedReceiptString(Sale sale,LineItem prelineitem,LineItem postlineitem){
+        double TaxPercentage = 0.15d;
+        String table ="";
+        float total =0f;
+        int count =0;
+        List<LineItem> lineitems =sale.getLineItems();
+        for(LineItem lineitem: lineitems){
+            count +=1; 
+            table=table+((count%2!=0)?"<tr style=\"background-color:lightgrey\"d>":"<tr style =\"background-color:rgb(166, 166, 166)\">")
+            +"<td>"+lineitem.getProduct().getId()+"</td>"
+            +"<td>"+lineitem.getProduct().getName()+"</td>"
+            +"<td>"+lineitem.getAmounnt()+"</td>"+
+            "<td>"+lineitem.getTotal()+"</td>"
+            +"</tr>";
+            total = total +lineitem.getTotal();
+        }
+        CardPayment cp = null;
+        CashPayment cp2 = null;
+        if(sale.getPayment() instanceof CardPayment){
+            cp = (CardPayment)(sale.getPayment());
+            
+        }
+        if(sale.getPayment() instanceof CashPayment){
+            cp2 = (CashPayment)(sale.getPayment());
+        }
+        table =table+
+        "<tr style =\"background-color:rgb(255, 77, 77)\">"+
+        "<td>"+prelineitem.getProduct().getId()+"</td>"+
+        "<td>"+prelineitem.getProduct().getName()+"</td>"+
+        "<td>"+prelineitem.getAmounnt()+"</td>"+
+        "<td>"+"-"+prelineitem.getTotal()+"</td>"+
+        "</tr>"+
+        "<tr style =\"background-color:lightgreen\">"+
+        "<td>"+postlineitem.getProduct().getId()+"</td>"+
+        "<td>"+postlineitem.getProduct().getName()+"</td>"+
+        "<td>"+postlineitem.getAmounnt()+"</td>"+
+        "<td>"+"+"+postlineitem.getTotal()+"</td>"+
+        "</tr>";
+        total=total+postlineitem.getTotal()-prelineitem.getTotal();
         String s = "<h1>Carols Boutique</h1>"+
                 "<!DOCTYPE html>\n" +
 "<html>\n" +
@@ -460,33 +526,7 @@ public class Email extends Thread{
 "    \n" +
 "  </tr>\n" +
 "\n" +
-"\n" +
-"  <tr style=\"background-color:lightgrey\">\n" +
-"    <td>01</td>\n" +
-"    <td>shirt</td>\n" +
-"    <td>12</td>\n" +
-"    <td>1$</td>\n" +
-"    \n" +
-"    \n" +
-"  </tr>\n" +
-"  <tr style=\"background-color:rgb(166, 166, 166)\">\n" +
-"    <td>02</td>\n" +
-"    <td>pants</td>\n" +
-"    <td>23</td>\n" +
-"    <td>2$</td>\n" +
-"  </tr>\n" +
-"  <tr style=\"background-color:rgb(255, 77, 77);\">\n" +
-"  <td>03</td>\n" +
-"  <td style=\"background-color:rgb(255, 77, 77);\">-gloves</td>\n" +
-"  <td>2</td>\n" +
-"  <td>2$</td>\n" +
-"  </tr>\n" +
-"  <tr style=\"background-color:lightgreen\">\n" +
-"  <td>04</td>\n" +
-"  <td style=\"background-color:lightgreen;\">+gloves</td>\n" +
-"  <td>20</td>\n" +
-"  <td>$30</td>\n" +
-"  </tr>\n" +
+"\n" +table+
 "  <tr style = \"background-color:lightgrey; height: 18px;\">\n" +
 "  <td></td>\n" +
 "  <td></td>\n" +
@@ -504,26 +544,25 @@ public class Email extends Thread{
 "    \n" +
 "  </tr>\n" +
 "\n" +
-"\n" +
-"  <tr>\n" +
+"\n" +"<tr>\n" +
 "    <td>Cash/Card</td>\n" +
-"    <td>??Cash/Card??</td>\n" +
+"    <td>?cash/card?</td>\n" +
 "    <td>SubTotal:</td>\n" +
-"    <td>??subTotal??</td>\n" +
+"    <td>?subTotal?</td>\n" +
 "    \n" +
 "    \n" +
 "  </tr>\n" +
 "  <tr >\n" +
 "    <td>Number:</td>\n" +
-"    <td>??Number??</td>\n" +
+"    <td>?Number?</td>\n" +
 "    <td>Tax</td>\n" +
-"    <td>??tax??</td>\n" +
+"    <td>?tax?</td>\n" +
 "  </tr>\n" +
 "  <tr>\n" +
 "  <td>Account type:</td>\n" +
-"  <td>??Account type??</td>\n" +
+"  <td>?Account type?</td>\n" +
 "  <td>Total</td>\n" +
-"  <td>??total??</td>\n" +
+"  <td>?total?</td>\n" +
 "  </tr>\n" +
 "</table>\n" +
 "<h4><u><b>Return policy</b></u></h4>\n" +
@@ -532,10 +571,34 @@ public class Email extends Thread{
 "</body>\n" +
 "</html>"
                 ;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        if(cp!=null){
+        s=s.replace("?Account type?", cp.getCardType());
+        s=s.replace("?cash/card?", "Card");
+        s=s.replace("?Number?", cp.getCardNum());
+        }
+        s=s.replace("??Date??",sdf.format(sale.getDate()));
+        
+        if(cp2!=null){
+        s=s.replace("?Account type?","None" );
+        s=s.replace("?cash/card?","Cash" );
+        s=s.replace("?Number?", "None");    
+        }
+        
+        Float vat = total*0.15f; 
+        Float subtotal = total*0.85f;
+        
+        s=s.replace("?tax?","R"+String.format("%,.2f", vat));
+        s=s.replace("?subTotal?","R"+String.format("%,.2f", subtotal));
+        s=s.replace("?total?","R"+String.format("%,.2f", total));
         return s;
     }
     
-    private String refundString(Sale sale, LineItem lineItem){
+    private String refundString(Sale sale){
+        CardPayment cp = null;
+        if(sale.getPayment() instanceof CardPayment){
+            cp = (CardPayment)(sale.getPayment());
+        }
         String s ="<!DOCTYPE html>\n" +
 "<html>\n" +
 "<head>\n" +
@@ -544,16 +607,19 @@ public class Email extends Thread{
 "<body>\n" +
 "\n" +
 "<h1 style =\"font-size:40px;\">Carols Boutique</h1>\n" +
-"<h2>Your refund has been processed.<br><br>??account?? has been refunded on this ??date??.</h3>\n" +
+"<h2>Your refund has been processed.<br><br>Account ??account?? has been refunded on ??date??.</h3>\n" +
 "\n" +
 "\n" +
 "</body>\n" +
 "</html>";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        s=s.replace("??date??",sdf.format(sale.getDate()));
+        s=s.replace("??account??",cp.getCardNum());
         return s;
     }
     
-    private String promoString(){
-        return "<html>\n" +
+    private String promoString(String Promocode){
+        String s ="<html>\n" +
 "<head>\n" +
 "<title>Page Title</title>\n" +
 "</head>\n" +
@@ -571,10 +637,12 @@ public class Email extends Thread{
 "</table>\n" +
 "</body>\n" +
 "</html>";
+        s=s.replace("??PromoCode??", Promocode);
+        return s; 
     }
     
     private String reminder24hString(LineItem lineItem){
-        return "<!DOCTYPE html>\n" +
+        String s ="<!DOCTYPE html>\n" +
 "<html>\n" +
 "<head>\n" +
 "<title>remind me</title>\n" +
@@ -586,10 +654,13 @@ public class Email extends Thread{
 "\n" +
 "</body>\n" +
 "</html>";
+        s= s.replace("??amount??",""+lineItem.getAmounnt() );
+        s=s.replace("??product??", lineItem.getProduct().getName());
+        return s;
     }
     
     private String reminder36hString(LineItem lineItem){
-        return "<!DOCTYPE html>\n" +
+        String s= "<!DOCTYPE html>\n" +
 "<html>\n" +
 "<head>\n" +
 "<title>remind me</title>\n" +
@@ -601,9 +672,12 @@ public class Email extends Thread{
 "\n" +
 "</body>\n" +
 "</html>";
+        s= s.replace("??amount??",""+lineItem.getAmounnt() );
+        s=s.replace("??product??", lineItem.getProduct().getName());
+        return s;
     }
     
-    private String reminder48hString(LineItem lineItem){
+    private String reminder48hString(){
         return "<html>\n" +
 "<head>\n" +
 "<title>latereminder</title>\n" +
