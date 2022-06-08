@@ -1,11 +1,16 @@
 package za.co.carols_boutique.EmployeeBE.IDAOEmployee;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Properties;
 import za.co.carols_boutique.models.Employee;
+import za.co.carols_boutique.properties.CarolsProperties;
 
 /**
  *
@@ -18,16 +23,17 @@ public class DaoEmpImp implements DAOEmp{
     private int rowsAffected;
     private String URL;
     //String id, String name, String surname, Boolean isManager
-
-    public DaoEmpImp() {
+    
+    public DaoEmpImp() throws FileNotFoundException, IOException {
+        Properties p = CarolsProperties.readInProperties("CarolsDatabase.properties");       
         try{//com.mysql.cj.jdbc.Driver
             Class.forName("com.mysql.jdbc.Driver");
         }catch(ClassNotFoundException e){
             e.printStackTrace();
         }
-        String URL = "jdbc:mysql://localhost:3306/carolsboutique";
+        //String URL = "jdbc:mysql://localhost:3306/carolsboutique";       
         try{
-            con = (Connection)DriverManager.getConnection(URL,"root","root");
+            con = (Connection)DriverManager.getConnection(p.getProperty("url"),p.getProperty("username"),p.getProperty("password"));
         }catch(SQLException e){
             e.printStackTrace();
         }

@@ -4,6 +4,7 @@
  */
 package za.co.carols_boutique.StoreBE.IDAOStore;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -12,12 +13,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import za.co.carols_boutique.models.Employee;
 import za.co.carols_boutique.models.LineItem;
 import za.co.carols_boutique.models.Sale;
 import za.co.carols_boutique.models.Store;
+import za.co.carols_boutique.properties.CarolsProperties;
 
 /**
  *
@@ -30,18 +33,19 @@ public class DAOStoreImp implements DAOStore{
 	private ResultSet rs;
 	private int rowsAffected;
 
-	public DAOStoreImp() {
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		String URL = "jdbc:mysql://localhost:3306/carolsboutique";
-		try {
-			con = (Connection) DriverManager.getConnection(URL, "root", "root");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+	public DAOStoreImp() throws IOException {
+		Properties p = CarolsProperties.readInProperties("CarolsDatabase.properties");       
+        try{//com.mysql.cj.jdbc.Driver
+            Class.forName("com.mysql.jdbc.Driver");
+        }catch(ClassNotFoundException e){
+            e.printStackTrace();
+        }
+        //String URL = "jdbc:mysql://localhost:3306/carolsboutique";       
+        try{
+            con = (Connection)DriverManager.getConnection(p.getProperty("url"),p.getProperty("username"),p.getProperty("password"));
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
 	}
 
 	//String id, String name, String location, String password

@@ -1,9 +1,11 @@
 package za.co.carols_boutique.properties;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Properties;
 
@@ -18,10 +20,20 @@ public class CarolsProperties {
         file2 = new File("CarolsPaths.properties");
         file3 = new File("CarolsEndpoints.properties");
         p = new Properties();
+        
     }
     
     public static void main(String[] args) {
         
+    }
+    
+    public static Properties readInProperties(String fileName) throws FileNotFoundException, IOException{
+        Properties p = new Properties();
+        InputStream is = new FileInputStream(fileName);
+        
+        p.load(is);
+        
+        return p;
     }
     
     public static void database() throws FileNotFoundException, IOException{

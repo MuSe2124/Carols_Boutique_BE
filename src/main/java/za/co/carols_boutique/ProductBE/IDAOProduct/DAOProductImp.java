@@ -1,5 +1,6 @@
 package za.co.carols_boutique.ProductBE.IDAOProduct;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -11,10 +12,12 @@ import java.util.Date;
 import za.co.carols_boutique.models.Product;
 import za.co.carols_boutique.models.Report;
 import java.util.Date;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import za.co.carols_boutique.models.ProdStore;
 import za.co.carols_boutique.models.Stock;
+import za.co.carols_boutique.properties.CarolsProperties;
 
 /**
  *
@@ -28,15 +31,16 @@ public class DAOProductImp  implements DAOProduct{
     
 //String id, String name, String description, Float price
    
-    public DAOProductImp(){
-       try{//com.mysql.cj.jdbc.Driver
+    public DAOProductImp() throws IOException{
+       Properties p = CarolsProperties.readInProperties("CarolsDatabase.properties");       
+        try{//com.mysql.cj.jdbc.Driver
             Class.forName("com.mysql.jdbc.Driver");
         }catch(ClassNotFoundException e){
             e.printStackTrace();
         }
-        String URL = "jdbc:mysql://localhost:3306/carolsboutique";
+        //String URL = "jdbc:mysql://localhost:3306/carolsboutique";       
         try{
-            con = (Connection)DriverManager.getConnection(URL,"root","root");
+            con = (Connection)DriverManager.getConnection(p.getProperty("url"),p.getProperty("username"),p.getProperty("password"));
         }catch(SQLException e){
             e.printStackTrace();
         }
