@@ -717,7 +717,7 @@ table+
     private String lowStockString(ArrayList<Stock> stocks){
         String table= "";
         for(Stock stock:stocks){
-            table=table+"<tr>"+
+            table=table+"<tr style =\"text-Align:left;\">"+
             "<td>"+stock.getProductID()+"</td>"+
             "<td>"+stock.getProductName()+"</td>"+
             "<td>"+stock.getAmount()+"</td>"+"</tr>";
