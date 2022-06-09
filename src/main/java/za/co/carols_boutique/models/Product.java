@@ -14,12 +14,14 @@ public class Product {
     private String name;
     private String description;
     private Float price;
-
-    public Product(String id, String name, String description, Float price) {
+	private String size;
+	
+    public Product(String id, String name, String description, Float price, String size) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
+		this.size = size;
     }
     
 

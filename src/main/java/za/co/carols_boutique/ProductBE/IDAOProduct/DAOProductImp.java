@@ -103,7 +103,7 @@ public class DAOProductImp  implements DAOProduct{
         }
     }
     @Override
-    public Product getProduct(String productID) {
+    public Product getProduct(String productID, String size) {
        Product product = null;
         if(con!=null){
             try{
@@ -111,16 +111,16 @@ public class DAOProductImp  implements DAOProduct{
                 ps.setString(1, productID);
                 rs=ps.executeQuery();
                 while(rs.next()){
-                    product= new Product(rs.getString("id"),rs.getString("name"),rs.getString("description"),rs.getFloat("price"));
+                    product= new Product(rs.getString("id"),rs.getString("name"),rs.getString("description"),rs.getFloat("price"), size);
                 }
             }catch(SQLException e){
                 e.printStackTrace();
             }
         }
-        return product;
-        
+        return product;   
     }
-    //update amount
+	
+    
     @Override
     public Boolean addProductToInventory(String storeID, String productID, String employeeID, Integer amount, String SizeID) {
         //String id, String storeID, String productID, Integer amount,Integer Size
