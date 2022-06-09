@@ -1,10 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package za.co.carols_boutique.StoreBE.IDAOStore;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -12,7 +8,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -81,12 +76,12 @@ public class DAOStoreImp implements DAOStore{
 		Store store = null;
 		if (con != null) {
 			try {
-				ps = con.prepareStatement("Select ID,name,location,password from Store where password= ? and ID =?");
+				ps = con.prepareStatement("Select ID,name,location,password,target from Store where password= ? and ID =?");
 				ps.setString(1, password);
 				ps.setString(2, storeID);
 				rs = ps.executeQuery();
 				while (rs.next()) {
-					store = new Store(rs.getString("StoreID"), rs.getString("name"), rs.getString("location"), rs.getString("password"));
+					store = new Store(rs.getString("StoreID"), rs.getString("name"), rs.getString("location"), rs.getString("password"),rs.getFloat("target"));
 				}
 
 			} catch (SQLException e) {
@@ -258,12 +253,12 @@ public class DAOStoreImp implements DAOStore{
         sale.setLineItems(new ArrayList<LineItem>());
        if(con!=null){
            try {
-               ps = con.prepareStatement("select storeID, employeeID, cutomerEmail, date from store where storeID = ?");
+               ps = con.prepareStatement("select storeID, employeeID, cutomerEmail, date from sale where saleID = ?");
                ps.setString (1,saleID);
                rs = ps. executeQuery();
                if(rs.next()){
                    sale.setCustomerEmail(rs.getString("customerEmail"));
-                   sale.setId(rs.getString(saleID));
+                   sale.setId(saleID);
                    ps = con.prepareStatement("select name, location, password, target from store where id = ?");
                    ps.setString(1,rs.getString("storeID"));
                    ResultSet rs2 = ps.executeQuery();
@@ -271,7 +266,8 @@ public class DAOStoreImp implements DAOStore{
                        Store store = new Store(rs.getString("storeID"),
                                                 rs2.getString("name"),
                                                 rs2.getString("location"),
-                                                rs2.getString("password"));
+                                                rs2.getString("password"),
+                                                rs2.getFloat("target"));
                        sale.setStore(store);
                    }
                    ps = con.prepareStatement("select name,surname,isManager,password,storeID from employee where id = ?");
@@ -288,7 +284,7 @@ public class DAOStoreImp implements DAOStore{
                        );
                        sale.setEmployee(employee);
                    }
-                   ps = con.prepareStatement("select id, product, amount, total, sale from line item where sale = ?");
+                   ps = con.prepareStatement("select id, product, amount, total, size, sale from lineitem where sale = ?");
                    ps.setString(1,saleID);
                    ResultSet rs4 = ps.executeQuery();
                    while(rs4.next()){
@@ -298,17 +294,19 @@ public class DAOStoreImp implements DAOStore{
                        Product product = null;
                        if(rs5.next()){
                            product = new Product(
-                                                rs.getString("id"),
-                                                rs.getString("name"),
-                                                rs.getString("description"),
-                                                rs.getFloat("price")
+                                                rs5.getString("id"),
+                                                rs5.getString("name"),
+                                                rs5.getString("description"),
+                                                rs5.getFloat("price"),
+                                                rs4.getString("size")
                            );
                        }
                        LineItem li = new LineItem(
-                                                rs.getString("id"),
-                                                rs.getString("sale"),
+                                                rs4.getString("id"),
+                                                rs4.getString("sale"),
                                                 product,
-                                                rs.getInt("amount")
+                                                rs4.getInt("amount")
+                               
                                
                        );
                        sale.getLineItems().add(li);

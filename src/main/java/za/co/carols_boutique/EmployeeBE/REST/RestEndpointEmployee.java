@@ -68,8 +68,7 @@ public class RestEndpointEmployee {
     @GET
     @Path("/test")
     @Produces(MediaType.TEXT_PLAIN)
-    public String test(@PathParam("recipient") String recipient){
-        new Email("test","jomarvn@gmail.com");
-        return "done";
+    public String test(String recipient){
+        return "Fuck you mussy!";
     }
 }

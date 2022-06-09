@@ -24,11 +24,11 @@ public class Report {
     private List<StoreSale>storeSales;
     private List<EmpSale>empSales;
     private List<ProdStore>prodStores;
-    private List<StoreSales>storesSales;
+    private List<Sale>sales;
     private List<ProductReport>productReport;
 
-    public List<StoreSales> getStoresSales() {
-        return storesSales;
+    public List<Sale> getSales() {
+        return sales;
     }
 
     public List<ProductReport> getProductReport() {
@@ -41,8 +41,8 @@ public class Report {
     
     
 
-    public void setStoresSales(List<StoreSales> storesSales) {
-        this.storesSales = storesSales;
+    public void setStoresSales(List<Sale> sales) {
+        this.sales = sales;
     }
 
     public List<Review> getReviews() {

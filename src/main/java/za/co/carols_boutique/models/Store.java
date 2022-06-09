@@ -6,12 +6,15 @@ public class Store {
     private String name;
     private String location;
     private String password;
+    private Float target;
+    
 
-    public Store(String id, String name, String location, String password) {
+    public Store(String id, String name, String location, String password, Float target) {
         this.id = id;
         this.name = name;
         this.location = location;
         this.password = password;
+        this.target = target;
     }
 
     public Store(String name, String location, String password) {
