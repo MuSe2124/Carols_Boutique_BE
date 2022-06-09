@@ -21,11 +21,7 @@ public class Sale {
 	private Date date;
 	private Payment payment;
 
-	public Sale(String id, Store store, Employee employee, List<LineItem> lineItems, String customerID, Date date, Payment payment) {
-
-
 	public Sale(String id, Store store, Employee employee, List<LineItem> lineItems, String customerEmail, Date date, Payment payment) {
-
 		this.id = id;
 		this.store = store;
 		this.employee = employee;
