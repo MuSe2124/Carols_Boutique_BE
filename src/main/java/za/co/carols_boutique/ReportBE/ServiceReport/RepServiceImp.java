@@ -46,8 +46,8 @@ public class RepServiceImp implements RepService {
     }
 
     @Override
-    public Report viewMonthlySales(Store store, String month) {
-        Report report = dao.viewMonthlySales(store, month);
+    public Report viewMonthlySales(String storeID, String month) {
+        Report report = dao.viewMonthlySales(storeID, month);
         if (report != null) {
             return report;
         } else {
@@ -56,8 +56,8 @@ public class RepServiceImp implements RepService {
     }
 
     @Override
-    public Report viewTopSellingEmployees(Store store, String month) {
-        Report report = dao.viewTopSellingEmployees(store, month);
+    public Report viewTopSellingEmployees(String storeID, String month) {
+        Report report = dao.viewTopSellingEmployees(storeID, month);
         if (report != null) {
             return report;
         } else {
@@ -106,8 +106,8 @@ public class RepServiceImp implements RepService {
     }
 
     @Override
-    public Report viewDailySalesReport(Store store) {
-        Report report = dao.viewDailySalesReport(store);
+    public Report viewDailySalesReport(String storeID) {
+        Report report = dao.viewDailySalesReport(storeID);
         if (report != null) {
             return report;
         } else {

@@ -30,10 +30,10 @@ public class RestEndpointProduct {
     private ProdService service = new ProdServiceImp(new DAOProductImp());
     
     @GET
-    @Path("/getProduct/productID")
+    @Path("/getProduct/productID/sizeID")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getProduct(@PathParam("productID")String productID){
-        return Response.status(Response.Status.OK).entity(service.getProduct(productID)).build();
+    public Response getProduct(@PathParam("productID")String productID, @PathParam("sizeID")String sizeID){
+        return Response.status(Response.Status.OK).entity(service.getProduct(productID, sizeID)).build();
     }
     
     @POST

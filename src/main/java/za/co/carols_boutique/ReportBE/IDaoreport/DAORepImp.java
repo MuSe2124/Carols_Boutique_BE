@@ -273,23 +273,23 @@ public class DAORepImp implements DAORep {
     @Override
     public Report viewStoresThatAchievedTarget(String month) {
         Report report = new Report();
-        List<StoreSales> storeSales = new ArrayList<>();
-        if (con != null) {
-            try {
-                ps = con.prepareStatement("select * from store where total > target and monthname(date) = ?");
-                ps.setString(1, month);
-                rs = ps.executeQuery();
-                while (rs.next()) {
-                    String name = rs.getString("name");
-                    Float target = rs.getFloat("target");
-                    StoreSales ss = new StoreSales(name, target);
-                    storeSales.add(ss);
-                }
-                report.setStoresSales(storeSales);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+//        List<StoreSales> storeSales = new ArrayList<>();
+//        if (con != null) {
+//            try {
+//                ps = con.prepareStatement("select * from store where total > target and monthname(date) = ?");
+//                ps.setString(1, month);
+//                rs = ps.executeQuery();
+//                while (rs.next()) {
+//                    String name = rs.getString("name");
+//                    Float target = rs.getFloat("target");
+//                    StoreSales ss = new StoreSales(name, target);
+//                    storeSales.add(ss);
+//                }
+//                report.setStoresSales(storeSales);
+//            } catch (SQLException e) {
+//                e.printStackTrace();
+//            }
+//        }
 
         return report;
     }
