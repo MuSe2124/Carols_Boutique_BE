@@ -14,6 +14,7 @@ public class LineItem {
 	private String saleID;
 	private Product product;
 	private Integer amount;
+        private String size;
 
 	public LineItem(String id, String saleID, Product product, Integer amounnt) {
 		this.id = id;

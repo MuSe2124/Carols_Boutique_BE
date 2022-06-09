@@ -21,7 +21,7 @@ public class Product {
         this.name = name;
         this.description = description;
         this.price = price;
-		this.size = size;
+        this.size = size;
     }
     
 

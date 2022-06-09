@@ -8,27 +8,32 @@ package za.co.carols_boutique.models;
  *
  * @author muaad
  */
+
 public class EmpSale {
 
     private String employeeID;
-    private Integer saleTotal;
+    private Float saleTotal;
     private String storeID;
 
-    public EmpSale(String employeeID, Integer saleTotal, String storeID) {
+    public EmpSale(String employeeID, Float saleTotal, String storeID) {
         this.employeeID = employeeID;
         this.saleTotal = saleTotal;
         this.storeID = storeID;
     }
 
-    public EmpSale(Integer saleTotal, String storeID) {
+    public EmpSale(Float saleTotal, String storeID) {
         this.saleTotal = saleTotal;
         this.storeID = storeID;
     }
 
+
     public EmpSale() {
     }
-    
-    
+
+    public EmpSale(String employeeID, Float saleTotal) {
+        this.employeeID = employeeID;
+        this.saleTotal = saleTotal;
+    }
 
     public String getEmployee() {
         return employeeID;
@@ -38,11 +43,11 @@ public class EmpSale {
         this.employeeID = employeeID;
     }
 
-    public Integer getSaleTotal() {
+    public Float getSaleTotal() {
         return saleTotal;
     }
 
-    public void setSaleTotal(Integer saleTotal) {
+    public void setSaleTotal(Float saleTotal) {
         this.saleTotal = saleTotal;
     }
 
