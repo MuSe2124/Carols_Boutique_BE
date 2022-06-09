@@ -19,26 +19,26 @@ import java.util.logging.Logger;
 import za.co.carols_boutique.EmployeeBE.IDAOEmployee.DaoEmpImp;
 import za.co.carols_boutique.Utilities.Phone;
 import za.co.carols_boutique.models.Customer;
-import za.co.carols_boutique.models.IBT;
 import za.co.carols_boutique.models.LineItem;
-
+import za.co.carols_boutique.Utilities.Phone;
 import za.co.carols_boutique.models.Product;
-import za.co.carols_boutique.properties.CarolsProperties;
+import za.co.carols_boutique.models.Store;
 
 public class IBTImp implements IBTInt {
 
 	private LineItem lineItem;
 	private Customer customer;
-	private IBT ibt;
+	private Store store;
 
 	private Connection con;
 	private ResultSet rs;
 	private PreparedStatement ps;
 	private int rowsAffected;
 
-	public IBTImp(LineItem lineItem, Customer customer) {
+	public IBTImp(LineItem lineItem, Customer customer, Store store) {
 		this.lineItem = lineItem;
 		this.customer = customer;
+		this.store = store;
 
 		try {//com.mysql.cj.jdbc.Driver
 			Class.forName("com.mysql.jdbc.Driver");
@@ -51,9 +51,7 @@ public class IBTImp implements IBTInt {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
-		ibt = new IBT("", lineItem, customer);
-	}//generate IBT method to get ID
+	}
 
 	@Override
 	public boolean createIBT() {
@@ -63,12 +61,14 @@ public class IBTImp implements IBTInt {
 		rowsAffected = 0;
 		if (con != null) {
 			try {
-
 				//con.setAutoCommit(false);
 				ps = con.prepareStatement("insert into ibt(id, lineItem, customer) values(?,?,?)");
 				ps.setString(1, ibt.getId());
 				ps.setString(2, ibt.getLineItem().getID());
 				ps.setString(3, ibt.getCustomer().getId());
+//				ps.setString(1, );
+				ps.setString(2, lineItem.getID());
+				ps.setString(3, customer.getId());
 				rowsAffected = ps.executeUpdate();
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -87,6 +87,8 @@ public class IBTImp implements IBTInt {
 //		Phone phone = new Phone();
 //		return phone != null;
             return false;
+		Phone phone = new Phone(lineItem, customer.getPhoneNumber(), store);
+		return phone != null;
 	}
 
 	//insert into keepasidearchive(id, storeID, date, customeremail, lineitem, time) select id, storeID, date, customeremail, lineitem, time from keepaside where keepaside.id = ?
@@ -95,6 +97,7 @@ public class IBTImp implements IBTInt {
 			try {
 				ps = con.prepareStatement("insert into ibtArchive(id, lineItem, customer) select id, lineItem, customr from ibt where ibt.id = ?");
 				ps.setString(1, ibt.getId());
+//				ps.setString(1, );
 
 				rowsAffected = ps.executeUpdate();
 			} catch (SQLException e) {
