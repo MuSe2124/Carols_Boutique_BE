@@ -14,10 +14,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import za.co.carols_boutique.EmployeeBE.IDAOEmployee.DaoEmpImp;
-import za.co.carols_boutique.Utilities.Phone;
 import za.co.carols_boutique.models.Customer;
 import za.co.carols_boutique.models.LineItem;
 import za.co.carols_boutique.Utilities.Phone;
@@ -63,10 +59,7 @@ public class IBTImp implements IBTInt {
 			try {
 				//con.setAutoCommit(false);
 				ps = con.prepareStatement("insert into ibt(id, lineItem, customer) values(?,?,?)");
-				ps.setString(1, ibt.getId());
-				ps.setString(2, ibt.getLineItem().getID());
-				ps.setString(3, ibt.getCustomer().getId());
-//				ps.setString(1, );
+//				ps.setString(1,);
 				ps.setString(2, lineItem.getID());
 				ps.setString(3, customer.getId());
 				rowsAffected = ps.executeUpdate();
@@ -86,7 +79,6 @@ public class IBTImp implements IBTInt {
 	public boolean sendCustomerMessage() {
 //		Phone phone = new Phone();
 //		return phone != null;
-            return false;
 		Phone phone = new Phone(lineItem, customer.getPhoneNumber(), store);
 		return phone != null;
 	}
@@ -96,9 +88,9 @@ public class IBTImp implements IBTInt {
 		if (con != null) {
 			try {
 				ps = con.prepareStatement("insert into ibtArchive(id, lineItem, customer) select id, lineItem, customr from ibt where ibt.id = ?");
-				ps.setString(1, ibt.getId());
 //				ps.setString(1, );
-
+				ps.setString(2, lineItem.getID());
+				ps.setString(3, customer.getId());
 				rowsAffected = ps.executeUpdate();
 			} catch (SQLException e) {
 				e.printStackTrace();
