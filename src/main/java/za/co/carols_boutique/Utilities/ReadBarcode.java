@@ -170,8 +170,11 @@ public class ReadBarcode extends javax.swing.JFrame implements Runnable,ThreadFa
             }
             if (result != null) {
                 result_field.setText(result.getText());
-                Product product = dao.getProduct(result.getText());
-                System.out.println("product is: " + product.toString());
+                String[]barcode = result.getText().split(" ");
+                for (int i = 0; i < barcode.length; i++) {
+                    Product product = dao.getProduct(barcode[0],barcode[1]);
+                }
+                
             }
             
         }while(true); 

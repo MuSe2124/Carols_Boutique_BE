@@ -8,7 +8,7 @@ package za.co.carols_boutique.models;
  *
  * @author muaad
  */
-public class EmpSale implements Comparable<Object>{
+public class EmpSale {
 
     private String employeeID;
     private Integer saleTotal;
@@ -23,6 +23,9 @@ public class EmpSale implements Comparable<Object>{
     public EmpSale(Integer saleTotal, String storeID) {
         this.saleTotal = saleTotal;
         this.storeID = storeID;
+    }
+
+    public EmpSale() {
     }
     
     
@@ -50,12 +53,5 @@ public class EmpSale implements Comparable<Object>{
     public void setStoreID(String storeID) {
         this.storeID = storeID;
     }
-    
-     
-    @Override
-    public int compareTo(Object o) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-    
-    
+       
 }

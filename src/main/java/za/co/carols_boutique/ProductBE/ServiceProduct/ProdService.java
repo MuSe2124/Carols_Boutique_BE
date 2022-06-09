@@ -14,7 +14,7 @@ import za.co.carols_boutique.models.Refund;
  */
 public interface ProdService {
 
-    Product getProduct(String productID);
+    Product getProduct(String productID,String size);
 
     String addProductToInventory(String storeID, String productID, String employeeID, Integer amount, String sizeID);
     String addNewProduct(Product product, String catID);

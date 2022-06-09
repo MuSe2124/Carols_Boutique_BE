@@ -1,6 +1,6 @@
 package za.co.carols_boutique.models;
 
-public class StoreSale implements Comparable<Integer>{
+public class StoreSale {
     
     private String storeName;
     private Integer saleTotal;
@@ -41,11 +41,5 @@ public class StoreSale implements Comparable<Integer>{
     public void setSaleTotal(Integer saleTotal) {
         this.saleTotal = saleTotal;
     }
-
-    @Override
-    public int compareTo(Integer salTotal) {
-        return saleTotal.compareTo(getSaleTotal());
-    }
-    
     
 }

@@ -29,8 +29,8 @@ public class ProdServiceImp implements ProdService {
     }
 
     @Override
-    public Product getProduct(String productID) {
-        Product product = dao.getProduct(productID);
+    public Product getProduct(String productID, String size) {
+        Product product = dao.getProduct(productID,size);
 
         if (product != null) {
             return product; 
