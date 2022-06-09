@@ -7,7 +7,7 @@ import za.co.carols_boutique.models.Stock;
 
 public interface DAOProduct {
     
-    Product getProduct(String productID);
+    Product getProduct(String productID, String size);
     //this is an update for adding in an amount, has addTransaction
     Boolean addProductToInventory(String storeID, String productID, String employeeID, Integer amount, String SizeID);
     Boolean addNewProduct(Product product,String catid);

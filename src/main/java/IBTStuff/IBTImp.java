@@ -13,32 +13,34 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import za.co.carols_boutique.EmployeeBE.IDAOEmployee.DaoEmpImp;
+
 import za.co.carols_boutique.models.Customer;
 import za.co.carols_boutique.models.IBT;
 import za.co.carols_boutique.models.LineItem;
-import za.co.carols_boutique.models.Phone;
-import za.co.carols_boutique.models.Product;
-import za.co.carols_boutique.properties.CarolsProperties;
+import za.co.carols_boutique.Utilities.Phone;
+import za.co.carols_boutique.models.Store;
 
 public class IBTImp implements IBTInt {
 
+	private String id;
 	private LineItem lineItem;
 	private Customer customer;
-	private IBT ibt;
-
+	private Store store;
+	
 	private Connection con;
 	private ResultSet rs;
 	private PreparedStatement ps;
 	private int rowsAffected;
+	
+	IBT ibt;
 
-	public IBTImp(LineItem lineItem, Customer customer) {
+	public IBTImp(String id, LineItem lineItem, Customer customer, Store store) {
+		this.id = id;
 		this.lineItem = lineItem;
 		this.customer = customer;
+		this.store = store;
 
-		try {//com.mysql.cj.jdbc.Driver
+		try {
 			Class.forName("com.mysql.jdbc.Driver");
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -49,15 +51,11 @@ public class IBTImp implements IBTInt {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
-		ibt = new IBT("", lineItem, customer);
-	}//generate IBT method to get ID
+		ibt = new IBT(id, lineItem, customer);
+	}
 
 	@Override
 	public boolean createIBT() {
-
-		Product prod = lineItem.getProduct();
-
 		rowsAffected = 0;
 		if (con != null) {
 			try {
@@ -82,11 +80,10 @@ public class IBTImp implements IBTInt {
 
 	@Override
 	public boolean sendCustomerMessage() {
-		Phone phone = new Phone();
+		Phone phone = new Phone(lineItem, customer.getPhoneNumber(), store);
 		return phone != null;
 	}
 
-	//insert into keepasidearchive(id, storeID, date, customeremail, lineitem, time) select id, storeID, date, customeremail, lineitem, time from keepaside where keepaside.id = ?
 	public boolean removeKeepAside() {
 		if (con != null) {
 			try {
