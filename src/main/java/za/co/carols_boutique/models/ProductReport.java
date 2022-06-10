@@ -12,9 +12,9 @@ public class ProductReport {
     
     private String productID;
     private String employeeID;
-    private String amountsSold;
+    private Integer amountsSold;
 
-    public ProductReport(String productID, String employeeID, String amountsSold) {
+    public ProductReport(String productID, String employeeID, Integer amountsSold) {
         this.productID = productID;
         this.employeeID = employeeID;
         this.amountsSold = amountsSold;
@@ -36,11 +36,11 @@ public class ProductReport {
         this.employeeID = employeeID;
     }
 
-    public String getAmountsSold() {
+    public Integer getAmountsSold() {
         return amountsSold;
     }
 
-    public void setAmountsSold(String amountsSold) {
+    public void setAmountsSold(Integer amountsSold) {
         this.amountsSold = amountsSold;
     }
     

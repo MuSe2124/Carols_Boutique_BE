@@ -3,15 +3,15 @@ package za.co.carols_boutique.models;
 public class StoreSale {
     
     private String storeName;
-    private Integer saleTotal;
+    private Float saleTotal;
     private Float target;
 
-    public StoreSale(String storeID, Integer saleTotal) {
+    public StoreSale(String storeID, Float saleTotal) {
         this.storeName = storeID;
         this.saleTotal = saleTotal;
     }
 
-    public StoreSale(String storeID, Integer saleTotal, Float target) {
+    public StoreSale(String storeID, Float saleTotal, Float target) {
         this.storeName = storeID;
         this.saleTotal = saleTotal;
         this.target = target;
@@ -34,11 +34,11 @@ public class StoreSale {
         this.storeName = storeID;
     }
 
-    public Integer getSaleTotal() {
+    public Float getSaleTotal() {
         return saleTotal;
     }
 
-    public void setSaleTotal(Integer saleTotal) {
+    public void setSaleTotal(Float saleTotal) {
         this.saleTotal = saleTotal;
     }
     

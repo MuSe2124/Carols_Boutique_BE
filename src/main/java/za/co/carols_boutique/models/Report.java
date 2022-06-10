@@ -26,6 +26,7 @@ public class Report {
     private List<ProdStore>prodStores;
     private List<Sale>sales;
     private List<ProductReport>productReport;
+    private List<SaleReport> saleReports;
 
     public List<Sale> getSales() {
         return sales;
@@ -75,6 +76,22 @@ public class Report {
 
     public void setProdStores(List<ProdStore> prodStores) {
         this.prodStores = prodStores;
+    }
+
+    public RepService getService() {
+        return service;
+    }
+
+    public void setService(RepService service) {
+        this.service = service;
+    }
+
+    public List<SaleReport> getSaleReports() {
+        return saleReports;
+    }
+
+    public void setSaleReports(List<SaleReport> saleReports) {
+        this.saleReports = saleReports;
     }
     
     
