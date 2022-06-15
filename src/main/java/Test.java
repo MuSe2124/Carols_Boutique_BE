@@ -62,5 +62,8 @@ public class Test {
 //        
 //        //Email email2 = new Email("keepAsideCreated","jeanpaulalexainaude@gmail.com",lineitem,"2wge");
 //        //String productID, String productName, Integer amount
+          Date date = new Date(System.currentTimeMillis());
+          
+          Email email = new Email("newsLetterPromotion","jeanpaulalexainaude@gmail.com","t2oij",date);
     }
 }
