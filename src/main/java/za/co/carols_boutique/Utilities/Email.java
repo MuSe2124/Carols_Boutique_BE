@@ -26,6 +26,7 @@ import za.co.carols_boutique.models.Stock;
 // Low stock
 
 public class Email extends Thread{
+    Date date;
     String code;
     Session newSession = null;
     MimeMessage mimeMessage = null;
@@ -44,6 +45,14 @@ public class Email extends Thread{
         this.recipient = recipient;
         this.start();
     }
+    public Email(String action, String recipient,String Promocode,Date date){
+        this.action = action;
+        this.recipient = recipient;
+        this.promocode=Promocode;
+        this.date = date; 
+        this.start();
+    }
+    
     
     
     public Email(String action, ArrayList<String> recipients,String promocode){
@@ -193,7 +202,15 @@ public class Email extends Thread{
                     e.printStackTrace();
                 }   
                 break;
-                
+            case "newsLetterPromotion":
+                try{
+                    setupServerProperties();
+                    newsLetterPromotion(recipient,date,promocode);
+                    sendEmail();
+                }catch(MessagingException e){
+                    e.printStackTrace();
+                }
+                break;
             case "test":
                 try {
                     setupServerProperties();
@@ -353,6 +370,14 @@ public class Email extends Thread{
         mimeMessage = new MimeMessage(newSession);
         mimeMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
         String body = "This is a test";
+        mimeMessage.setSubject("Carol's Boutique receipt");
+        mimeMessage.setContent(body,"text/html");
+        return mimeMessage;
+    }
+    public MimeMessage newsLetterPromotion(String recipient,Date date,String promocode) throws MessagingException{
+        mimeMessage = new MimeMessage(newSession);
+        mimeMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
+        String body = newsLetterPromotionString(date, promocode);
         mimeMessage.setSubject("Carol's Boutique receipt");
         mimeMessage.setContent(body,"text/html");
         return mimeMessage;
@@ -724,7 +749,12 @@ table+
         }
         String s ="<html>\n" +
 "<head>\n" +
-"<title>remind me</title>\n" +
+"<title>remind me</title>\n" +"<style>\n" +
+"table,tr,th,td{border: 2px solid black;\n" +
+"  border-collapse: collapse;\n" +
+"  border-color:white;\n" +
+"}\n" +
+"</style>"+
 "</head>\n" +
 "<body>\n" +
 "<h1>Carol's Boutique<h1>\n" +
@@ -740,6 +770,27 @@ table+
 "</body>\n" +
 "</html>";
         
+        return s;
+    }
+    private String newsLetterPromotionString(Date date,String PromoCode){
+        String s = "<html>\n" +
+"<head>\n" +
+"<title>Page Title</title>\n" +
+"</head>\n" +
+"<body>\n" +
+"\n" +
+"<h1>Carol's Boutique</h1>\n" +
+"<p1>Thank you for Subscribing to our newsletter</p1>\n" +
+"<h2>Here is a promocode to get 20% off on your next purchase</h2>\n" +
+"<h3>Your promo-code is available till ??date?? <h4>\n" +
+"<h4 style=\"border-width:1px;border-style:solid;width: 150px;border-width:3px\">??ID??</h4>\n" +
+"<label>\n" +
+"\n" +
+"</body>\n" +
+"</html>";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        s=s.replace("??date??",sdf.format(date) );
+        s=s.replace("??ID??", PromoCode);
         return s;
     }
 
