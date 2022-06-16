@@ -12,6 +12,6 @@ import javax.ws.rs.core.Application;
  * @author Jomar
  */
 @ApplicationPath("/pos")
-public class RestRoute extends Application {
+public class EntryPoint extends Application {
     
 }

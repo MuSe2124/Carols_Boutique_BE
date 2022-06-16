@@ -51,7 +51,7 @@ public class RestEndpointProduct {
     }
     
     @POST
-    @Path("/addProductToInventory")
+    @Path("/removeProductFromInventory")
     @Produces(MediaType.APPLICATION_JSON)
     public Response removeProductFromInventory(Stock stock){
         return Response.status(Response.Status.OK).entity(service.removeProductFromInventory(stock.getStoreID(), stock.getProductID(), stock.getEmployeeID(), stock.getAmount(), stock.getSizeID())).build();
