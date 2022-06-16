@@ -10,63 +10,38 @@ import java.io.OutputStream;
 import java.util.Properties;
 
 public class CarolsProperties {
-    private static File file;
-    private static File file2;
-    private static File file3;
-    private static Properties p;
 
-    public CarolsProperties() throws FileNotFoundException {
-        file = new File("CarolsDatabase.properties");
-        file2 = new File("CarolsPaths.properties");
-        file3 = new File("CarolsEndpoints.properties");
-        p = new Properties();
-        
-    }
-    
-    public static void main(String[] args) {
-        
-    }
-    
-    public static Properties readInProperties(String fileName) {
-        Properties p = null;
-        try{
-         p = new Properties();
-        InputStream is = new FileInputStream(fileName);
-        
-        p.load(is);
-        }catch(IOException ignore){
+    private static File file = new File("CarolsDatabase.properties");
+    private static InputStream is;
+    private static String url;
+    private static String username;
+    private static String password;
+    private static Properties p = new Properties();
+
+    public static String read(String key){
+        try {
+            p = new Properties();
+            is = new FileInputStream(file);
+
+            p.load(is);
+        } catch (IOException ignore) {
         }
-        
-        return p;
+        return p.getProperty(key);
     }
     
-    public static void database() throws FileNotFoundException, IOException{
-        
-        OutputStream os = new FileOutputStream(file);
-        
-        p.setProperty("url", "localhost:3306/carolsboutique");
-        p.setProperty("username", "root");
-        p.setProperty("password", "root");
-        
-        p.store(os, "Database");
+    public static String getUrl() {
+        url = read("url");
+        return url;
     }
-    
-    public static void paths() throws FileNotFoundException, IOException{
-        
-        OutputStream os = new FileOutputStream(file2);
-        
-        p.setProperty("EmpPath", "/employee");
-        p.setProperty("ProdPath", "/product");
-        p.setProperty("RepPath", "/report");
-        p.setProperty("StorePath", "/store");
-        
-        p.store(os, "Paths");
+
+    public static String getUsername() {
+        username = read("username");
+        return username;
     }
-    
-    public static void endpoints() throws FileNotFoundException{
-    
-        OutputStream os = new FileOutputStream(file3);
-        
-        //p.setProperty("EmpEndpoints", "")
+
+    public static String getPassword() {
+        password = read("password");
+        return password;
     }
+
 }

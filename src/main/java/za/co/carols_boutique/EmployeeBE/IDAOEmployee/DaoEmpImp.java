@@ -26,7 +26,6 @@ public class DaoEmpImp implements DAOEmp {
     //String id, String name, String surname, Boolean isManager
 
     public DaoEmpImp() {
-        Properties p = CarolsProperties.readInProperties("CarolsDatabase.properties");
         try {//com.mysql.cj.jdbc.Driver
             Class.forName("com.mysql.jdbc.Driver");
         } catch (ClassNotFoundException e) {
@@ -34,7 +33,7 @@ public class DaoEmpImp implements DAOEmp {
         }
         //String URL = "jdbc:mysql://localhost:3306/carolsboutique";       
         try {
-            con = (Connection) DriverManager.getConnection(p.get("url").toString(), p.get("username").toString(), p.get("password").toString());
+            con = (Connection) DriverManager.getConnection(CarolsProperties.getUrl(), CarolsProperties.getUsername(), CarolsProperties.getPassword());
         } catch (SQLException e) {
             e.printStackTrace();
         }

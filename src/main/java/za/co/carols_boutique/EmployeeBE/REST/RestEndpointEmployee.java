@@ -16,6 +16,7 @@ import za.co.carols_boutique.EmployeeBE.ServiceEmployee.EmpService;
 import za.co.carols_boutique.EmployeeBE.ServiceEmployee.EmpServiceImp;
 import za.co.carols_boutique.Utilities.Email;
 import za.co.carols_boutique.models.Employee;
+import za.co.carols_boutique.properties.CarolsProperties;
 
 
 /**
@@ -69,6 +70,6 @@ public class RestEndpointEmployee {
     @Path("/test")
     @Produces(MediaType.APPLICATION_JSON)
     public String test(){
-        return "Please work!!!";
+        return CarolsProperties.getUrl();
     }
 }
