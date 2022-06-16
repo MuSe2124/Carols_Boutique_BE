@@ -10,6 +10,7 @@ import za.co.carols_boutique.models.Payment;
 import za.co.carols_boutique.models.Product;
 import za.co.carols_boutique.models.Sale;
 import za.co.carols_boutique.models.Stock;
+import za.co.carols_boutique.properties.CarolsProperties;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -32,8 +33,8 @@ public class Test {
 //    }
     
     public static void main(String[] args) {
-//        //Properties p = new Properties();
-//        //System.out.println(p.get("url"));
+        Properties p = CarolsProperties.readInProperties("CarolsDatabase.properties");       
+        System.out.println(p.get("url").toString());
 //        //String id, Store store, Employee employee, List<LineItem> lineItems, String customerID, Date date, Payment payment
 //        /*(List<LineItem> lineitems = new ArrayList<LineItem>();
 //        LineItem prelineitem=new LineItem("21","34",new Product("2","some cheese","not decent",1f),66);
