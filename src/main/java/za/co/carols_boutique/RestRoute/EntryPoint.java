@@ -7,8 +7,11 @@ package za.co.carols_boutique.RestRoute;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
-
+/**
+ *
+ * @author Jomar
+ */
 @ApplicationPath("/pos")
-public class RestRouteEntryPoint extends Application{
+public class EntryPoint extends Application {
     
 }

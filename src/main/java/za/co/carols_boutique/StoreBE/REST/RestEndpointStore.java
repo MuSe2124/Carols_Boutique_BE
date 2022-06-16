@@ -28,7 +28,7 @@ public class RestEndpointStore {
     private StoreService service = new StoreServiceImp();
     
     @POST
-    @Path("/login")
+    @Path("/loginStore")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response login(Store store){
@@ -36,7 +36,7 @@ public class RestEndpointStore {
     }
     
     @POST
-    @Path("/register")
+    @Path("/registerStore")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response register(Store store){
@@ -52,7 +52,7 @@ public class RestEndpointStore {
     }
     
     @GET
-    @Path("/delete")
+    @Path("/deleteStore")
     @Produces(MediaType.APPLICATION_JSON)
     public Response delete(String storeID){
         return Response.status(Response.Status.OK).entity(service.deleteStore(storeID)).build();

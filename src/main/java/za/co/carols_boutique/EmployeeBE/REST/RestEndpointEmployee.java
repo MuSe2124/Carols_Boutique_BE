@@ -67,8 +67,8 @@ public class RestEndpointEmployee {
     
     @GET
     @Path("/test")
-    @Produces(MediaType.TEXT_PLAIN)
-    public String test(String recipient){
-        return "Fuck you mussy!";
+    @Produces(MediaType.APPLICATION_JSON)
+    public String test(){
+        return "Please work!!!";
     }
 }

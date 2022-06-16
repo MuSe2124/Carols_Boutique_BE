@@ -113,5 +113,12 @@ public class RestEndpointReport {
     public Response addCustomer(Customer customer){
         return Response.status(Response.Status.OK).entity(service.addCustomer(customer)).build();
     }
+	
+	@GET
+    @Path("/testing")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String viewProductReport(){
+        return "I'm here";
+    }
     
 }
