@@ -4,11 +4,13 @@
  */
 package za.co.carols_boutique.models;
 
+import java.io.Serializable;
+
 /**
  *
  * @author muaad
  */
-public class LineItem {
+public class LineItem implements Serializable{
 
 	private String id;
 	private String saleID;

@@ -4,6 +4,7 @@
  */
 package za.co.carols_boutique.models;
 
+import java.io.Serializable;
 import java.sql.Time;
 import java.util.Date;
 
@@ -11,7 +12,7 @@ import java.util.Date;
  *
  * @author muaad
  */
-public class KeepAside {
+public class KeepAside implements Serializable{
 
 	private String id;
 	private String storeID;

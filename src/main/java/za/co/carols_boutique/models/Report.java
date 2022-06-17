@@ -4,6 +4,7 @@
  */
 package za.co.carols_boutique.models;
 
+import java.io.Serializable;
 import java.util.List;
 import za.co.carols_boutique.ReportBE.ServiceReport.RepService;
 import za.co.carols_boutique.ReportBE.ServiceReport.RepServiceImp;
@@ -12,7 +13,7 @@ import za.co.carols_boutique.ReportBE.ServiceReport.RepServiceImp;
  *
  * @author muaad
  */
-public class Report {
+public class Report implements Serializable{
     
     private RepService service;
 

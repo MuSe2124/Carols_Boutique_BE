@@ -1,6 +1,8 @@
 package za.co.carols_boutique.models;
 
-public class StoreSale {
+import java.io.Serializable;
+
+public class StoreSale implements Serializable{
     
     private String storeName;
     private Float saleTotal;

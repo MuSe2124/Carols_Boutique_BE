@@ -4,12 +4,14 @@
  */
 package za.co.carols_boutique.models;
 
+import java.io.Serializable;
+
 /**
  *
  * @author muaad
  */
 
-public class EmpSale {
+public class EmpSale implements Serializable{
 
     private String employeeID;
     private Float saleTotal;

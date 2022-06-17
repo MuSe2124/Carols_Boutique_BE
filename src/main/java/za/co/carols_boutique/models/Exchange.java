@@ -4,11 +4,13 @@
  */
 package za.co.carols_boutique.models;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Jomar
  */
-public class Exchange {
+public class Exchange implements Serializable{
     
     Sale sale;
     LineItem preLineItem;

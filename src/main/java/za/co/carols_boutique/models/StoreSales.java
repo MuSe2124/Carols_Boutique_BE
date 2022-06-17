@@ -4,13 +4,14 @@
  */
 package za.co.carols_boutique.models;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  *
  * @author muaad
  */
-public class StoreSales {
+public class StoreSales implements Serializable{
     
     private String storeName;
     private List<Sale>storeSales;

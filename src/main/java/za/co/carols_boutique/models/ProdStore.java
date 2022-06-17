@@ -1,6 +1,8 @@
 package za.co.carols_boutique.models;
 
-public class ProdStore {
+import java.io.Serializable;
+
+public class ProdStore implements Serializable{
    
     private String id;
     private String storeID;

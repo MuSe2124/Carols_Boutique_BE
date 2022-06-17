@@ -4,6 +4,7 @@
  */
 package za.co.carols_boutique.models;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -11,7 +12,7 @@ import java.util.List;
  *
  * @author muaad
  */
-public class Sale {
+public class Sale implements Serializable{
 
 	private String id;
 	private Store store;

@@ -4,11 +4,13 @@
  */
 package za.co.carols_boutique.models;
 
+import java.io.Serializable;
+
 /**
  *
  * @author HP
  */
-public class ExchangedItems {
+public class ExchangedItems implements Serializable{
     private String lineItemId;
     private String exchanged;
     private String qty1;

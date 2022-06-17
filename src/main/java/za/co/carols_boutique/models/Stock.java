@@ -4,11 +4,13 @@
  */
 package za.co.carols_boutique.models;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Jomar
  */
-public class Stock {
+public class Stock implements Serializable{
     
     private String storeID;
     private String productID;

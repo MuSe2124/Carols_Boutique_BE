@@ -6,11 +6,13 @@
  */
 package za.co.carols_boutique.models;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Mustafaa Osman
  */
-public class CardPayment implements Payment{
+public class CardPayment implements Payment, Serializable{
 	private String CardNum;
         private String CardType;
 

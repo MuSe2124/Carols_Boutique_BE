@@ -4,13 +4,14 @@
  */
 package za.co.carols_boutique.models;
 
+import java.io.Serializable;
 import java.sql.Date;
 
 /**
  *
  * @author Jomar
  */
-public class SaleReport {
+public class SaleReport implements Serializable{
     private String saleID;
     private Float saleTotal;
 

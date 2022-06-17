@@ -4,11 +4,13 @@
  */
 package za.co.carols_boutique.models;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Mustafaa Osman
  */
-public interface Payment {
+public interface Payment{
 	
 	boolean verify(int price);
 

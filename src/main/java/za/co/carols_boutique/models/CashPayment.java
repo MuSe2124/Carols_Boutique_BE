@@ -5,11 +5,13 @@
  */
 package za.co.carols_boutique.models;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Mustafaa Osman
  */
-public class CashPayment implements Payment{
+public class CashPayment implements Payment, Serializable{
 	
 	private int payment;
 

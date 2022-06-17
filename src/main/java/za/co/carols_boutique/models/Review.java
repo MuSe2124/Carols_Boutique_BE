@@ -4,13 +4,14 @@
  */
 package za.co.carols_boutique.models;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  *
  * @author muaad
  */
-public class Review {
+public class Review implements Serializable{
     
     private String id;
     private String comment;

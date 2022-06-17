@@ -4,13 +4,14 @@
  */
 package za.co.carols_boutique.models;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  *
  * @author Jomar
  */
-public class Refund {
+public class Refund implements Serializable{
     
     private Sale sale;
     private List<LineItem> lineItems;
