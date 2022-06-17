@@ -47,6 +47,7 @@ public class DAORepImp implements DAORep {
     private DAOStoreImp store;
 
     public DAORepImp() {
+        CarolsProperties cp = new CarolsProperties();
         try {//com.mysql.cj.jdbc.Driver
             Class.forName("com.mysql.jdbc.Driver");
         } catch (ClassNotFoundException e) {
@@ -54,7 +55,7 @@ public class DAORepImp implements DAORep {
         }
         //String URL = "jdbc:mysql://localhost:3306/carolsboutique";       
         try {
-            con = (Connection) DriverManager.getConnection(CarolsProperties.getUrl(), CarolsProperties.getUsername(), CarolsProperties.getPassword());
+            con = (Connection) DriverManager.getConnection(cp.getUrl(), cp.getUsername(), cp.getPassword());
         } catch (SQLException e) {
             e.printStackTrace();
         }

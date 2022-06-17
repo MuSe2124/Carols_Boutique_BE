@@ -70,6 +70,7 @@ public class RestEndpointEmployee {
     @Path("/test")
     @Produces(MediaType.APPLICATION_JSON)
     public String test(){
-        return CarolsProperties.getUrl();
+        CarolsProperties cp = new CarolsProperties();
+        return cp.getUrl();
     }
 }

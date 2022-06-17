@@ -35,7 +35,8 @@ public class Test {
     
     public static void main(String[] args) throws FileNotFoundException {
 //        Properties p = CarolsProperties.readInProperties("CarolsDatabase.properties");   
-        System.out.println(CarolsProperties.getUrl());
+        CarolsProperties cp = new CarolsProperties();
+        System.out.println(cp.getUrl());
 //        //String id, Store store, Employee employee, List<LineItem> lineItems, String customerID, Date date, Payment payment
 //        /*(List<LineItem> lineitems = new ArrayList<LineItem>();
 //        LineItem prelineitem=new LineItem("21","34",new Product("2","some cheese","not decent",1f),66);
