@@ -38,7 +38,7 @@ public class DAOStoreImp implements DAOStore {
         }
         //String URL = "jdbc:mysql://localhost:3306/carolsboutique";       
         try {
-            con = (Connection) DriverManager.getConnection(cp.getUrl(), cp.getUsername(), cp.getPassword());
+            con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/carolsboutique","root","root");
         } catch (SQLException e) {
             e.printStackTrace();
         }

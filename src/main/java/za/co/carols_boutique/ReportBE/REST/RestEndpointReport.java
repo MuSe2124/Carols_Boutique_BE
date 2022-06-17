@@ -6,6 +6,7 @@ package za.co.carols_boutique.ReportBE.REST;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ws.rs.Consumes;
@@ -18,7 +19,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import za.co.carols_boutique.ReportBE.ServiceReport.RepService;
 import za.co.carols_boutique.ReportBE.ServiceReport.RepServiceImp;
+import za.co.carols_boutique.Utilities.Email;
 import za.co.carols_boutique.models.Customer;
+import za.co.carols_boutique.models.Employee;
 import za.co.carols_boutique.models.Product;
 import za.co.carols_boutique.models.Review;
 
@@ -116,9 +119,11 @@ public class RestEndpointReport {
 	
 	@GET
     @Path("/testing")
-    @Produces(MediaType.TEXT_PLAIN)
-    public String viewProductReport(){
-        return "I'm here";
+    @Produces(MediaType.APPLICATION_JSON)
+    public Employee viewProductReport(){
+		Date date = new Date(System.currentTimeMillis());
+		Email email = new Email("newsLetterPromotion","jomarvn@gmail.com","Johannes",date);
+        return new Employee();
     }
     
 }

@@ -58,7 +58,5 @@ public class CarolsProperties {
     public void setPassword(String password) {
         this.password = password;
     }
-    
-    
 
 }

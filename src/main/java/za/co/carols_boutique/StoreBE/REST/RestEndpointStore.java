@@ -9,6 +9,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -52,9 +53,9 @@ public class RestEndpointStore {
     }
     
     @GET
-    @Path("/deleteStore")
+    @Path("/deleteStore/{storeID}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response delete(String storeID){
+    public Response delete(@PathParam("storeID")String storeID){
         return Response.status(Response.Status.OK).entity(service.deleteStore(storeID)).build();
     }
 }
