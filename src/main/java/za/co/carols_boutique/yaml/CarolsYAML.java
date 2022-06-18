@@ -4,9 +4,11 @@
  */
 package za.co.carols_boutique.yaml;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.HashMap;
@@ -23,21 +25,38 @@ public class CarolsYAML {
     private String url;
     private String username;
     private String password;
-    private InputStream is;
+//    private InputStream is;
+    private BufferedReader br;
     private Yaml yaml;
     private Map<String, String> data;
 
     public CarolsYAML() {
         try {
-            is = new FileInputStream(new File("C:\\Users\\muaad\\OneDrive\\Desktop\\Carols_Boutique_BE\\CarolsDatabase.yml"));
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(CarolsYAML.class.getName()).log(Level.SEVERE, null, ex);
+            br = new BufferedReader(new FileReader("C:\\Users\\muaad\\OneDrive\\Desktop\\Carols_Boutique_BE\\CarolsDatabase.yml"));
+            yaml = new Yaml();
+            data = yaml.load(br);
+            setUrl(data.get("url"));
+            setPassword(data.get("password"));
+            setUsername(data.get("username"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                br.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-        yaml = new Yaml();
-        data = yaml.load(is);
-        setUrl(data.get("url"));
-        setUsername(data.get("username"));
-        setPassword(data.get("password"));
+//        try {
+//            is = new FileInputStream(new File("C:\\Users\\muaad\\OneDrive\\Desktop\\Carols_Boutique_BE\\CarolsDatabase.yml"));
+//        } catch (FileNotFoundException ex) {
+//            Logger.getLogger(CarolsYAML.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        yaml = new Yaml();
+//        data = yaml.load(is);
+//        setUrl(data.get("url"));
+//        setUsername(data.get("username"));
+//        setPassword(data.get("password"));
     }
 
     public String getUrl() {
@@ -62,6 +81,11 @@ public class CarolsYAML {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "CarolsYAML{" + "url=" + url + ", username=" + username + ", password=" + password + '}';
     }
     
     
