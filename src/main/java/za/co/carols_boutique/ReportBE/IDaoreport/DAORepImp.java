@@ -32,8 +32,6 @@ import za.co.carols_boutique.models.Sale;
 import za.co.carols_boutique.models.SaleReport;
 import za.co.carols_boutique.models.Store;
 import za.co.carols_boutique.models.StoreSale;
-import za.co.carols_boutique.models.StoreSales;
-import za.co.carols_boutique.properties.CarolsProperties;
 import za.co.carols_boutique.yaml.CarolsYAML;
 
 /**

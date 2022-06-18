@@ -5,6 +5,7 @@
 package za.co.carols_boutique.models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import za.co.carols_boutique.ReportBE.ServiceReport.RepService;
 import za.co.carols_boutique.ReportBE.ServiceReport.RepServiceImp;
@@ -19,6 +20,13 @@ public class Report implements Serializable{
 
     public Report() {
         service = new RepServiceImp();
+		reviews = new ArrayList<Review>();
+		storeSales = new ArrayList<>();
+		empSales = new ArrayList<>();
+		prodStores = new ArrayList<>();
+		sales = new ArrayList<>();
+		productReport = new ArrayList<>();
+		saleReports = new ArrayList<>();
     }
 
     private List<Review>reviews;
@@ -94,6 +102,11 @@ public class Report implements Serializable{
     public void setSaleReports(List<SaleReport> saleReports) {
         this.saleReports = saleReports;
     }
+
+	@Override
+	public String toString() {
+		return "Report{" + "\nservice=" + service + "\nreviews=" + reviews.size() + "\nstoreSales=" + storeSales.size() + "\nempSales=" + empSales.size() + "\nprodStores=" + prodStores.size() + "\nsales=" + sales.size() + "\nproductReport=" + productReport.size() + "\nsaleReports=" + saleReports.size() + '}';
+	}
     
     
     

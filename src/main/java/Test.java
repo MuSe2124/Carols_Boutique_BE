@@ -4,11 +4,18 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
+import za.co.carols_boutique.EmployeeBE.ServiceEmployee.EmpServiceImp;
+import za.co.carols_boutique.ProductBE.ServiceProduct.ProdServiceImp;
+import za.co.carols_boutique.ReportBE.ServiceReport.RepServiceImp;
+import za.co.carols_boutique.StoreBE.ServiceStore.StoreServiceImp;
 import za.co.carols_boutique.Utilities.Email;
 import za.co.carols_boutique.models.CardPayment;
+import za.co.carols_boutique.models.Customer;
 import za.co.carols_boutique.models.LineItem;
 import za.co.carols_boutique.models.Payment;
 import za.co.carols_boutique.models.Product;
+import za.co.carols_boutique.models.Report;
+import za.co.carols_boutique.models.Review;
 import za.co.carols_boutique.models.Sale;
 import za.co.carols_boutique.models.Stock;
 import za.co.carols_boutique.properties.CarolsProperties;
@@ -22,51 +29,77 @@ import za.co.carols_boutique.properties.CarolsProperties;
  *
  * @author Jomar
  */
+
+
+
 public class Test {
-//    public static void main(String[] args) {
-//        ArrayList<Stock> stock= new ArrayList<Stock>();
-//        stock.add(new Stock("prod1","Belt",3));
-//        stock.add(new Stock("prod2","Scarf",4));
-//        stock.add(new Stock("prod3","Hat",1));
-//        
-//        Email email8 = new Email("lowStockReminder","jeanpaulalexainaude@gmail.com",stock); 
-//        
-//    }
+
+	public EmpServiceImp emp;
+	public RepServiceImp rep;
+	public ProdServiceImp prod;
+	public StoreServiceImp store;
+
+	public Test() {
+		emp = new EmpServiceImp();
+		rep = new RepServiceImp();
+		prod = new ProdServiceImp();
+		store = new StoreServiceImp();
+	}
+	
+	
     
     public static void main(String[] args) throws FileNotFoundException {
-//        Properties p = CarolsProperties.readInProperties("CarolsDatabase.properties");   
+		Test test = new Test();
+		Report report;
+		System.out.println("\n\nTesting url");
         CarolsProperties cp = new CarolsProperties();
         System.out.println(cp.getUrl());
-//        //String id, Store store, Employee employee, List<LineItem> lineItems, String customerID, Date date, Payment payment
-//        /*(List<LineItem> lineitems = new ArrayList<LineItem>();
-//        LineItem prelineitem=new LineItem("21","34",new Product("2","some cheese","not decent",1f),66);
-//        LineItem postlineitem=new LineItem("27","32",new Product("5","juice","its bad",1f),36);
-//        //String id, String saleID, Product product, Integer amounnt
-//        //String id, String name, String description, Float price
-//        lineitems.add(new LineItem("239","1234",new Product("23","cheese","its decent",1f),20));
-//        lineitems.add(new LineItem("23","3214",new Product("33","more cheese","its also decent",1f),23));
-//        Date date = new Date(System.currentTimeMillis());
-//        
-//        //List<LineItem> lineItems, Date date, Payment payment
-//        Payment payment = new CardPayment("051902","debit");
-//        Sale sale = new Sale(lineitems,date,payment);
-//        Sale salerefund = new Sale(date,payment);
-//        //Email email2= new Email("sendReceipt","jeanpaulalexainaude@gmail.com",sale);
-//        //Email email1 = new Email("sendAmendedReceipt","jeanpaulalexainaude@gmail.com",sale,prelineitem,postlineitem);
-//        ArrayList<String> emails = new ArrayList<String>();
-//        emails.add("jeanpaulalexainaude@gmail.com");
-//        //Email email2 = new Email("sendPromotions",emails,"324897");*/
-//        ArrayList<Stock> stocks = new ArrayList<Stock>();
-//        stocks.add(new Stock("243","cheese",3));
-//        stocks.add(new Stock("23","another cheese",4));
-//        LineItem lineitem = new LineItem("239","1234",new Product("23","cheese","its decent",1f),20);
-//        Email email2 = new Email("send48hReminder","jeanpaulalexainaude@gmail.com");
-//        Email email1= new Email("send24hReminder","jeanpaulalexainaude@gmail.com",lineitem);
-//        
-//        //Email email2 = new Email("keepAsideCreated","jeanpaulalexainaude@gmail.com",lineitem,"2wge");
-//        //String productID, String productName, Integer amount
-//          Date date = new Date(System.currentTimeMillis());
-//          
-//          Email email = new Email("newsLetterPromotion","jeanpaulalexainaude@gmail.com","t2oij",date);
+		
+//		{{ Can not find 'total' DaoRepImp line 80 }}
+//		System.out.println("\n\nTesting top achieving stores");
+//		report = test.rep.viewTopAchievingStores("june");
+//		System.out.println(report.toString());
+		
+//		 {{ Check SQL statement with mussy }}
+//		System.out.println("\n\nTesting get customer reviews");
+//		report = test.rep.getCustomerReviews("june",2);
+//		System.out.println(report.toString());
+//		
+
+		System.out.println("\n\nTesting monthly sales");
+		report = test.rep.viewMonthlySales("1","june");
+		System.out.println(report.toString());
+//		
+//		System.out.println("\n\nTesting top selling employees");
+//		report = test.rep.viewTopSellingEmployees("1","june");
+//		System.out.println(report.toString());
+//		
+//		System.out.println("\n\nTesting stores that hit target");
+//		report = test.rep.viewStoresThatAchievedTarget("june");
+//		System.out.println(report.toString());
+//		
+//		System.out.println("\n\nTesting top selling products");
+//		report = test.rep.viewTopSellingProducts("june");
+//		System.out.println(report.toString());
+//		
+//		System.out.println("\n\nTesting least achieving stores");
+//		report = test.rep.viewLeastPerformingStores("june");
+//		System.out.println(report.toString());
+//		
+//		System.out.println("\n\nTesting product report");
+//		report = test.rep.viewProductReport("5","june");
+//		System.out.println(report.toString());
+//		
+//		System.out.println("\n\nTesting daily sales report");
+//		report = test.rep.viewDailySalesReport("1");
+//		System.out.println(report.toString());
+//		
+//		System.out.println("\n\nTesting add review");
+//		String s = test.rep.addReview(new Review("Great",9));
+//		System.out.println(s);
+//		
+//		System.out.println("\n\nTesting add custoemr");
+//		s = test.rep.addCustomer(new Customer("Johannes","0794562816","jomarvn@gmail.com"));
+//		System.out.println(s);
     }
 }

@@ -12,11 +12,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import za.co.carols_boutique.ProductBE.IDAOProduct.DAOProductImp;
 import za.co.carols_boutique.ProductBE.ServiceProduct.ProdService;
 import za.co.carols_boutique.ProductBE.ServiceProduct.ProdServiceImp;
 import za.co.carols_boutique.models.ProdCat;
-import za.co.carols_boutique.models.Product;
 import za.co.carols_boutique.models.Refund;
 import za.co.carols_boutique.models.Stock;
 
@@ -27,7 +25,7 @@ import za.co.carols_boutique.models.Stock;
 @Path("/product")
 public class RestEndpointProduct {
     
-    private ProdService service = new ProdServiceImp(new DAOProductImp());
+    private ProdService service = new ProdServiceImp();
     
     @GET
     @Path("/getProduct/{productID}/{sizeID}")
