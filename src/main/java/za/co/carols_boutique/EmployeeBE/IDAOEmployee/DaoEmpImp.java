@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.Properties;
 import za.co.carols_boutique.models.Employee;
 import za.co.carols_boutique.properties.CarolsProperties;
+import za.co.carols_boutique.yaml.CarolsYAML;
 
 /**
  *
@@ -25,8 +26,8 @@ public class DaoEmpImp implements DAOEmp {
     private String URL;
     //String id, String name, String surname, Boolean isManager
 
-    public DaoEmpImp() {
-        CarolsProperties cp = new CarolsProperties();
+    public DaoEmpImp() throws FileNotFoundException {
+        CarolsYAML c = new CarolsYAML();
         try {//com.mysql.cj.jdbc.Driver
             Class.forName("com.mysql.jdbc.Driver");
         } catch (ClassNotFoundException e) {
@@ -34,7 +35,7 @@ public class DaoEmpImp implements DAOEmp {
         }
         //String URL = "jdbc:mysql://localhost:3306/carolsboutique";       
         try {
-            con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/carolsboutique","root","root");
+            con = (Connection) DriverManager.getConnection(c.getUrl(), c.getUsername(), c.getPassword());
         } catch (SQLException e) {
             e.printStackTrace();
         }
