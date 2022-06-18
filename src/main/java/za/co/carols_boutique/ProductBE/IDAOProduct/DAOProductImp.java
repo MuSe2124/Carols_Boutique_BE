@@ -33,7 +33,7 @@ public class DAOProductImp implements DAOProduct {
     private int rowsAffected;
 
 //String id, String name, String description, Float price
-    public DAOProductImp() throws FileNotFoundException {
+    public DAOProductImp() {
         CarolsYAML c = new CarolsYAML();
         try {//com.mysql.cj.jdbc.Driver
             Class.forName("com.mysql.jdbc.Driver");

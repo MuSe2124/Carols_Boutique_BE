@@ -48,7 +48,7 @@ public class DAORepImp implements DAORep {
     private int rowsAffected;
     private DAOStoreImp store;
 
-    public DAORepImp() throws FileNotFoundException {
+    public DAORepImp() {
         CarolsYAML c = new CarolsYAML();
         try {//com.mysql.cj.jdbc.Driver
             Class.forName("com.mysql.jdbc.Driver");
