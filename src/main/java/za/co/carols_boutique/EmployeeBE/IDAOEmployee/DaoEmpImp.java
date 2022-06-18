@@ -26,7 +26,7 @@ public class DaoEmpImp implements DAOEmp {
     private String URL;
     //String id, String name, String surname, Boolean isManager
 
-    public DaoEmpImp() throws FileNotFoundException {
+    public DaoEmpImp() {
         CarolsYAML c = new CarolsYAML();
         try {//com.mysql.cj.jdbc.Driver
             Class.forName("com.mysql.jdbc.Driver");

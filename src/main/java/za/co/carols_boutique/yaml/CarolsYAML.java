@@ -11,6 +11,8 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.yaml.snakeyaml.Yaml;
 
 /**
@@ -25,8 +27,12 @@ public class CarolsYAML {
     private Yaml yaml;
     private Map<String, String> data;
 
-    public CarolsYAML() throws FileNotFoundException {
-        is = new FileInputStream(new File("C:\\Users\\muaad\\OneDrive\\Desktop\\Carols_Boutique_BE\\CarolsDatabase.yml"));
+    public CarolsYAML() {
+        try {
+            is = new FileInputStream(new File("C:\\Users\\muaad\\OneDrive\\Desktop\\Carols_Boutique_BE\\CarolsDatabase.yml"));
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(CarolsYAML.class.getName()).log(Level.SEVERE, null, ex);
+        }
         yaml = new Yaml();
         data = yaml.load(is);
         setUrl(data.get("url"));
