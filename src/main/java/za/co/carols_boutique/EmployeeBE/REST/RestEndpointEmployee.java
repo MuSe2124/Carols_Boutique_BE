@@ -4,6 +4,7 @@
  */
 package za.co.carols_boutique.EmployeeBE.REST;
 
+import java.io.FileNotFoundException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -17,6 +18,7 @@ import za.co.carols_boutique.EmployeeBE.ServiceEmployee.EmpServiceImp;
 import za.co.carols_boutique.Utilities.Email;
 import za.co.carols_boutique.models.Employee;
 import za.co.carols_boutique.properties.CarolsProperties;
+import za.co.carols_boutique.yaml.CarolsYAML;
 
 
 /**
@@ -69,8 +71,8 @@ public class RestEndpointEmployee {
     @GET
     @Path("/test")
     @Produces(MediaType.APPLICATION_JSON)
-    public String test(){
-        CarolsProperties cp = new CarolsProperties();
-        return cp.getUrl();
+    public String test() throws FileNotFoundException{
+        CarolsYAML c = new CarolsYAML();
+        return c.getUrl();
     }
 }

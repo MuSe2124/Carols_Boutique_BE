@@ -1,5 +1,6 @@
 package za.co.carols_boutique.StoreBE.IDAOStore;
 
+import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -17,6 +18,7 @@ import za.co.carols_boutique.models.Product;
 import za.co.carols_boutique.models.Sale;
 import za.co.carols_boutique.models.Store;
 import za.co.carols_boutique.properties.CarolsProperties;
+import za.co.carols_boutique.yaml.CarolsYAML;
 
 /**
  *
@@ -29,8 +31,8 @@ public class DAOStoreImp implements DAOStore {
     private ResultSet rs;
     private int rowsAffected;
 
-    public DAOStoreImp() {
-        CarolsProperties cp = new CarolsProperties();
+    public DAOStoreImp() throws FileNotFoundException {
+        CarolsYAML c = new CarolsYAML();
         try {//com.mysql.cj.jdbc.Driver
             Class.forName("com.mysql.jdbc.Driver");
         } catch (ClassNotFoundException e) {
@@ -38,7 +40,7 @@ public class DAOStoreImp implements DAOStore {
         }
         //String URL = "jdbc:mysql://localhost:3306/carolsboutique";       
         try {
-            con = (Connection) DriverManager.getConnection(cp.getUrl(), cp.getUsername(), cp.getPassword());
+            con = (Connection) DriverManager.getConnection(c.getUrl(), c.getUsername(), c.getPassword());
         } catch (SQLException e) {
             e.printStackTrace();
         }
