@@ -72,7 +72,6 @@ public class RestEndpointEmployee {
     @Path("/test")
     @Produces(MediaType.APPLICATION_JSON)
     public String test() {
-        CarolsYAML c = new CarolsYAML();
-        return c.getUrl();
+        return "I'm here";
     }
 }

@@ -55,7 +55,7 @@ public class DAORepImp implements DAORep {
         }
         //String URL = "jdbc:mysql://localhost:3306/carolsboutique";       
         try {
-            con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/carolsboutique", "root", "root");
+            con = (Connection) DriverManager.getConnection("jdbc:mysql://192.100.255.1:3306/carolsboutique", "root", "root");
         } catch (SQLException e) {
             e.printStackTrace();
         }
