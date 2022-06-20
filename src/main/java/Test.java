@@ -34,16 +34,16 @@ import za.co.carols_boutique.properties.CarolsProperties;
 
 public class Test {
 
-	public EmpServiceImp emp;
+//	public EmpServiceImp emp;
 	public RepServiceImp rep;
-	public ProdServiceImp prod;
-	public StoreServiceImp store;
+//	public ProdServiceImp prod;
+//	public StoreServiceImp store;
 
 	public Test() {
-		emp = new EmpServiceImp();
+//		emp = new EmpServiceImp();
 		rep = new RepServiceImp();
-		prod = new ProdServiceImp();
-		store = new StoreServiceImp();
+//		prod = new ProdServiceImp();
+//		store = new StoreServiceImp();
 	}
 	
 	
@@ -51,9 +51,6 @@ public class Test {
     public static void main(String[] args) throws FileNotFoundException {
 		Test test = new Test();
 		Report report;
-		System.out.println("\n\nTesting url");
-        CarolsProperties cp = new CarolsProperties();
-        System.out.println(cp.getUrl());
 		
 //		{{ Can not find 'total' DaoRepImp line 80 }}
 //		System.out.println("\n\nTesting top achieving stores");
