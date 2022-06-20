@@ -32,8 +32,6 @@ import za.co.carols_boutique.models.Sale;
 import za.co.carols_boutique.models.SaleReport;
 import za.co.carols_boutique.models.Store;
 import za.co.carols_boutique.models.StoreSale;
-import za.co.carols_boutique.models.StoreSales;
-import za.co.carols_boutique.properties.CarolsProperties;
 import za.co.carols_boutique.yaml.CarolsYAML;
 
 /**
@@ -49,15 +47,15 @@ public class DAORepImp implements DAORep {
     private DAOStoreImp store;
 
     public DAORepImp() {
-        CarolsYAML c = new CarolsYAML();
+        //CarolsYAML c = new CarolsYAML();
         try {//com.mysql.cj.jdbc.Driver
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
         //String URL = "jdbc:mysql://localhost:3306/carolsboutique";       
         try {
-            con = (Connection) DriverManager.getConnection(c.getUrl(), c.getUsername(), c.getPassword());
+            con = (Connection) DriverManager.getConnection("jdbc:mysql://192.100.255.1:3306/carolsboutique", "root", "root");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -128,10 +126,12 @@ public class DAORepImp implements DAORep {
 
         if (con != null) {
             try {
-                ps = con.prepareStatement("select id, employeeID, cutomerEmail, date from sale where storeID = ? and monthname(date) = ?");
-                ps.setString(1, storeID);
+                ps = con.prepareStatement("select id, employeeID, customerEmail, date from sale where storeID = ? and monthname(date) = ?");
+                ps.setInt(1, Integer.parseInt(storeID));
                 ps.setString(2, month);
                 rs = ps.executeQuery();
+				System.out.println("Checkpoint 1");
+				System.out.println(rs.toString());
                 while (rs.next()) {
                     Sale sale = new Sale();
                     sale.setLineItems(new ArrayList<LineItem>());
@@ -141,6 +141,7 @@ public class DAORepImp implements DAORep {
                     ps = con.prepareStatement("select name, location, password, target from store where id = ?");
                     ps.setString(1, rs.getString("storeID"));
                     ResultSet rs2 = ps.executeQuery();
+					System.out.println("Checkpoint 2");
                     if (rs2.next()) {
                         Store store = new Store(rs.getString("storeID"),
                                 rs2.getString("name"),
@@ -152,6 +153,7 @@ public class DAORepImp implements DAORep {
                     ps = con.prepareStatement("select name,surname,isManager,password,storeID from employee where id = ?");
                     ps.setString(1, rs.getString("employeeID"));
                     ResultSet rs3 = ps.executeQuery();
+					System.out.println("Checkpoint 3");
                     if (rs.next()) {
                         Employee employee = new Employee(
                                 rs.getString("employeeID"),
@@ -166,11 +168,13 @@ public class DAORepImp implements DAORep {
                     ps = con.prepareStatement("select id, product, amount, total, size, sale from lineitem where sale = ?");
                     ps.setString(1, saleID);
                     ResultSet rs4 = ps.executeQuery();
+					System.out.println("Checkpoint 4");
                     while (rs4.next()) {
                         ps = con.prepareStatement("select id, name, description, price from product where id = ?");
                         ps.setString(1, rs4.getString("product"));
                         ResultSet rs5 = ps.executeQuery();
                         Product product = null;
+						System.out.println("Checkpoint 5");
                         if (rs5.next()) {
                             product = new Product(
                                     rs5.getString("id"),
@@ -187,6 +191,7 @@ public class DAORepImp implements DAORep {
                                 rs4.getInt("amount")
                         );
                         sale.getLineItems().add(li);
+						System.out.println("Checkpoint 6");
                     }
                 }
             } catch (SQLException ex) {

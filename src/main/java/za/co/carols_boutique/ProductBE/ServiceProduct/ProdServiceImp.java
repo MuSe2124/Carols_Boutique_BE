@@ -23,7 +23,7 @@ public class ProdServiceImp implements ProdService {
     private Email email;
     private StockCheck stockCheck;
 
-    public ProdServiceImp(DAOProduct dao) {
+    public ProdServiceImp() {
         dao = new DAOProductImp();
         email = null;
     }
