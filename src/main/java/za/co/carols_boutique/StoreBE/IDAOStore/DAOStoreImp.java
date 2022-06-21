@@ -32,7 +32,7 @@ public class DAOStoreImp implements DAOStore {
     private int rowsAffected;
 
     public DAOStoreImp() {
-        CarolsYAML c = new CarolsYAML();
+//        CarolsYAML c = new CarolsYAML();
         try {//com.mysql.cj.jdbc.Driver
             Class.forName("com.mysql.jdbc.Driver");
         } catch (ClassNotFoundException e) {
@@ -40,7 +40,7 @@ public class DAOStoreImp implements DAOStore {
         }
         //String URL = "jdbc:mysql://localhost:3306/carolsboutique";       
         try {
-            con = (Connection) DriverManager.getConnection(c.getUrl(), c.getUsername(), c.getPassword());
+            con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost/carolsboutique", "root", "root");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -206,12 +206,13 @@ public class DAOStoreImp implements DAOStore {
         return total;
     }
 
-    private List<String> getStoreSales(String storeID) {
+    private List<String> getStoreSales(String storeID, String month) {
         List<String> sales = new ArrayList<>();
         if (con != null) {
             try {
-                ps = con.prepareStatement("Select id from sale where storeid = ?");
+                ps = con.prepareStatement("Select id from sale where storeid = ? and monthname(date) = ?");
                 ps.setString(1, storeID);
+				ps.setString(2, month);
                 rs = ps.executeQuery();
                 while (rs.next()) {
                     sales.add(rs.getString("id"));
@@ -224,17 +225,16 @@ public class DAOStoreImp implements DAOStore {
     }
 
     @Override
-    public Boolean updateTotal(String storeID) {
+    public Boolean updateTotal(String storeID, String month) {
 
         //String id, String storeID, String employeeID, String lineItemID, String customerID, Date date
         rowsAffected = 0;
-        Integer total = getStoresTotal(getStoreSales(storeID), storeID);
+        Integer total = getStoresTotal(getStoreSales(storeID, month), storeID);
         if (con != null) {
             try {
-                ps = con.prepareStatement("update store set total = ? where storeID = ?");
+                ps = con.prepareStatement("update store set total = ? where id = ?");
                 ps.setInt(1, total);
                 ps.setString(2, storeID);
-
                 rowsAffected = ps.executeUpdate();
 
             } catch (SQLException e) {

@@ -52,32 +52,34 @@ public class Test {
 		Test test = new Test();
 		Report report;
 		
-//		{{ Can not find 'total' DaoRepImp line 80 }}
+//		WORKS
 //		System.out.println("\n\nTesting top achieving stores");
 //		report = test.rep.viewTopAchievingStores("june");
 //		System.out.println(report.toString());
 		
-//		 {{ Check SQL statement with mussy }}
+//		WORKS
 //		System.out.println("\n\nTesting get customer reviews");
 //		report = test.rep.getCustomerReviews("june",2);
 //		System.out.println(report.toString());
 //		
-
-		System.out.println("\n\nTesting monthly sales");
-		report = test.rep.viewMonthlySales("1","june");
-		System.out.println(report.toString());
-//		
-//		System.out.println("\n\nTesting top selling employees");
-//		report = test.rep.viewTopSellingEmployees("1","june");
+//		WORKS
+//		System.out.println("\n\nTesting monthly sales");
+//		report = test.rep.viewMonthlySales("str6","june");
 //		System.out.println(report.toString());
 //		
+//		WORKS
+//		System.out.println("\n\nTesting top selling employees");
+//		report = test.rep.viewTopSellingEmployees("str6","june");
+//		System.out.println(report.toString());
+//		
+//		WORKS
 //		System.out.println("\n\nTesting stores that hit target");
 //		report = test.rep.viewStoresThatAchievedTarget("june");
 //		System.out.println(report.toString());
 //		
-//		System.out.println("\n\nTesting top selling products");
-//		report = test.rep.viewTopSellingProducts("june");
-//		System.out.println(report.toString());
+		System.out.println("\n\nTesting top selling products");
+		report = test.rep.viewTopSellingProducts("june");
+		System.out.println(report.toString());
 //		
 //		System.out.println("\n\nTesting least achieving stores");
 //		report = test.rep.viewLeastPerformingStores("june");
