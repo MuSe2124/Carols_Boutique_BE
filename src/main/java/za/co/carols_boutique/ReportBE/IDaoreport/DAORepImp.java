@@ -55,7 +55,8 @@ public class DAORepImp implements DAORep {
         }
         //String URL = "jdbc:mysql://localhost:3306/carolsboutique";       
         try {
-            con = (Connection) DriverManager.getConnection("jdbc:mysql://192.100.255.1:3306/carolsboutique", "root", "root");
+            con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost/carolsboutique", "root", "root");
+			store = new DAOStoreImp();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -77,7 +78,7 @@ public class DAORepImp implements DAORep {
                     ps.setString(2, rs.getString("id"));
                     ResultSet rs2 = ps.executeQuery();
                     while (rs2.next()) {
-                        total += rs.getFloat("total");
+                        total += rs2.getFloat("total");
                     }
                     StoreSale ss = new StoreSale(name, total);
                     storeSales.add(ss);
@@ -96,13 +97,13 @@ public class DAORepImp implements DAORep {
     public Report getCustomerReviews(String month, Integer amount) {
         Report report = new Report();
         List<Review> reviews = new ArrayList<Review>();
-        List<Review> rev = new ArrayList<>();
+
 
         if (con != null) {
             try {
-                ps = con.prepareStatement("select id, comment, rating, date from review order by rand() limit ? where monthname(date) = ?");
-                ps.setInt(1, amount);
-                ps.setString(2, month);
+                ps = con.prepareStatement("select id, comment, rating, date from review where monthname(date) = ? order by rand() limit ?");
+                ps.setString(1, month);
+				ps.setInt(2, amount);
                 rs = ps.executeQuery();
 
                 while (rs.next()) {
@@ -115,7 +116,7 @@ public class DAORepImp implements DAORep {
                 Logger.getLogger(DAORepImp.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        report.setReviews(rev);
+        report.setReviews(reviews);
         return report;
     }
 
@@ -127,10 +128,9 @@ public class DAORepImp implements DAORep {
         if (con != null) {
             try {
                 ps = con.prepareStatement("select id, employeeID, customerEmail, date from sale where storeID = ? and monthname(date) = ?");
-                ps.setInt(1, Integer.parseInt(storeID));
+                ps.setString(1,storeID);
                 ps.setString(2, month);
                 rs = ps.executeQuery();
-				System.out.println("Checkpoint 1");
 				System.out.println(rs.toString());
                 while (rs.next()) {
                     Sale sale = new Sale();
@@ -139,11 +139,10 @@ public class DAORepImp implements DAORep {
                     sale.setCustomerEmail(rs.getString("customerEmail"));
                     sale.setId(saleID);
                     ps = con.prepareStatement("select name, location, password, target from store where id = ?");
-                    ps.setString(1, rs.getString("storeID"));
+                    ps.setString(1, storeID);
                     ResultSet rs2 = ps.executeQuery();
-					System.out.println("Checkpoint 2");
                     if (rs2.next()) {
-                        Store store = new Store(rs.getString("storeID"),
+                        Store store = new Store(storeID,
                                 rs2.getString("name"),
                                 rs2.getString("location"),
                                 rs2.getString("password"),
@@ -153,8 +152,7 @@ public class DAORepImp implements DAORep {
                     ps = con.prepareStatement("select name,surname,isManager,password,storeID from employee where id = ?");
                     ps.setString(1, rs.getString("employeeID"));
                     ResultSet rs3 = ps.executeQuery();
-					System.out.println("Checkpoint 3");
-                    if (rs.next()) {
+                    if (rs3.next()) {
                         Employee employee = new Employee(
                                 rs.getString("employeeID"),
                                 rs3.getString("name"),
@@ -168,13 +166,11 @@ public class DAORepImp implements DAORep {
                     ps = con.prepareStatement("select id, product, amount, total, size, sale from lineitem where sale = ?");
                     ps.setString(1, saleID);
                     ResultSet rs4 = ps.executeQuery();
-					System.out.println("Checkpoint 4");
                     while (rs4.next()) {
                         ps = con.prepareStatement("select id, name, description, price from product where id = ?");
                         ps.setString(1, rs4.getString("product"));
                         ResultSet rs5 = ps.executeQuery();
                         Product product = null;
-						System.out.println("Checkpoint 5");
                         if (rs5.next()) {
                             product = new Product(
                                     rs5.getString("id"),
@@ -191,13 +187,14 @@ public class DAORepImp implements DAORep {
                                 rs4.getInt("amount")
                         );
                         sale.getLineItems().add(li);
-						System.out.println("Checkpoint 6");
                     }
+					sales.add(sale);
                 }
             } catch (SQLException ex) {
                 System.out.println("You made a mistake before line 191");
             }
         }
+		report.setSales(sales);
         return report;
     }
 
@@ -213,7 +210,7 @@ public class DAORepImp implements DAORep {
                 ps.setString(2, month);
                 rs = ps.executeQuery();
                 while (rs.next()) {
-                    String employeeID = rs.getString("name");
+                    String employeeID = rs.getString("employee.id");
                     ps = con.prepareStatement("select total from lineitem inner join sale on sale.id = lineitem.sale where employeeID = ? and monthname(date) = ?");
                     ps.setString(1, employeeID);
                     ps.setString(2, month);
@@ -286,13 +283,16 @@ public class DAORepImp implements DAORep {
                 ps = con.prepareStatement("select id from store");
                 ResultSet rsTemp = ps.executeQuery();
                 while (rsTemp.next()) {
-                    store.updateTotal(rsTemp.getString("id"));
+					String s = rsTemp.getString("id");
+                    store.updateTotal(s, month);
                 }
 
-                ps = con.prepareStatement("select name, target, total from store where total > target and monthname(date) = ?");
-                ps.setString(1, month);
+                ps = con.prepareStatement("select name, target, total from store where total > target");
                 rs = ps.executeQuery();
                 while (rs.next()) {
+					
+					System.out.println(rs.getString("name"));
+					
                     StoreSale ss = new StoreSale(
                             rs.getString("name"),
                             rs.getFloat("total"),
@@ -312,48 +312,25 @@ public class DAORepImp implements DAORep {
     public Report viewTopSellingProducts(String month) {
         Report report = new Report();
         List<ProdStore> prodStores = new ArrayList<>();
-        if (con != null) {
-            try {
-                ps = con.prepareStatement("select id from product");
-
-                rs = ps.executeQuery();
-                List<Product> products = new ArrayList<>();
-                while (rs.next()) {
-                    Product p = new Product(rs.getString("id"));
-                    ps = con.prepareStatement("select amount from lineitem where product = ?");
-                    ps.setString(1, p.getId());
-                    ResultSet rs2 = ps.executeQuery();
-                    Integer amount = 0;
-                    while (rs2.next()) {
-                        amount += rs2.getInt("amount");
-                    }
-                    ps = con.prepareStatement("select id from store");
-                    ResultSet rs3 = ps.executeQuery();
-                    String storeID = "";
-                    Integer storeTotal = 0;
-                    while (rs3.next()) {
-                        ps = con.prepareStatement("select amount from lineitem inner join sale on sale.id = lineitem.sale where storeID = ? and monthname(date) = ? and product = ?");
-                        ps.setString(1, rs3.getString("id"));
-                        ps.setString(2, month);
-                        ps.setString(3, p.getId());
-                        ResultSet rs4 = ps.executeQuery();
-                        Integer storeTotaltemp = 0;
-                        while (rs4.next()) {
-                            storeTotaltemp += rs4.getInt("amount");
-                        }
-                        if (storeTotaltemp > storeTotal) {
-                            storeID = rs3.getString("id");
-                            storeTotal = storeTotaltemp;
-                        }
-                        ProdStore prod = new ProdStore(storeID, p.getId(), storeTotal);
-                        prodStores.add(prod);
-                    }
-
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+        if(con != null) {
+			try {
+				ps = con.prepareStatement("select id, name from product");
+				rs = ps.executeQuery();
+				while(rs.next()) {
+					String prodID = rs.getString("id");
+					ps = con.prepareStatement("select id, name from store");
+					ResultSet rs2 = ps.executeQuery();
+					ps = con.prepareStatement("select sum(total) from lineitem where product = ?");
+					
+					while(rs.next()) {
+						String storeID = rs.getString("id");
+						
+					}
+				}
+			} catch (SQLException ex) {
+				Logger.getLogger(DAORepImp.class.getName()).log(Level.SEVERE, null, ex);
+			}
+		}
         report.setProdStores(prodStores);
         return report;
     }

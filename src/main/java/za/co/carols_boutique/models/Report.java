@@ -30,6 +30,10 @@ public class Report implements Serializable{
     }
 
     private List<Review>reviews;
+
+	public void setSales(List<Sale> sales) {
+		this.sales = sales;
+	}
     private List<StoreSale>storeSales;
     private List<EmpSale>empSales;
     private List<ProdStore>prodStores;

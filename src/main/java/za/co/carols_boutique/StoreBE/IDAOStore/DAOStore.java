@@ -17,5 +17,5 @@ public interface DAOStore {
 	Boolean deleteStore(String storeID);
 	//Boolean deleteEmployeeFromStore(String employeeID);
 
-	Boolean updateTotal(String storeID);
+	Boolean updateTotal(String storeID, String month);
 }
