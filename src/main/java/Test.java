@@ -77,26 +77,32 @@ public class Test {
 //		report = test.rep.viewStoresThatAchievedTarget("june");
 //		System.out.println(report.toString());
 //		
-		System.out.println("\n\nTesting top selling products");
-		report = test.rep.viewTopSellingProducts("june");
-		System.out.println(report.toString());
+//		TODO MUSSY!!!
+//		System.out.println("\n\nTesting top selling products");
+//		report = test.rep.viewTopSellingProducts("june");
+//		System.out.println(report.toString());
 //		
+//		WORKS
 //		System.out.println("\n\nTesting least achieving stores");
 //		report = test.rep.viewLeastPerformingStores("june");
 //		System.out.println(report.toString());
 //		
+//		WORKS
 //		System.out.println("\n\nTesting product report");
-//		report = test.rep.viewProductReport("5","june");
+//		report = test.rep.viewProductReport("prod3","june");
 //		System.out.println(report.toString());
 //		
+//		NOT TESTED
 //		System.out.println("\n\nTesting daily sales report");
 //		report = test.rep.viewDailySalesReport("1");
 //		System.out.println(report.toString());
 //		
+//		NEED TO GENERATE ID
 //		System.out.println("\n\nTesting add review");
 //		String s = test.rep.addReview(new Review("Great",9));
 //		System.out.println(s);
-//		
+//	
+//		NEED TO GENERATE ID
 //		System.out.println("\n\nTesting add custoemr");
 //		s = test.rep.addCustomer(new Customer("Johannes","0794562816","jomarvn@gmail.com"));
 //		System.out.println(s);
