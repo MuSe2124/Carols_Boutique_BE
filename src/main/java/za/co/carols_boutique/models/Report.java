@@ -25,7 +25,6 @@ public class Report implements Serializable{
 		empSales = new ArrayList<>();
 		prodStores = new ArrayList<>();
 		sales = new ArrayList<>();
-		productReport = new ArrayList<>();
 		saleReports = new ArrayList<>();
     }
 
@@ -38,22 +37,21 @@ public class Report implements Serializable{
     private List<EmpSale>empSales;
     private List<ProdStore>prodStores;
     private List<Sale>sales;
-    private List<ProductReport>productReport;
+    private ProductReport productReport;
     private List<SaleReport> saleReports;
 
     public List<Sale> getSales() {
         return sales;
     }
 
-    public List<ProductReport> getProductReport() {
+    public ProductReport getProductReport() {
         return productReport;
     }
 
-    public void setProductReport(List<ProductReport> productReport) {
+    public void setProductReport(ProductReport productReport) {
         this.productReport = productReport;
     }
-    
-    
+
 
     public void setStoresSales(List<Sale> sales) {
         this.sales = sales;
@@ -109,7 +107,11 @@ public class Report implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Report{" + "\nservice=" + service + "\nreviews=" + reviews.size() + "\nstoreSales=" + storeSales.size() + "\nempSales=" + empSales.size() + "\nprodStores=" + prodStores.size() + "\nsales=" + sales.size() + "\nproductReport=" + productReport.size() + "\nsaleReports=" + saleReports.size() + '}';
+		String s = "Report{" + "\nservice=" + service + "\nreviews=" + reviews.size() + "\nstoreSales=" + storeSales.size() + "\nempSales=" + empSales.size() + "\nprodStores=" + prodStores.size() + "\nsales=" + sales.size()  + "\nsaleReports=" + saleReports.size() + "\n";
+		if(productReport!=null){
+			s +=  "\nproductReport= "+productReport.toString();
+		}
+		return s;
 	}
     
     

@@ -88,6 +88,15 @@ public class DAORepImp implements DAORep {
 				e.printStackTrace();
 			}
 		}
+		StoreSale ss = null;
+		for (int i = 0; i < report.getStoreSales().size() - 1; i++) {
+			if (report.getStoreSales().get(i).getSaleTotal() > report.getStoreSales().get(i + 1).getSaleTotal()) {
+				ss = report.getStoreSales().get(i);
+				report.getStoreSales().set(i, report.getStoreSales().get(i + 1));
+				report.getStoreSales().set(i + 1, ss);
+				i = 0;
+			}
+		}
 
 		return report;
 	}
@@ -354,7 +363,7 @@ public class DAORepImp implements DAORep {
 					ps.setString(2, rs.getString("id"));
 					ResultSet rs2 = ps.executeQuery();
 					while (rs2.next()) {
-						total += rs.getInt("total");
+						total += rs2.getFloat("total");
 					}
 					StoreSale ss = new StoreSale(name, total);
 					storeSales.add(ss);
@@ -366,7 +375,7 @@ public class DAORepImp implements DAORep {
 		}
 		StoreSale ss = null;
 		for (int i = 0; i < report.getStoreSales().size() - 1; i++) {
-			if (report.getEmpSales().get(i).getSaleTotal() < report.getEmpSales().get(i + 1).getSaleTotal()) {
+			if (report.getStoreSales().get(i).getSaleTotal() < report.getStoreSales().get(i + 1).getSaleTotal()) {
 				ss = report.getStoreSales().get(i);
 				report.getStoreSales().set(i, report.getStoreSales().get(i + 1));
 				report.getStoreSales().set(i + 1, ss);
@@ -380,11 +389,11 @@ public class DAORepImp implements DAORep {
 	@Override
 	public Report viewProductReport(String productID, String month) {
 		Report report = new Report();
-		List<ProductReport> products = new ArrayList<>();
+		ProductReport pr = null;
 
 		if (con != null) {
 			try {
-				ps = con.prepareStatement("select employeeID from sale inner join on sale.id = lineitem.sale lineitem where lineitem.product = ? and monthaname(date) = ?");
+				ps = con.prepareStatement("select employeeID from sale inner join lineitem on sale.id = lineitem.sale where lineitem.product = ? and monthname(date) = ?");
 				ps.setString(1, productID);
 				ps.setString(2, month);
 				rs = ps.executeQuery();
@@ -405,12 +414,12 @@ public class DAORepImp implements DAORep {
 						employeeOTM = rs.getString("employeeID");
 					}
 				}
-				ProductReport pr = new ProductReport(productID, employeeOTM, total);
+				pr = new ProductReport(productID, employeeOTM, total);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+			report.setProductReport(pr);
 		}
-
 		return report;
 	}
 
@@ -421,7 +430,7 @@ public class DAORepImp implements DAORep {
 		DateTimeFormatter date = DateTimeFormatter.ofPattern("yyyyMMdd");
 		if (con != null) {
 			try {
-				ps = con.prepareStatement("select sale from lineitem inner join sale on sale.id = lineitem.sale where date = ? and sale.store = ?");
+				ps = con.prepareStatement("select sale from lineitem inner join sale on sale.id = lineitem.sale where date = ? and sale.storeid = ?");
 				ps.setString(1, LocalDate.now().format(date));
 				ps.setString(2, storeID);
 				rs = ps.executeQuery();

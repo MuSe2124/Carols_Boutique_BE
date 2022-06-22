@@ -22,6 +22,11 @@ public class ProductReport implements Serializable{
         this.amountsSold = amountsSold;
     }
 
+	public ProductReport() {
+	}
+	
+	
+
     public String getProductID() {
         return productID;
     }

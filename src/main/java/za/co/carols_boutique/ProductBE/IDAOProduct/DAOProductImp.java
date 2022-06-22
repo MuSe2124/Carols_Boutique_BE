@@ -133,12 +133,12 @@ public class DAOProductImp implements DAOProduct {
         rowsAffected = 0;
         if (con != null) {
             try {
-                ps = con.prepareStatement("Select ID,storeID,productID, amount,Size from store_product where storeID =? and productID =?");
+                ps = con.prepareStatement("Select storeID, productID, amount, product.name from store_product inner join product on product_store.productid = product.id where storeID =? and productID =?");
                 ps.setString(1, storeID);
                 ps.setString(2, productID);
                 rs = ps.executeQuery();
                 while (rs.next()) {
-                    prodstore = new ProdStore(rs.getString("ID"), rs.getString("storeID"), rs.getString("productID"), rs.getInt("amount"), rs.getInt("Size"));
+                    prodstore = new ProdStore(rs.getString("storeID"), rs.getString("productID"), rs.getString("product.name"), rs.getInt("amount"));
                 }
 
             } catch (SQLException e) {
@@ -209,12 +209,12 @@ public class DAOProductImp implements DAOProduct {
 
         if (con != null) {
             try {
-                ps = con.prepareStatement("Select ID,storeID,productID, amount,Size from store_product where storeID =? and productID =?");
+                ps = con.prepareStatement("storeID,productID, amount, product.name inner join product on product_store.productid = product.id from store_product where storeID =? and productID =?");
                 ps.setString(1, storeID);
                 ps.setString(2, productID);
                 rs = ps.executeQuery();
                 while (rs.next()) {
-                    prodstore = new ProdStore(rs.getString("ID"), rs.getString("storeID"), rs.getString("productID"), rs.getInt("amount"), rs.getInt("Size"));
+                    prodstore = new ProdStore(rs.getString("storeID"), rs.getString("productID"),rs.getString("product.name"), rs.getInt("amount"));
                 }
 
             } catch (SQLException e) {
